@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="step">16dp</dimen>
+    <dimen name="height_button">220dp</dimen>
+    <dimen name="radius">20dp</dimen>
+    <dimen name="text_size">22sp</dimen>
+    <dimen name="vertical">21dp</dimen>
+    <dimen name="Top">24dp</dimen>
+</resources>

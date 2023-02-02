@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_hello" translatable="false">Hello, Practicum</string>
+    <string name="Search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="media">Media library</string>
+    <string name="agreement">Terms of use</string>
+    <string name="support">Write to support</string>
+    <string name="share">share app</string>
+    <string name="night">Dark theme</string>
+</resources>

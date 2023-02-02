@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">Playlist Maker</string>
+    <string name="title_hello">Привет, Практикум</string>
+    <string name="name_maker" translatable="false">Playlist maker</string>
+    <string name="Search">Поиск</string>
+    <string name="media">Медиатека</string>
+    <string name="settings">Настройки</string>
+    <string name="night">Темная тема</string>
+    <string name="share">Поделиться приложением</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="agreement">Пользовательское соглашение</string>
+</resources>
