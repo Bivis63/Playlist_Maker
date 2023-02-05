@@ -25,6 +25,7 @@
 
 
     <Button
+        android:id="@+id/buttonSearch"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="40dp"
@@ -36,12 +37,14 @@
         android:textSize="@dimen/text_size"
         android:textStyle="normal"
         app:cornerRadius="@dimen/radius"
+        android:foreground="?attr/selectableItemBackground"
         app:icon="@drawable/vector"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
         app:iconTint="@color/black" />
 
     <Button
+        android:id="@+id/buttonMedia"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="@dimen/step"
@@ -50,6 +53,7 @@
         android:text="@string/media"
         android:textColor="@color/black"
         app:cornerRadius="@dimen/radius"
+        android:foreground="?attr/selectableItemBackground"
         app:icon="@drawable/vectormedia"
         app:iconGravity="textStart"
         app:iconTint="@color/black"
@@ -58,6 +62,7 @@
         android:textAllCaps="false"/>
 
     <Button
+        android:id="@+id/buttonSettings"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="@dimen/step"
@@ -69,6 +74,7 @@
         app:iconGravity="textStart"
         app:iconTint="@color/black"
         app:cornerRadius="@dimen/radius"
+        android:foreground="?attr/selectableItemBackground"
         android:textSize="22sp"
         android:textStyle="normal"
         android:textAllCaps="false"/>
