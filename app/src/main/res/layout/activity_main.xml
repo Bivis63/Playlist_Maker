@@ -8,9 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +19,7 @@
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
-    </FrameLayout>
+
 
 
     <Button
@@ -31,12 +29,10 @@
         android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:backgroundTint="@color/white"
-        android:foreground="?attr/selectableItemBackground"
         android:text="@string/Search"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size"
-        android:textStyle="normal"
         app:cornerRadius="@dimen/radius"
         app:icon="@drawable/vector"
         app:iconGravity="textStart"
@@ -50,12 +46,10 @@
         android:layout_marginTop="@dimen/step"
         android:layout_weight="1"
         android:backgroundTint="@color/white"
-        android:foreground="?attr/selectableItemBackground"
         android:text="@string/media"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="22sp"
-        android:textStyle="normal"
         app:cornerRadius="@dimen/radius"
         app:icon="@drawable/vectormedia"
         app:iconGravity="textStart"
@@ -68,12 +62,10 @@
         android:layout_marginTop="@dimen/step"
         android:layout_weight="1"
         android:backgroundTint="@color/white"
-        android:foreground="?attr/selectableItemBackground"
         android:text="@string/settings"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="22sp"
-        android:textStyle="normal"
         app:cornerRadius="@dimen/radius"
         app:icon="@drawable/vectorsettings"
         app:iconGravity="textStart"

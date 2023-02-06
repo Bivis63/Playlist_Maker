@@ -10,10 +10,10 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings2)
 
-        val arrow_back = findViewById<ImageView>(R.id.arrowBack)
+        val arrowBack = findViewById<ImageView>(R.id.arrowBack)
 
 
-        arrow_back.setOnClickListener {
+        arrowBack.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
         }

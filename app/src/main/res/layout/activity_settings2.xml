@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:gravity="top"
-            android:paddingLeft="44dp"
+            android:paddingLeft="44sp"
             android:text="@string/settings"
             android:textColor="@color/black"
             android:textSize="22sp"
