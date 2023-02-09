@@ -6,46 +6,28 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:ignore="MissingDefaultResource">
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/step"
-        android:paddingTop="14dp">
-
-        <ImageView
-            android:id="@+id/arrowBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="10dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/arrow">
-        </ImageView>
-
+    tools:ignore="MissingDefaultResource"
+    android:padding="16dp">
 
 
 
         <TextView
+            android:id="@+id/arrowBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:gravity="top"
-            android:paddingLeft="44sp"
+            android:drawablePadding="28sp"
             android:text="@string/settings"
             android:textColor="@color/black"
             android:textSize="22sp"
-            android:textStyle="normal" />
+            android:fontFamily="@font/ys_display_regular"
+            app:drawableStartCompat="@drawable/arrow" />
 
-    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:paddingHorizontal="@dimen/step">
+        android:layout_marginTop="40dp">
 
         <Switch
             android:layout_width="wrap_content"
@@ -62,15 +44,13 @@
             android:layout_marginVertical="@dimen/vertical"
             android:text="@string/night"
             android:textColor="@color/black"
-            android:textSize="@dimen/step"
-            android:textStyle="normal" />
+            android:textSize="@dimen/step" />
 
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/step">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -95,8 +75,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/step">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -122,8 +101,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/step">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
