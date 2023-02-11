@@ -4,6 +4,9 @@
     <dimen name="height_button">220dp</dimen>
     <dimen name="radius">20dp</dimen>
     <dimen name="text_size">22sp</dimen>
-    <dimen name="vertical">21dp</dimen>
+    <dimen name="vertical">21sp</dimen>
     <dimen name="Top">24dp</dimen>
+    <dimen name="matginTop">40dp</dimen>
+    <dimen name="textSize">16sp</dimen>
+    <dimen name="padingLayout_16">16dp</dimen>
 </resources>

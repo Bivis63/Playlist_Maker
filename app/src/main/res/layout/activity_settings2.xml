@@ -4,47 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
-    tools:ignore="MissingDefaultResource"
-    android:padding="16dp">
+    android:padding="@dimen/padingLayout_16">
 
 
-
-        <TextView
-            android:id="@+id/arrowBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:drawablePadding="28sp"
-            android:text="@string/settings"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:fontFamily="@font/ys_display_regular"
-            app:drawableStartCompat="@drawable/arrow" />
-
+    <TextView
+        style="@style/SettingTextStyle"
+        android:id="@+id/arrowBack"
+        android:drawablePadding="28sp"
+        android:text="@string/settings"
+        android:textSize="@dimen/text_size"
+        app:drawableStartCompat="@drawable/arrow" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="@dimen/matginTop">
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginVertical="@dimen/vertical">
+            android:layout_marginVertical="21dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        </Switch>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginVertical="@dimen/vertical"
-            android:text="@string/night"
-            android:textColor="@color/black"
-            android:textSize="@dimen/step" />
+            style="@style/myTextStyle"
+            android:text="@string/night" />
 
     </FrameLayout>
 
@@ -53,23 +40,13 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/Top"
-            android:src="@drawable/share">
-
-        </ImageView>
+            style="@style/myImageStyle"
+            android:src="@drawable/share" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginVertical="@dimen/vertical"
-            android:text="@string/share"
-            android:textColor="@color/black"
-            android:textSize="@dimen/step"
-            android:textStyle="normal" />
+
+            style="@style/myTextStyle"
+            android:text="@string/share" />
 
     </FrameLayout>
 
@@ -78,24 +55,12 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/Top"
-
-            android:src="@drawable/ic_baseline_support_agent_24">
-
-        </ImageView>
+            style="@style/myImageStyle"
+            android:src="@drawable/ic_baseline_support_agent_24" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginVertical="@dimen/vertical"
-            android:text="@string/support"
-            android:textColor="@color/black"
-            android:textSize="@dimen/step"
-            android:textStyle="normal" />
+            style="@style/myTextStyle"
+            android:text="@string/support" />
 
     </FrameLayout>
 
@@ -104,24 +69,12 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/Top"
-            android:src="@drawable/arrowforvard">
-
-        </ImageView>
+            style="@style/myImageStyle"
+            android:src="@drawable/arrowforvard" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginVertical="@dimen/vertical"
-            android:text="@string/agreement"
-            android:textColor="@color/black"
-            android:textSize="@dimen/step"
-            android:textStyle="normal" />
-
+            style="@style/myTextStyle"
+            android:text="@string/agreement" />
     </FrameLayout>
 
 
