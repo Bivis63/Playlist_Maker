@@ -40,6 +40,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/share"
             style="@style/myImageStyle"
             android:src="@drawable/share" />
 
@@ -55,6 +56,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/support"
             style="@style/myImageStyle"
             android:src="@drawable/ic_baseline_support_agent_24" />
 
@@ -69,6 +71,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/termsOfUse"
             style="@style/myImageStyle"
             android:src="@drawable/arrowforvard" />
 
