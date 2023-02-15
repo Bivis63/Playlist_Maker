@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
     lateinit var inputEditText: EditText
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(SAVED_DATA, inputEditText.toString())
+        outState.putString(SAVED_DATA, inputEditText.text.toString())
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -55,13 +55,14 @@ class SearchActivity : AppCompatActivity() {
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
+
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
 
             }
             override fun afterTextChanged(s: Editable?) {
-                text.toString()
+            inputEditText.text.toString()
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
