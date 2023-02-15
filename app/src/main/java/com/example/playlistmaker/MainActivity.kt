@@ -7,27 +7,38 @@ import android.os.Bundle
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var buttonSearch: Button
+    lateinit var buttonMedia: Button
+    lateinit var buttonSetting: Button
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val buttonSearch = findViewById<Button>(R.id.buttonSearch)
-        val buttonMedia = findViewById<Button>(R.id.buttonMedia)
-        val buttonSetting = findViewById<Button>(R.id.buttonSettings)
+        buttonSearch = findViewById(R.id.buttonSearch)
+        buttonMedia = findViewById(R.id.buttonMedia)
+        buttonSetting = findViewById(R.id.buttonSettings)
 
 
 
         buttonSetting.setOnClickListener {
             val displayIntent = Intent(this, SettingsActivity::class.java)
             startActivity(displayIntent)
+            finish()
+
         }
         buttonSearch.setOnClickListener {
             val displayIntent = Intent(this, SearchActivity::class.java)
             startActivity(displayIntent)
+            finish()
+
         }
         buttonMedia.setOnClickListener {
             val displayIntent = Intent(this, MediaActivity::class.java)
             startActivity(displayIntent)
+            finish()
+
         }
     }
 }

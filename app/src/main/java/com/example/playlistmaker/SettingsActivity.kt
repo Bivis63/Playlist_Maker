@@ -9,40 +9,50 @@ import android.widget.ImageView
 import android.widget.TextView
 
 class SettingsActivity : AppCompatActivity() {
+
+    lateinit var arrowBackButton: TextView
+    lateinit var supportButton: TextView
+    lateinit var termsOfUseButton: TextView
+    lateinit var shareButton: TextView
+
     @SuppressLint("WrongViewCast", "MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings2)
 
-        val arrowBack = findViewById<TextView>(R.id.arrowBack)
-        val support = findViewById<ImageView>(R.id.support)
-        val termsOfUse = findViewById<ImageView>(R.id.termsOfUse)
-        val share = findViewById<ImageView>(R.id.share)
+        arrowBackButton = findViewById(R.id.arrowBack)
+        supportButton = findViewById(R.id.support)
+        termsOfUseButton = findViewById(R.id.termsOfUse)
+        shareButton = findViewById(R.id.share)
 
 
-        arrowBack.setOnClickListener {
+        arrowBackButton.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
+            finish()
         }
-        support.setOnClickListener {
+        supportButton.setOnClickListener {
             val message = getResources().getString(R.string.thxForDevelopers)
             val theme = getResources().getString(R.string.messegeForDevelopers)
-            val shareIntent = Intent(Intent.ACTION_SENDTO)
-            shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.Email)))
-            shareIntent.putExtra(Intent.EXTRA_TEXT,message)
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT,theme)
+
+            Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.Email)))
+                putExtra(Intent.EXTRA_TEXT, message)
+                putExtra(Intent.EXTRA_SUBJECT, theme)
+                startActivity(this)
+            }
+        }
+        termsOfUseButton.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.offer)))
             startActivity(shareIntent)
         }
-        termsOfUse.setOnClickListener {
-            val shareIntent=Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.offer)))
-            startActivity(shareIntent)
-        }
-        share.setOnClickListener {
+        shareButton.setOnClickListener {
             val shareText = getResources().getString(R.string.androidCourse)
-            val sendIntent: Intent = Intent(Intent.ACTION_SEND)
-                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText)
-                sendIntent.type = "text/plain"
+            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, shareText)
+                type = "text/plain"
+            }
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)

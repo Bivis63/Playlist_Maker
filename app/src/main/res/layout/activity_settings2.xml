@@ -36,50 +36,26 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+        <TextView
+            style="@style/mySettingTextStyle"
             android:id="@+id/share"
-            style="@style/myImageStyle"
-            android:src="@drawable/share" />
+            android:text="@string/share"
+            app:drawableEndCompat="@drawable/share" />
+
 
         <TextView
-
-            style="@style/myTextStyle"
-            android:text="@string/share" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+            style="@style/mySettingTextStyle"
             android:id="@+id/support"
-            style="@style/myImageStyle"
-            android:src="@drawable/ic_baseline_support_agent_24" />
+            android:text="@string/support"
+            app:drawableEndCompat="@drawable/ic_baseline_support_agent_24" />
+
 
         <TextView
-            style="@style/myTextStyle"
-            android:text="@string/support" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+            style="@style/mySettingTextStyle"
             android:id="@+id/termsOfUse"
-            style="@style/myImageStyle"
-            android:src="@drawable/arrowforvard" />
+            android:text="@string/agreement"
+            app:drawableEndCompat="@drawable/arrowforvard" />
 
-        <TextView
-            style="@style/myTextStyle"
-            android:text="@string/agreement" />
-    </FrameLayout>
 
 
 </LinearLayout>

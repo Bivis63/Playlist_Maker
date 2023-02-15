@@ -21,6 +21,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     lateinit var inputEditText: EditText
+    lateinit var clearButton :ImageView
+    lateinit var searchBack : TextView
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SAVED_DATA, inputEditText.text.toString())
@@ -37,13 +40,14 @@ class SearchActivity : AppCompatActivity() {
 
 
         inputEditText = findViewById<EditText>(R.id.inputEditText)
-        val clearButton = findViewById<ImageView>(R.id.clearIcon)
-        val searchBack = findViewById<TextView>(R.id.searchBack)
+        clearButton = findViewById<ImageView>(R.id.clearIcon)
+        searchBack = findViewById<TextView>(R.id.searchBack)
         val text = inputEditText.text
 
         searchBack.setOnClickListener {
             val displayIntent = Intent(this,MainActivity::class.java)
             startActivity(displayIntent)
+            finish()
         }
 
 

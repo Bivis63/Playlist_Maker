@@ -15,4 +15,6 @@
     <dimen name="padingLeft_4dp">4dp</dimen>
     <dimen name="marginTop_48dp">48dp</dimen>
     <dimen name="padingRight_16dp">16dp</dimen>
+    <dimen name="layoy_height_61">61dp</dimen>
+    <dimen name="text_layout_height_61">61sp</dimen>
 </resources>
