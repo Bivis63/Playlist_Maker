@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
+    <TextView
+        android:id="@+id/searchBack"
+        style="@style/SettingTextStyle"
+        android:drawablePadding="28sp"
+        android:paddingLeft="@dimen/padingLeft_4dp"
+        android:text="@string/Search"
+        android:textSize="@dimen/text_size"
+        app:drawableStartCompat="@drawable/arrow" />
 
-    <EditText
-        android:id="@+id/inputEditText"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/Search"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:lines="1"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        android:layout_marginTop="@dimen/marginTop_48dp">
+    <EditText
+        style="@style/EditTextStyle"
+
+        android:id="@+id/inputEditText"
+        android:background="@drawable/edit"
+        app:drawableStartCompat="@drawable/vectorsearch" />
 
     <ImageView
-        android:id="@+id/clearIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:visibility="gone" />
-
+        style="@style/ImageClear"
+        android:id="@+id/clearIcon" />
+    </FrameLayout>
 
 </LinearLayout>

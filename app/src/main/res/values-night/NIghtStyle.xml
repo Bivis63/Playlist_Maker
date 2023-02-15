@@ -40,4 +40,29 @@
         <item name="android:textSize">@dimen/text_size</item>
 
     </style>
+    <style name="EditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">@dimen/drawablePadding_9dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:hint">@string/Search</item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:paddingLeft">@dimen/paddingLeft_13dp</item>
+        <item name="android:src">@drawable/vectorxblack</item>
+
+    </style>
+    <style name="ImageClear">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|end</item>
+        <item name="android:paddingRight">@dimen/padingRight_16dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/vectorxblack</item>
+    </style>
+
 </resources>

@@ -21,13 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/matginTop">
 
+
         <Switch
+            style="@style/switchStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginVertical="21dp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
-
 
         <TextView
             style="@style/myTextStyle"

@@ -8,4 +8,10 @@
     <string name="support">Write to support</string>
     <string name="share">share app</string>
     <string name="night">Dark theme</string>
+    <string name="thxForDevelopers">Thank you developers and developers for a cool app!</string>
+    <string name="messegeForDevelopers">Message to the Developers and Developers of the Playlist Maker App</string>
+    <string name="offer">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="Email">lumenfan63@mail.ru</string>
+    <string name="androidCourse">https://practicum.yandex.ru/profile/android-developer/</string>
+
 </resources>

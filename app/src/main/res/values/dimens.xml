@@ -9,4 +9,10 @@
     <dimen name="matginTop">40dp</dimen>
     <dimen name="textSize">16sp</dimen>
     <dimen name="padingLayout_16">16dp</dimen>
+    <dimen name="marginTop_16dp">16dp</dimen>
+    <dimen name="drawablePadding_9dp">9dp</dimen>
+    <dimen name="paddingLeft_13dp">13dp</dimen>
+    <dimen name="padingLeft_4dp">4dp</dimen>
+    <dimen name="marginTop_48dp">48dp</dimen>
+    <dimen name="padingRight_16dp">16dp</dimen>
 </resources>
