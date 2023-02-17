@@ -5,36 +5,31 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.playlistmaker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var buttonSearch: Button
-    lateinit var buttonMedia: Button
-    lateinit var buttonSetting: Button
+    lateinit var binding: ActivityMainBinding
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        buttonSearch = findViewById(R.id.buttonSearch)
-        buttonMedia = findViewById(R.id.buttonMedia)
-        buttonSetting = findViewById(R.id.buttonSettings)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-
-
-        buttonSetting.setOnClickListener {
+        binding.buttonSettings.setOnClickListener {
             val displayIntent = Intent(this, SettingsActivity::class.java)
             startActivity(displayIntent)
             finish()
 
         }
-        buttonSearch.setOnClickListener {
+        binding.buttonSearch.setOnClickListener {
             val displayIntent = Intent(this, SearchActivity::class.java)
             startActivity(displayIntent)
             finish()
 
         }
-        buttonMedia.setOnClickListener {
+        binding.buttonMedia.setOnClickListener {
             val displayIntent = Intent(this, MediaActivity::class.java)
             startActivity(displayIntent)
             finish()

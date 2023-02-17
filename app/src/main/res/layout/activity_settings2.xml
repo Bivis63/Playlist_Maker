@@ -9,8 +9,8 @@
 
 
     <TextView
-        style="@style/SettingTextStyle"
         android:id="@+id/arrowBack"
+        style="@style/SettingTextStyle"
         android:drawablePadding="28sp"
         android:text="@string/settings"
         android:textSize="@dimen/text_size"
@@ -36,26 +36,25 @@
 
     </FrameLayout>
 
-        <TextView
-            style="@style/mySettingTextStyle"
-            android:id="@+id/share"
-            android:text="@string/share"
-            app:drawableEndCompat="@drawable/share" />
+    <TextView
+        android:id="@+id/share"
+        style="@style/mySettingTextStyle"
+        android:text="@string/share"
+        app:drawableEndCompat="@drawable/share" />
 
 
-        <TextView
-            style="@style/mySettingTextStyle"
-            android:id="@+id/support"
-            android:text="@string/support"
-            app:drawableEndCompat="@drawable/ic_baseline_support_agent_24" />
+    <TextView
+        android:id="@+id/support"
+        style="@style/mySettingTextStyle"
+        android:text="@string/support"
+        app:drawableEndCompat="@drawable/ic_baseline_support_agent_24" />
 
 
-        <TextView
-            style="@style/mySettingTextStyle"
-            android:id="@+id/termsOfUse"
-            android:text="@string/agreement"
-            app:drawableEndCompat="@drawable/arrowforvard" />
-
+    <TextView
+        android:id="@+id/termsOfUse"
+        style="@style/mySettingTextStyle"
+        android:text="@string/agreement"
+        app:drawableEndCompat="@drawable/arrowforvard" />
 
 
 </LinearLayout>

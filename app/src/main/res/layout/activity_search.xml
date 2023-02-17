@@ -5,14 +5,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:padding="@dimen/padingLayout_16"
     android:orientation="vertical"
     tools:context=".SearchActivity">
 
     <TextView
         android:id="@+id/searchBack"
         style="@style/SettingTextStyle"
-        android:drawablePadding="28sp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="28dp"
         android:paddingLeft="@dimen/padingLeft_4dp"
         android:text="@string/Search"
         android:textSize="@dimen/text_size"
@@ -21,15 +22,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginTop_48dp">
-    <EditText
-        style="@style/EditTextStyle"
+        android:layout_marginTop="@dimen/margin_top_24dp">
 
-        android:id="@+id/inputEditText"
-        android:background="@drawable/edit"
-        app:drawableStartCompat="@drawable/vectorsearch" />
+        <EditText
+            android:id="@+id/inputEditText"
 
-    <ImageView
+            style="@style/EditTextStyle"
+            android:background="@drawable/edit"
+            app:drawableStartCompat="@drawable/vectorsearch" />
+
+        <ImageView
         style="@style/ImageClear"
         android:id="@+id/clearIcon" />
     </FrameLayout>

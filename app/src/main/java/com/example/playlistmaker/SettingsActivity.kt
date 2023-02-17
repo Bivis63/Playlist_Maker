@@ -7,31 +7,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.playlistmaker.databinding.ActivitySettings2Binding
 
 class SettingsActivity : AppCompatActivity() {
 
-    lateinit var arrowBackButton: TextView
-    lateinit var supportButton: TextView
-    lateinit var termsOfUseButton: TextView
-    lateinit var shareButton: TextView
+    private val binding: ActivitySettings2Binding by lazy {
+        ActivitySettings2Binding.inflate(layoutInflater)
+    }
 
     @SuppressLint("WrongViewCast", "MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings2)
+        setContentView(binding.root)
 
-        arrowBackButton = findViewById(R.id.arrowBack)
-        supportButton = findViewById(R.id.support)
-        termsOfUseButton = findViewById(R.id.termsOfUse)
-        shareButton = findViewById(R.id.share)
-
-
-        arrowBackButton.setOnClickListener {
+        binding.arrowBack.setOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
             finish()
         }
-        supportButton.setOnClickListener {
+        binding.support.setOnClickListener {
             val message = getResources().getString(R.string.thxForDevelopers)
             val theme = getResources().getString(R.string.messegeForDevelopers)
 
@@ -43,11 +37,11 @@ class SettingsActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
-        termsOfUseButton.setOnClickListener {
+        binding.termsOfUse.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.offer)))
             startActivity(shareIntent)
         }
-        shareButton.setOnClickListener {
+        binding.share.setOnClickListener {
             val shareText = getResources().getString(R.string.androidCourse)
             val sendIntent = Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, shareText)

@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.playlistmaker.databinding.ActivitySearchBinding
 
 
 class SearchActivity : AppCompatActivity() {
@@ -20,39 +21,34 @@ class SearchActivity : AppCompatActivity() {
         const val SAVED_DATA = "SAVED_DATA"
     }
 
-    lateinit var inputEditText: EditText
-    lateinit var clearButton :ImageView
-    lateinit var searchBack : TextView
+    private val binding: ActivitySearchBinding by lazy {
+        ActivitySearchBinding.inflate(layoutInflater)
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(SAVED_DATA, inputEditText.text.toString())
+        outState.putString(SAVED_DATA, binding.inputEditText.text.toString())
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-       inputEditText.setText(savedInstanceState.getString(SAVED_DATA," "))
+        binding.inputEditText.setText(savedInstanceState.getString(SAVED_DATA," "))
     }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(binding.root)
 
+        val text = binding.inputEditText.text
 
-        inputEditText = findViewById<EditText>(R.id.inputEditText)
-        clearButton = findViewById<ImageView>(R.id.clearIcon)
-        searchBack = findViewById<TextView>(R.id.searchBack)
-        val text = inputEditText.text
-
-        searchBack.setOnClickListener {
+        binding.searchBack.setOnClickListener {
             val displayIntent = Intent(this,MainActivity::class.java)
             startActivity(displayIntent)
             finish()
         }
 
-
-        clearButton.setOnClickListener {
-            inputEditText.setText("")
+        binding.clearIcon.setOnClickListener {
+            binding.inputEditText.setText("")
             it.hideKeyboard()
         }
 
@@ -62,21 +58,16 @@ class SearchActivity : AppCompatActivity() {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearButton.visibility = clearButtonVisibility(s)
+                binding.clearIcon.visibility = clearButtonVisibility(s)
 
             }
             override fun afterTextChanged(s: Editable?) {
-            inputEditText.text.toString()
+                binding.inputEditText.text.toString()
             }
         }
-        inputEditText.addTextChangedListener(simpleTextWatcher)
+        binding.inputEditText.addTextChangedListener(simpleTextWatcher)
     }
-
-
 }
-
-
-
 private fun clearButtonVisibility(s: CharSequence?): Int {
     return if (s.isNullOrEmpty()) {
         View.GONE
