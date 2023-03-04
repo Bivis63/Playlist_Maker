@@ -26,7 +26,6 @@
 
         <EditText
             android:id="@+id/inputEditText"
-
             style="@style/EditTextStyle"
             android:background="@drawable/edit"
             app:drawableStartCompat="@drawable/vectorsearch" />
@@ -36,4 +35,9 @@
         android:id="@+id/clearIcon" />
     </FrameLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_24dp"/>
 </LinearLayout>

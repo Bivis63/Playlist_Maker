@@ -70,5 +70,39 @@
         <item name="android:textSize">@dimen/textSize</item>
         <item name="drawableTint">@color/grey</item>
     </style>
+    <style name="trackNameStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+    <style name="artistTrackStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxEms">15</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingRight">@dimen/text_size_11sp</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+    <style name="timeTrackStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:paddingLeft">@dimen/pading_left_5dp</item>
+        <item name="android:paddingRight">@dimen/text_size_11sp</item>
+    </style>
+    <style name="imageFrontArrowStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="tint">@color/grey</item>
+    </style>
 
 </resources>
