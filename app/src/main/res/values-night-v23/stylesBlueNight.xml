@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="switchStyle">
+        <item name="android:thumbTint">#3772E7</item>
+        <item name="android:trackTint">#3772E7</item>
+    </style>
+</resources>

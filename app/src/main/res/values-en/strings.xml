@@ -8,4 +8,30 @@
     <string name="support">Write to support</string>
     <string name="share">share app</string>
     <string name="night">Dark theme</string>
+    <string name="thxForDevelopers">Thank you developers and developers for a cool app!</string>
+    <string name="messegeForDevelopers">Message to the Developers and Developers of the Playlist Maker App</string>
+    <string name="offer">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="Email">lumenfan63@mail.ru</string>
+    <string name="androidCourse">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="nameTrack1">Smells Like Teen Spirit</string>
+    <string name="nameTrack2">Billie Jean</string>
+    <string name="nameTrack3">Stayin\' Alive</string>
+    <string name="nameTrack4">Whole Lotta Love</string>
+    <string name="nameTrack5">Sweet Child O\'Mine</string>
+    <string name="artistTrack1">Nirvana</string>
+    <string name="timeTrack1">5:01</string>
+    <string name="imageUrlTrack1">https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg</string>
+    <string name="artistTrack2">Michael Jackson</string>
+    <string name="artistTrack3">Bee Gees</string>
+    <string name="artistTrack4">Led Zeppelin</string>
+    <string name="artistTrack5">Guns N\' Roses</string>
+    <string name="timeTrack2">4:35</string>
+    <string name="timeTrack3">4:10</string>
+    <string name="timeTrack4">5:33</string>
+    <string name="timeTrack5">5:03</string>
+    <string name="imageUrlTrack2">https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg</string>
+    <string name="imageUrlTrack3">https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg</string>
+    <string name="imageUrlTrack4">https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg</string>
+    <string name="imageUrlTrack5">https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg</string>
+
 </resources>

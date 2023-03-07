@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#3772E7</color>
+    <color name="grey">#AEAFB4</color>
+    <color name="BackGroundSerch">#E6E8EB</color>
 </resources>

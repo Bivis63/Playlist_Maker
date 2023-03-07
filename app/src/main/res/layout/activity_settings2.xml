@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padingLayout_16">
+
+
+    <TextView
+        android:id="@+id/arrowBack"
+        style="@style/SettingTextStyle"
+        android:drawablePadding="28sp"
+        android:text="@string/settings"
+        android:textSize="@dimen/text_size"
+        app:drawableStartCompat="@drawable/arrow" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/matginTop">
+
+
+        <Switch
+            style="@style/switchStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginVertical="21dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            style="@style/myTextStyle"
+            android:text="@string/night" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/share"
+        style="@style/mySettingTextStyle"
+        android:text="@string/share"
+        app:drawableEndCompat="@drawable/share" />
+
+
+    <TextView
+        android:id="@+id/support"
+        style="@style/mySettingTextStyle"
+        android:text="@string/support"
+        app:drawableEndCompat="@drawable/ic_baseline_support_agent_24" />
+
+
+    <TextView
+        android:id="@+id/termsOfUse"
+        style="@style/mySettingTextStyle"
+        android:text="@string/agreement"
+        app:drawableEndCompat="@drawable/arrowforvard" />
+
+
+</LinearLayout>

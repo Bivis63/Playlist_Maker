@@ -4,74 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="top"
-            android:text="@string/name_maker"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-    </FrameLayout>
+    android:padding="16dp"
+    style="@style/fonStyle">
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginTop="40dp"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
-        android:text="@string/Search"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="top"
+        android:text="@string/name_maker"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size"
-        android:textStyle="normal"
-        app:cornerRadius="@dimen/radius"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonSearch"
+        style="@style/myStyleButton"
+        android:layout_marginTop="40dp"
+        android:text="@string/Search"
         app:icon="@drawable/vector"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconTint="@color/black" />
+        app:iconPadding="8dp" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginTop="@dimen/step"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
+        android:id="@+id/buttonMedia"
+        style="@style/myStyleButton"
         android:text="@string/media"
-        android:textColor="@color/black"
-        app:cornerRadius="@dimen/radius"
-        app:icon="@drawable/vectormedia"
-        app:iconGravity="textStart"
-        app:iconTint="@color/black"
-        android:textSize="22sp"
-        android:textStyle="normal"
-        android:textAllCaps="false"/>
+        app:icon="@drawable/vectormedia" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginTop="@dimen/step"
-        android:layout_weight="1"
-        android:backgroundTint="@color/white"
+        android:id="@+id/buttonSettings"
+        style="@style/myStyleButton"
         android:text="@string/settings"
-        android:textColor="@color/black"
-        app:icon="@drawable/vectorsettings"
-        app:iconGravity="textStart"
-        app:iconTint="@color/black"
-        app:cornerRadius="@dimen/radius"
-        android:textSize="22sp"
-        android:textStyle="normal"
-        android:textAllCaps="false"/>
+        app:icon="@drawable/vectorsettings" />
 
 
 </LinearLayout>
