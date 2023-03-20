@@ -18,7 +18,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
         fun bind(track: Track) = with(binding) {
             nameTrack.text = track.trackName
             nameArtist.text = track.artistName
-            timeTrack.text = track.trackTime
+            timeTrack.text = track.trackTimeMillis.toString()
             Glide.with(itemView)
                 .load(track.artworkUrl100)
                 .transform(RoundedCorners(10))

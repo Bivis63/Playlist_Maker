@@ -28,7 +28,9 @@
             android:id="@+id/inputEditText"
             style="@style/EditTextStyle"
             android:background="@drawable/edit"
-            app:drawableStartCompat="@drawable/vectorsearch" />
+            app:drawableStartCompat="@drawable/vectorsearch"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
 
         <ImageView
         style="@style/ImageClear"
