@@ -184,8 +184,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 }
-
-
 private fun clearButtonVisibility(s: CharSequence?): Int {
     return if (s.isNullOrEmpty()) {
         View.GONE
