@@ -11,7 +11,7 @@
         android:id="@+id/imageUrl"
         android:layout_width="@dimen/layout_width_45dp"
         android:layout_height="@dimen/layout_height_45dp"
-        android:src="@drawable/test_image" />
+        android:src="@drawable/newplaceholder" />
 
     <LinearLayout
         android:layout_width="0dp"
