@@ -7,22 +7,42 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.databinding.ActivitySettings2Binding
-
+const val THEM_SWITCHER = "THEM_SWITCHER"
 class SettingsActivity : AppCompatActivity() {
 
     private val binding: ActivitySettings2Binding by lazy {
         ActivitySettings2Binding.inflate(layoutInflater)
     }
+    val switch = App()
 
     @SuppressLint("WrongViewCast", "MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val sharedPrefs = getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
+        val replacement = sharedPrefs.getBoolean(THEM_SWITCHER,false)
+        binding.themeSwitcher.isChecked=replacement
+        switch.switchTheme(replacement)
+
+        binding.themeSwitcher.setOnCheckedChangeListener{switcher,cheked ->
+            if (cheked) {
+                (applicationContext as App).switchTheme(cheked)
+
+                sharedPrefs.edit()
+                    .putBoolean(THEM_SWITCHER, cheked)
+                    .apply()
+            }else
+                sharedPrefs.edit()
+                    .putBoolean(THEM_SWITCHER,cheked)
+                    .apply  ()
+            (applicationContext as App).switchTheme(cheked)
+
+        }
+
         binding.arrowBack.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
             finish()
         }
         binding.support.setOnClickListener {

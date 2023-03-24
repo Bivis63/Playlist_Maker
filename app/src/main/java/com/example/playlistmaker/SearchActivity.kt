@@ -29,6 +29,8 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SAVED_DATA = "SAVED_DATA"
+
+
     }
 
     private val songBaseUrl = "https://itunes.apple.com"
@@ -41,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
     private val itunesService = retrofit.create(TrackApi::class.java)
     private val adapter = TrackAdapter()
     private var textBox by notNull<String>()
+
 
 
     private val binding: ActivitySearchBinding by lazy {
@@ -63,6 +66,7 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
+
         binding.buttonUpdate.setOnClickListener {
             getTrackList()
         }
@@ -89,8 +93,6 @@ class SearchActivity : AppCompatActivity() {
         val text = binding.inputEditText.text
 
         binding.searchBack.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
             finish()
         }
 
@@ -116,12 +118,11 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun renderState() {
-        binding.inputEditText.setText(textBox.toString())
+        binding.inputEditText.setText(textBox)
     }
+   
     fun getTrackList() {
-
         if (binding.inputEditText.text.isNotEmpty()) {
-
             itunesService.search(binding.inputEditText.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
@@ -145,7 +146,6 @@ class SearchActivity : AppCompatActivity() {
                                 showMessage("", "", "")
                             }
                         } else {
-
                             showMessage(
                                 getString(R.string.Communication_problems),
                                 response.code().toString(),
