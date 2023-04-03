@@ -2,30 +2,27 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates.notNull
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() , TrackAdapter.OnTrackClickListener {
 
     companion object {
         const val SAVED_DATA = "SAVED_DATA"
@@ -45,7 +42,9 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackList = ArrayList<Track>()
     private val itunesService = retrofit.create(TrackApi::class.java)
-    private val adapter = TrackAdapter()
+    private val adapter = TrackAdapter(this)
+    private val historyAdapter = TrackAdapter(this)
+    private lateinit var searchHistory :SearchHistory
     private var textBox by notNull<String>()
 
 
@@ -73,12 +72,35 @@ class SearchActivity : AppCompatActivity() {
 
 
         adapter.tracksList = trackList
+        binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = adapter
+
+
+        val sharedPreferences = getSharedPreferences(SearchHistory.TRACKS_HISTORY, MODE_PRIVATE)
+        searchHistory= SearchHistory(sharedPreferences)
+        binding.recyclerTrackHistory.adapter=historyAdapter
+        binding.recyclerTrackHistory.layoutManager=
+            LinearLayoutManager(this@SearchActivity,LinearLayoutManager.VERTICAL,false)
+
+
+
+        binding.clearHistory.setOnClickListener {
+            searchHistory.ClearSearchHistoryList()
+            historyAdapter.notifyDataSetChanged()
+        }
+
+        binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            binding.searchHistory.visibility = if (hasFocus && binding.inputEditText.text.isEmpty()) View.VISIBLE else View.GONE
+            historyAdapter.tracksList=searchHistory.load()
+            historyAdapter.notifyDataSetChanged()
+        }
+
+
 
         binding.buttonUpdate.setOnClickListener {
             getTrackList()
+
         }
 
         binding.inputEditText.setOnEditorActionListener { _, actionId, event ->
@@ -96,11 +118,13 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchBack.setOnClickListener {
             finish()
+
         }
 
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.setText("")
             adapter.removeTrackList()
+            showPlaceHolder(PlaceHolder.SUCCESS)
             it.hideKeyboard()
 
         }
@@ -110,7 +134,10 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
                 binding.clearIcon.visibility = clearButtonVisibility(s)
+                binding.searchHistory.visibility = if (binding.inputEditText.hasFocus() && s?.isEmpty()==true) View.VISIBLE else View.GONE
+                historyAdapter.tracksList=searchHistory.load()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -123,6 +150,8 @@ class SearchActivity : AppCompatActivity() {
     private fun renderState() {
         binding.inputEditText.setText(textBox)
     }
+
+
 
     fun getTrackList() {
         if (binding.inputEditText.text.isNotEmpty()) {
@@ -143,6 +172,7 @@ class SearchActivity : AppCompatActivity() {
                             }
                         }else{
                             showPlaceHolder(PlaceHolder.ERROR)
+
                         }
                     }
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
@@ -180,10 +210,24 @@ class SearchActivity : AppCompatActivity() {
                 binding.placeholderMessage.visibility=View.GONE
                 binding.buttonUpdate.visibility=View.GONE
                 binding.placeholderMessageNoInternet.visibility=View.GONE
+
             }
         }
         }
+
+    override fun onClick(track: Track) {
+        Toast.makeText(this," Добавили в историю ${track.artistName}",Toast.LENGTH_LONG).show()
+        searchHistory.addTrack(track)
+        searchHistory.save()
+        historyAdapter.notifyDataSetChanged()
+
     }
+
+
+
+
+}
+
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
