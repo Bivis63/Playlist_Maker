@@ -11,7 +11,7 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
         const val TRACKS_HISTORY = "tracks_history"
     }
 
-    var searchHistoryList = ArrayList<Track>()
+    private var searchHistoryList = ArrayList<Track>()
 
     fun addTrack(track: Track) {
         val trackIndex = searchHistoryList.indexOfFirst { it.trackId == track.trackId }
@@ -30,6 +30,7 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
 
             }
         }
+        save()
     }
 
     fun replacingDuplicateElement(index: Int) {
@@ -44,16 +45,18 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
             .clear()
             .apply()
     }
-    fun save(){
+
+    fun save() {
         val json = Gson().toJson(searchHistoryList)
         sharedPreferences.edit()
-            .putString(TRACKS_HISTORY,json)
+            .putString(TRACKS_HISTORY, json)
             .apply()
     }
-    fun load() :ArrayList<Track>{
-        val json = sharedPreferences.getString(TRACKS_HISTORY,"[]")
-        val type = object : TypeToken<List<Track>>(){}.type
-        searchHistoryList= Gson().fromJson(json,type)
+
+    fun load(): ArrayList<Track> {
+        val json = sharedPreferences.getString(TRACKS_HISTORY, "[]")
+        val type = object : TypeToken<List<Track>>() {}.type
+        searchHistoryList = Gson().fromJson(json, type)
         return searchHistoryList
     }
 }

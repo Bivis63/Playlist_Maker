@@ -9,8 +9,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val sharedPreferences= getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
-        switchTheme(sharedPreferences.getBoolean(THEM_SWITCHER,darkTheme))
+        val sharedPreferences = getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
+        switchTheme(sharedPreferences.getBoolean(THEM_SWITCHER, darkTheme))
 
 
     }
