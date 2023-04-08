@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -91,11 +92,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             historyAdapter.notifyDataSetChanged()
         }
 
-
+        checkList()
 
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
             binding.searchHistory.isVisible = hasFocus && binding.inputEditText.text.isEmpty()
-
             historyAdapter.tracksList = searchHistory.load()
             historyAdapter.notifyDataSetChanged()
         }
@@ -138,10 +138,16 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                val searchHistoryTrackList = searchHistory.load()
                 binding.clearIcon.visibility = clearButtonVisibility(s)
                 binding.searchHistory.visibility =
-                    if (binding.inputEditText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+                    if (binding.inputEditText.hasFocus() && s?.isEmpty() == true && searchHistoryTrackList.isNotEmpty()) {
+                        adapter.removeTrackList()
+                        historyAdapter.notifyDataSetChanged()
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
                 historyAdapter.tracksList = searchHistory.load()
                 showPlaceHolder(PlaceHolder.SUCCESS)
 
@@ -231,10 +237,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        checkList()
-    }
 
     private fun checkList() {
         historyAdapter.tracksList = searchHistory.load()
@@ -242,6 +244,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             binding.searchHistory.isVisible = true
         }
         historyAdapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (binding.inputEditText.text.isEmpty()){
+            checkList()
+        }
+
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
