@@ -2,33 +2,38 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates.notNull
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     companion object {
-        const val SAVED_DATA = "SAVED_DATA"
+        const val SAVED_DATA = "saved_data"
+    }
+
+    enum class PlaceHolder {
+        SUCCESS,
+        ERROR,
+        EMPTY,
     }
 
     private val songBaseUrl = "https://itunes.apple.com"
@@ -39,7 +44,9 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackList = ArrayList<Track>()
     private val itunesService = retrofit.create(TrackApi::class.java)
-    private val adapter = TrackAdapter()
+    private val adapter = TrackAdapter(this)
+    private val historyAdapter = TrackAdapter(this)
+    private lateinit var searchHistory: SearchHistory
     private var textBox by notNull<String>()
 
 
@@ -50,6 +57,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SAVED_DATA, textBox)
+
     }
 
     @SuppressLint("MissingInflatedId")
@@ -57,12 +65,43 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        textBox = savedInstanceState?.getString(SAVED_DATA).orEmpty()
+
+        renderState()
+
+        val text = binding.inputEditText.text
+
 
 
         adapter.tracksList = trackList
+        binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = adapter
+
+
+        val sharedPreferences = getSharedPreferences(SearchHistory.TRACKS_HISTORY, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPreferences)
+        binding.recyclerTrackHistory.adapter = historyAdapter
+        binding.recyclerTrackHistory.layoutManager =
+            LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
+
+
+
+        binding.clearHistory.setOnClickListener {
+            searchHistory.ClearSearchHistoryList()
+            historyAdapter.notifyDataSetChanged()
+        }
+
+        checkList()
+
+        binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            binding.searchHistory.isVisible = hasFocus && binding.inputEditText.text.isEmpty()
+            historyAdapter.tracksList = searchHistory.load()
+            historyAdapter.notifyDataSetChanged()
+        }
+
+
+
         binding.buttonUpdate.setOnClickListener {
             getTrackList()
         }
@@ -73,41 +112,48 @@ class SearchActivity : AppCompatActivity() {
                 || event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
             ) {
-               getTrackList()
+                getTrackList()
                 true
             }
             false
         }
 
 
-        if (savedInstanceState == null) {
-            textBox = ""
-        } else {
-            textBox = savedInstanceState.getString(SAVED_DATA).toString()
-        }
-        renderState()
-        val text = binding.inputEditText.text
-
         binding.searchBack.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
             finish()
+
         }
 
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.setText("")
-            trackList.clear()
-            adapter.notifyDataSetChanged()
+            adapter.removeTrackList()
+            showPlaceHolder(PlaceHolder.SUCCESS)
             it.hideKeyboard()
 
         }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchHistoryTrackList = searchHistory.load()
                 binding.clearIcon.visibility = clearButtonVisibility(s)
+                binding.searchHistory.visibility =
+                    if (binding.inputEditText.hasFocus() && s?.isEmpty() == true && searchHistoryTrackList.isNotEmpty()) {
+                        adapter.removeTrackList()
+                        historyAdapter.notifyDataSetChanged()
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
+                historyAdapter.tracksList = searchHistory.load()
+                showPlaceHolder(PlaceHolder.SUCCESS)
+
+
             }
+
             override fun afterTextChanged(s: Editable?) {
                 text.toString()
             }
@@ -116,12 +162,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun renderState() {
-        binding.inputEditText.setText(textBox.toString())
+        binding.inputEditText.setText(textBox)
     }
+
+
     fun getTrackList() {
-
         if (binding.inputEditText.text.isNotEmpty()) {
-
             itunesService.search(binding.inputEditText.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
@@ -129,71 +175,100 @@ class SearchActivity : AppCompatActivity() {
                         response: Response<TrackResponse>
                     ) {
                         if (response.code() == 200) {
-                            trackList.clear()
-                            binding.imageHolderNoInternet.visibility = View.INVISIBLE
-                            binding.imageHolder.visibility = View.INVISIBLE
-                            binding.buttonUpdate.visibility = View.INVISIBLE
-                            binding.placeholderMessageNoInternet.visibility=View.INVISIBLE
+
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                trackList.addAll(response.body()?.results!!)
-                                adapter.notifyDataSetChanged()
-                            }
-                            if (trackList.isEmpty()) {
-                                showMessage(getString(R.string.nothing_found), "", "")
-                                binding.imageHolder.visibility = View.VISIBLE
+
+                                adapter.tracksList =
+                                    (response.body()?.results as ArrayList<Track>?)!!
+                                showPlaceHolder(PlaceHolder.SUCCESS)
                             } else {
-                                showMessage("", "", "")
+                                showPlaceHolder(PlaceHolder.EMPTY)
                             }
                         } else {
+                            showPlaceHolder(PlaceHolder.ERROR)
 
-                            showMessage(
-                                getString(R.string.Communication_problems),
-                                response.code().toString(),
-                                getString(R.string.Download_failed)
-                            )
-                            binding.placeholderMessageNoInternet.visibility=View.VISIBLE
                         }
                     }
+
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        binding.placeholderMessageNoInternet.visibility=View.VISIBLE
-                        binding.buttonUpdate.visibility = View.VISIBLE
-                        binding.imageHolderNoInternet.visibility = View.VISIBLE
-                        showMessage(
-                            getString(R.string.Communication_problems),
-                            t.message.toString(),
-                            getString(R.string.Download_failed)
-                        )
+                        showPlaceHolder(PlaceHolder.ERROR)
                     }
                 })
         }
     }
 
-    private fun showMessage(text: String, additionalMessage: String, supportText: String) {
-        if (text.isNotEmpty()) {
-            binding.placeholderMessage.visibility = View.VISIBLE
-            trackList.clear()
-            adapter.notifyDataSetChanged()
-            binding.placeholderMessage.text = text
-            binding.placeholderMessageNoInternet.text = supportText
-            if (additionalMessage.isNotEmpty()) {
-                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
-                    .show()
+    private fun showPlaceHolder(placeholder: PlaceHolder) {
+        when (placeholder) {
+            PlaceHolder.EMPTY -> {
+                adapter.removeTrackList()
+                binding.imageHolder.visibility = View.VISIBLE
+                binding.placeholderMessage.visibility = View.VISIBLE
+                binding.placeholderMessage.text = getString(R.string.nothing_found)
+                binding.imageHolderNoInternet.visibility = View.GONE
+                binding.placeholderMessageNoInternet.visibility = View.GONE
+                binding.buttonUpdate.visibility = View.GONE
             }
-        } else {
-            binding.placeholderMessage.visibility = View.GONE
+            PlaceHolder.ERROR -> {
+                adapter.removeTrackList()
+                binding.imageHolderNoInternet.visibility = View.VISIBLE
+                binding.placeholderMessageNoInternet.visibility = View.VISIBLE
+                binding.buttonUpdate.visibility = View.VISIBLE
+                binding.placeholderMessage.visibility = View.VISIBLE
+                binding.imageHolder.visibility = View.GONE
+                binding.placeholderMessage.text = getString(R.string.Communication_problems)
+                binding.placeholderMessageNoInternet.text = getString(R.string.Download_failed)
+
+            }
+            else -> {
+                binding.imageHolderNoInternet.visibility = View.GONE
+                binding.imageHolder.visibility = View.GONE
+                binding.placeholderMessage.visibility = View.GONE
+                binding.buttonUpdate.visibility = View.GONE
+                binding.placeholderMessageNoInternet.visibility = View.GONE
+
+            }
         }
     }
-}
-private fun clearButtonVisibility(s: CharSequence?): Int {
-    return if (s.isNullOrEmpty()) {
-        View.GONE
-    } else {
-        View.VISIBLE
+
+    override fun onClick(track: Track) {
+        Toast.makeText(this, " Добавили в историю ${track.artistName}", Toast.LENGTH_LONG).show()
+        searchHistory.addTrack(track)
+        historyAdapter.notifyDataSetChanged()
+
+    }
+
+
+    private fun checkList() {
+        historyAdapter.tracksList = searchHistory.load()
+        if (historyAdapter.tracksList.isNotEmpty()) {
+            binding.searchHistory.isVisible = true
+        }
+        historyAdapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (binding.inputEditText.text.isEmpty()){
+            checkList()
+        }
+
+    }
+
+    private fun clearButtonVisibility(s: CharSequence?): Int {
+        return if (s.isNullOrEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    private fun View.hideKeyboard() {
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }
 
-fun View.hideKeyboard() {
-    val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputManager.hideSoftInputFromWindow(windowToken, 0)
-}
+
+
 

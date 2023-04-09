@@ -37,6 +37,7 @@
             style="@style/ImageClear" />
     </FrameLayout>
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -50,22 +51,54 @@
         <ImageView
             android:id="@+id/imageHolder"
             style="@style/ImageError" />
+
         <ImageView
             android:id="@+id/imageHolderNoInternet"
             style="@style/ImageErrorNoInternet" />
 
         <TextView
-            style="@style/textError"
             android:id="@+id/placeholderMessage"
-            android:layout_marginBottom="@dimen/margin_bottom_80dp" />
-        <TextView
             style="@style/textError"
-            android:id="@+id/placeholderMessageNoInternet" />
+            android:layout_marginBottom="@dimen/margin_bottom_80dp" />
+
+        <TextView
+            android:id="@+id/placeholderMessageNoInternet"
+            style="@style/textError" />
 
         <Button
-            style="@style/buttorRefresh"
-            android:id="@+id/buttonUpdate" />
+            android:id="@+id/buttonUpdate"
+            style="@style/buttorRefresh" />
+        <LinearLayout
+            android:id="@+id/searchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_marginTop="32dp">
+            <TextView
+                style="@style/textSeatcherd"
+                android:text="@string/you_searched" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerTrackHistory"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"/>
+
+            <Button
+                style="@style/buttonClearHistory"
+                android:id="@+id/clearHistory"
+                android:text="@string/clear_history"
+                android:layout_weight="0.01"/>
+
+
+        </LinearLayout>
+
     </FrameLayout>
+
+
 
 
 </LinearLayout>

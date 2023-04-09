@@ -39,6 +39,8 @@
     <string name="Communication_problems">Проблемы со связью</string>
     <string name="Download_failed">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="refresh">Обновить</string>
+    <string name="you_searched">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
 
 
 </resources>
