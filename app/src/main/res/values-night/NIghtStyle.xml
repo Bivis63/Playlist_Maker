@@ -168,4 +168,41 @@
         <item name="android:textStyle">bold</item>
 
     </style>
+    <style name="titlesAttributeTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_9dp</item>
+    </style>
+    <style name="floatingButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fabCustomSize">@dimen/fab_custom_size_51dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_54dp</item>
+        <item name="backgroundTint">@color/floating_button_dark</item>
+        <item name="tint">@color/white</item>
+        <item name="android:foregroundGravity">center</item>
+    </style>
+    <style name="play_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fabCustomSize">@dimen/fab_custom_size_84dp</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="tint">@color/black</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_38dp</item>
+        <item name="maxImageSize">@dimen/max_image_size_60dp</item>
+    </style>
+    <style name="playerTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="arrowBackStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/arrowfordark</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_20dp</item>
+    </style>
 </resources>

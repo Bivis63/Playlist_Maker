@@ -14,9 +14,6 @@ import kotlin.collections.ArrayList
 
 class TrackAdapter(val trackListener : OnTrackClickListener ) : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
-    
-
-
     var tracksList = ArrayList<Track>()
         set(newTracks) {
             val diffCallBack = TracksDiffCallBack(field, newTracks)
@@ -24,8 +21,6 @@ class TrackAdapter(val trackListener : OnTrackClickListener ) : RecyclerView.Ada
             field = newTracks
             diffResult.dispatchUpdatesTo(this)
         }
-
-
     class TrackViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val binding = SongListBinding.bind(item)
 
@@ -58,12 +53,6 @@ class TrackAdapter(val trackListener : OnTrackClickListener ) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(tracksList[position],trackListener)
-//        попробывал удалить трек по нажатию
-//        holder.itemView.setOnClickListener {
-//            tracksList.removeAt(position)
-//            holder.bind(tracksList[position])
-//        }
-
 
     }
     interface OnTrackClickListener{
