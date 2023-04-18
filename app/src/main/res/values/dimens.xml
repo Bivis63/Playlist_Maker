@@ -46,4 +46,10 @@
     <dimen name="margin_top_20dp">20dp</dimen>
     <dimen name="constraintGuide_begin_20dp">20dp</dimen>
     <dimen name="margin_top_46dp">46dp</dimen>
+    <dimen name="margin_top_17dp">17dp</dimen>
+    <dimen name="margin_bottom_28dp">28dp</dimen>
+    <dimen name="constraintGuide_begin_16dp">16dp</dimen>
+    <dimen name="constraintGuide_end_20dp">20dp</dimen>
+    <dimen name="constraintGuide_end_16dp">16dp</dimen>
+    <dimen name="track_list_album_corner_radius">2dp</dimen>
 </resources>

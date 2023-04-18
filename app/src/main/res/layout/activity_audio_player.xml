@@ -5,21 +5,45 @@
     android:layout_height="wrap_content">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftBorder"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/constraintGuide_begin_20dp"/>
+        app:layout_constraintGuide_begin="@dimen/constraintGuide_begin_20dp"
+        app:layout_constraintBottom_toBottomOf="@id/playButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/constraintGuide_begin_20dp"/>
+        app:layout_constraintGuide_end="@dimen/constraintGuide_end_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/playButton"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightBorderForText"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/constraintGuide_end_16dp"
+        app:layout_constraintTop_toTopOf="@+id/durationTime"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftBorderForText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/constraintGuide_begin_16dp"
+        app:layout_constraintTop_toTopOf="@id/durationName"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <ImageView
@@ -105,9 +129,9 @@
     <TextView
         style="@style/titlesTextView"
         android:id="@+id/durationName"
-        android:text="Длительность"
+        android:text="@string/duration"
         android:layout_marginTop="@dimen/margin_top_39dp"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorderForText"
         app:layout_constraintTop_toBottomOf="@id/trackTimeNow" />
 
     <TextView
@@ -115,13 +139,13 @@
         android:id="@+id/durationTime"
         android:layout_marginTop="39dp"
         android:text="04:55"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
         app:layout_constraintTop_toBottomOf="@id/trackTimeNow" />
     <TextView
         style="@style/titlesTextView"
         android:id="@+id/album"
-        android:text="Альбом"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        android:text="@string/album"
+        app:layout_constraintStart_toEndOf="@id/leftBorderForText"
         app:layout_constraintTop_toBottomOf="@id/durationName" />
     <TextView
         style="@style/titlesAttributeTextView"
@@ -130,47 +154,51 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxEms="11"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
         app:layout_constraintTop_toBottomOf="@id/durationTime" />
     <TextView
         style="@style/titlesTextView"
         android:id="@+id/release"
-        android:text="Год"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        android:text="@string/year"
+        app:layout_constraintStart_toEndOf="@id/leftBorderForText"
         app:layout_constraintTop_toBottomOf="@id/album" />
 
     <TextView
         style="@style/titlesAttributeTextView"
         android:id="@+id/releaseDate"
         android:text="1965"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
         app:layout_constraintTop_toBottomOf="@id/albumName" />
     <TextView
         style="@style/titlesTextView"
         android:id="@+id/genre"
-        android:text="Жанр"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        android:text="@string/genre"
+        app:layout_constraintStart_toEndOf="@id/leftBorderForText"
         app:layout_constraintTop_toBottomOf="@id/release" />
 
     <TextView
         style="@style/titlesAttributeTextView"
         android:id="@+id/genreName"
         android:text="Rock"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
         app:layout_constraintTop_toBottomOf="@id/releaseDate" />
 
     <TextView
         style="@style/titlesTextView"
         android:id="@+id/country"
-        android:text="Страна"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
-        app:layout_constraintTop_toBottomOf="@id/genre" />
+        android:text="@string/counry"
+        app:layout_constraintStart_toEndOf="@id/leftBorderForText"
+        app:layout_constraintTop_toBottomOf="@id/genre"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_bottom_28dp"/>
     <TextView
         style="@style/titlesAttributeTextView"
         android:id="@+id/counryName"
         android:text="Велекобритания"
-        app:layout_constraintEnd_toStartOf="@id/rightBorder"
-        app:layout_constraintTop_toBottomOf="@id/genreName" />
+        app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
+        app:layout_constraintTop_toBottomOf="@id/genreName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_bottom_28dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -234,7 +234,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     override fun onClick(track: Track) {
 //        Toast.makeText(this, " Добавили в историю ${track.artistName}", Toast.LENGTH_LONG).show()
         startActivity( Intent(this, AudioPlayerActivity::class.java).apply {
-            putExtra("item",track)
+            putExtra(ITEM,track)
         })
         searchHistory.addTrack(track)
 

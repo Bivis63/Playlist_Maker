@@ -7,7 +7,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import java.text.SimpleDateFormat
 import java.util.*
-
+const val ITEM = "item"
 class AudioPlayerActivity : AppCompatActivity() {
     lateinit var binding: ActivityAudioPlayerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             finish()
         }
 
-        val item = intent.getSerializableExtra("item") as Track
+        val item = intent.getSerializableExtra(ITEM) as Track
         binding.apply {
             trackName.isSelected= true
             trackName.text=item.trackName

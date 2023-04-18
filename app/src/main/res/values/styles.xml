@@ -170,7 +170,7 @@
         <item name="android:textColor">@color/grey_text</item>
         <item name="android:textSize">@dimen/text_size_13sp</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
-        <item name="android:layout_marginTop">@dimen/margin_top_9dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_17dp</item>
     </style>
     <style name="titlesAttributeTextView">
         <item name="android:layout_width">wrap_content</item>
@@ -178,7 +178,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size_13sp</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
-        <item name="android:layout_marginTop">@dimen/margin_top_9dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_17dp</item>
     </style>
     <style name="floatingButton">
         <item name="android:layout_width">wrap_content</item>
