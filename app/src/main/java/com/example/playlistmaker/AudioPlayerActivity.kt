@@ -34,7 +34,13 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         Glide.with(this)
             .load(item.getCoverArtwork())
-            .transform(RoundedCorners(10))
+            .transform(
+                RoundedCorners(
+                    resources.getDimensionPixelSize(
+                        R.dimen.audio_player_album_corner_radius
+                    )
+                )
+            )
             .placeholder(R.drawable.newplaceholder)
             .into(binding.imageAlbum)
 
