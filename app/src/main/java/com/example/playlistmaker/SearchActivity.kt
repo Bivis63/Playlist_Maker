@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -231,8 +232,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     }
 
     override fun onClick(track: Track) {
-        Toast.makeText(this, " Добавили в историю ${track.artistName}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, " Добавили в историю ${track.artistName}", Toast.LENGTH_LONG).show()
+        startActivity( Intent(this, AudioPlayerActivity::class.java).apply {
+            putExtra(ITEM,track)
+        })
         searchHistory.addTrack(track)
+
         historyAdapter.notifyDataSetChanged()
 
     }
