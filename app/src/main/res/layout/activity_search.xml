@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -55,6 +56,14 @@
         <ImageView
             android:id="@+id/imageHolderNoInternet"
             style="@style/ImageErrorNoInternet" />
+
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="@dimen/width_44dp"
+            android:layout_height="@dimen/height_44dp"
+            android:layout_marginTop="@dimen/margin_top_148dp"
+            android:layout_marginStart="@dimen/margin_start_158dp"
+            android:indeterminateTint="@color/purple_for_progress_bar"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/placeholderMessage"

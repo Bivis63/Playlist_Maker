@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -27,9 +29,11 @@ import kotlin.properties.Delegates.notNull
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
-    companion object {
-        const val SAVED_DATA = "saved_data"
-    }
+
+    private val searchRunnable = Runnable { getTrackList() }
+
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
 
     enum class PlaceHolder {
         SUCCESS,
@@ -37,7 +41,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         EMPTY,
     }
 
-    private val songBaseUrl = "https://itunes.apple.com"
+    private val songBaseUrl = "http://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
         .baseUrl(songBaseUrl)
         .addConverterFactory(GsonConverterFactory.create())
@@ -139,6 +143,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDebounce()
                 val searchHistoryTrackList = searchHistory.load()
                 binding.clearIcon.visibility = clearButtonVisibility(s)
                 binding.searchHistory.visibility =
@@ -169,12 +174,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     fun getTrackList() {
         if (binding.inputEditText.text.isNotEmpty()) {
+            binding.progressBar.visibility = View.VISIBLE
             itunesService.search(binding.inputEditText.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
                         call: Call<TrackResponse>,
                         response: Response<TrackResponse>
                     ) {
+                        binding.progressBar.visibility = View.GONE
                         if (response.code() == 200) {
 
                             if (response.body()?.results?.isNotEmpty() == true) {
@@ -192,6 +199,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        binding.progressBar.visibility = View.GONE
                         showPlaceHolder(PlaceHolder.ERROR)
                     }
                 })
@@ -231,15 +239,28 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         }
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     override fun onClick(track: Track) {
-//        Toast.makeText(this, " Добавили в историю ${track.artistName}", Toast.LENGTH_LONG).show()
-        startActivity( Intent(this, AudioPlayerActivity::class.java).apply {
-            putExtra(ITEM,track)
-        })
-        searchHistory.addTrack(track)
+        if (clickDebounce()) {
+            startActivity(Intent(this, AudioPlayerActivity::class.java).apply {
+                putExtra(ITEM, track)
+            })
+            searchHistory.addTrack(track)
 
-        historyAdapter.notifyDataSetChanged()
-
+            historyAdapter.notifyDataSetChanged()
+        }
+    }
+    private fun searchDebounce(){
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 
 
@@ -253,7 +274,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     override fun onResume() {
         super.onResume()
-        if (binding.inputEditText.text.isEmpty()){
+        if (binding.inputEditText.text.isEmpty()) {
             checkList()
         }
 
@@ -271,6 +292,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         val inputManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    companion object {
+        const val SAVED_DATA = "saved_data"
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }
 

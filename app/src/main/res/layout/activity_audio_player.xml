@@ -114,17 +114,18 @@
         app:layout_constraintTop_toBottomOf="@id/artistName"
         app:srcCompat="@drawable/baseline_play_arrow_24"
         android:contentDescription="@drawable/baseline_play_arrow_24" />
+
+
     <TextView
         android:id="@+id/trackTimeNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="02:22"
-        app:layout_constraintStart_toStartOf="@id/playButton"
+        android:layout_marginTop="12.33dp"
+        android:text="@string/_00_00"
         app:layout_constraintEnd_toEndOf="@id/playButton"
-        app:layout_constraintTop_toBottomOf="@id/playButton"
-        android:layout_marginTop="12.33dp"/>
-
-
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@id/playButton"
+        app:layout_constraintTop_toBottomOf="@id/playButton" />
 
     <TextView
         style="@style/titlesTextView"

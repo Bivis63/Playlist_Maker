@@ -7,9 +7,6 @@ import com.google.gson.reflect.TypeToken
 
 class SearchHistory(val sharedPreferences: SharedPreferences) {
 
-    companion object {
-        const val TRACKS_HISTORY = "tracks_history"
-    }
 
     private var searchHistoryList = ArrayList<Track>()
 
@@ -58,5 +55,9 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
         val type = object : TypeToken<List<Track>>() {}.type
         searchHistoryList = Gson().fromJson(json, type)
         return searchHistoryList
+    }
+
+    companion object {
+        const val TRACKS_HISTORY = "tracks_history"
     }
 }

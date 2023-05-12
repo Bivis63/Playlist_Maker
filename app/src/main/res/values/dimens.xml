@@ -53,4 +53,8 @@
     <dimen name="constraintGuide_end_16dp">16dp</dimen>
     <dimen name="track_list_album_corner_radius">2dp</dimen>
     <dimen name="audio_player_album_corner_radius">8dp</dimen>
+    <dimen name="width_44dp">44dp</dimen>
+    <dimen name="height_44dp">44dp</dimen>
+    <dimen name="margin_top_148dp">148dp</dimen>
+    <dimen name="margin_start_158dp">158dp</dimen>
 </resources>

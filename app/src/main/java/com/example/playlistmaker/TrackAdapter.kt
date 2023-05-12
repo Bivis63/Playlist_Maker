@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TrackAdapter(val trackListener: OnTrackClickListener) :
+class TrackAdapter(private val trackListener: OnTrackClickListener) :
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     var tracksList = ArrayList<Track>()
