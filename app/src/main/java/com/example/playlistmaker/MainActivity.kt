@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import com.example.playlistmaker.databinding.ActivityMainBinding
+import com.example.playlistmaker.presentation.mediaPage.MediaActivity
+import com.example.playlistmaker.presentation.searchPage.SearchActivity
+import com.example.playlistmaker.presentation.settingsPage.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
 

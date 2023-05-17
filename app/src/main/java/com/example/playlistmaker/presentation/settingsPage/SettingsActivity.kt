@@ -1,13 +1,12 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.settingsPage
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.App
 import com.example.playlistmaker.databinding.ActivitySettings2Binding
 
 const val THEM_SWITCHER = "THEM_SWITCHER"
