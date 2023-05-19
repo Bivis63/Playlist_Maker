@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.App
+import com.example.playlistmaker.presentation.settingsPage.themSwitcher.App
 import com.example.playlistmaker.databinding.ActivitySettings2Binding
 
 const val THEM_SWITCHER = "THEM_SWITCHER"

@@ -1,4 +1,4 @@
-package com.example.playlistmaker.data
+package com.example.playlistmaker.presentation.settingsPage.themSwitcher
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate

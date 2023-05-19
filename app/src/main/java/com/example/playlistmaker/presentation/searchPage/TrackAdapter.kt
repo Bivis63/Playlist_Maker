@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.trackModels.Track
+import com.example.playlistmaker.data.models.Track
 import com.example.playlistmaker.databinding.SongListBinding
 import java.text.SimpleDateFormat
 import java.util.*

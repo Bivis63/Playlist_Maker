@@ -19,7 +19,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.data.TrackApi
 import com.example.playlistmaker.data.TrackResponse
 import com.example.playlistmaker.data.sharedPreference.SharedPreferenceHelper
-import com.example.playlistmaker.data.trackModels.Track
+import com.example.playlistmaker.data.models.Track
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.presentation.audioPlayerPage.AudioPlayerActivity
 import retrofit2.*

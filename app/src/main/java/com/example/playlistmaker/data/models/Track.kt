@@ -1,4 +1,4 @@
-package com.example.playlistmaker.data.trackModels
+package com.example.playlistmaker.data.models
 
 import java.io.Serializable
 

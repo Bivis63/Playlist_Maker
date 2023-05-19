@@ -1,7 +1,7 @@
 package com.example.playlistmaker.data.sharedPreference
 
 import android.content.Context
-import com.example.playlistmaker.data.trackModels.Track
+import com.example.playlistmaker.data.models.Track
 
 class SharedPreferenceHelper(private val contex: Context) {
     private val PREFS_NAME = "myPreferences"

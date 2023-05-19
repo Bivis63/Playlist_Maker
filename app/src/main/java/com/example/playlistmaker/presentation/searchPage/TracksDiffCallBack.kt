@@ -1,7 +1,7 @@
 package com.example.playlistmaker.presentation.searchPage
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.playlistmaker.data.trackModels.Track
+import com.example.playlistmaker.data.models.Track
 
 class TracksDiffCallBack(
     private val oldList: List<Track>,
