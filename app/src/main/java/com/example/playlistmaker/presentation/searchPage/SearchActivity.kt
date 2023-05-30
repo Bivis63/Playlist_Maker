@@ -1,9 +1,8 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.searchPage
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -14,12 +13,15 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.TrackApi
+import com.example.playlistmaker.data.TrackResponse
+import com.example.playlistmaker.data.sharedPreference.SharedPreferenceHelper
+import com.example.playlistmaker.data.models.Track
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.playlistmaker.presentation.audioPlayerPage.AudioPlayerActivity
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -53,7 +55,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private val historyAdapter = TrackAdapter(this)
     private lateinit var searchHistory: SearchHistory
     private var textBox by notNull<String>()
-
+    private lateinit var sharedPreferencesHelper: SharedPreferenceHelper
 
     private val binding: ActivitySearchBinding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
@@ -70,13 +72,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        sharedPreferencesHelper = SharedPreferenceHelper(this)
+
         textBox = savedInstanceState?.getString(SAVED_DATA).orEmpty()
 
         renderState()
 
         val text = binding.inputEditText.text
-
-
 
         adapter.tracksList = trackList
         binding.recyclerView.adapter = adapter
@@ -94,6 +96,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
         binding.clearHistory.setOnClickListener {
             searchHistory.ClearSearchHistoryList()
+
             historyAdapter.notifyDataSetChanged()
         }
 
@@ -104,8 +107,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             historyAdapter.tracksList = searchHistory.load()
             historyAdapter.notifyDataSetChanged()
         }
-
-
 
         binding.buttonUpdate.setOnClickListener {
             getTrackList()
@@ -156,7 +157,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
                     }
                 historyAdapter.tracksList = searchHistory.load()
                 showPlaceHolder(PlaceHolder.SUCCESS)
-
 
             }
 
@@ -250,15 +250,15 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            startActivity(Intent(this, AudioPlayerActivity::class.java).apply {
-                putExtra(ITEM, track)
-            })
+            startActivity(Intent(this, AudioPlayerActivity::class.java))
+            sharedPreferencesHelper.saveTrack(track)
             searchHistory.addTrack(track)
 
             historyAdapter.notifyDataSetChanged()
         }
     }
-    private fun searchDebounce(){
+
+    private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
@@ -268,8 +268,15 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         historyAdapter.tracksList = searchHistory.load()
         if (historyAdapter.tracksList.isNotEmpty()) {
             binding.searchHistory.isVisible = true
+        } else {
+            putAwayPlaceHolderSearchHistory()
         }
         historyAdapter.notifyDataSetChanged()
+    }
+
+    private fun putAwayPlaceHolderSearchHistory() {
+        binding.searchedTv.isVisible = false
+        binding.clearHistory.isVisible = false
     }
 
     override fun onResume() {

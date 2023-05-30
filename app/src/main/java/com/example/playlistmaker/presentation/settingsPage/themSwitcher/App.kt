@@ -1,8 +1,9 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.settingsPage.themSwitcher
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+
+import com.example.playlistmaker.presentation.settingsPage.THEM_SWITCHER
 
 class App : Application() {
     private var darkTheme = false
@@ -11,8 +12,6 @@ class App : Application() {
         super.onCreate()
         val sharedPreferences = getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
         switchTheme(sharedPreferences.getBoolean(THEM_SWITCHER, darkTheme))
-
-
     }
 
     fun switchTheme(darkThemeEnable: Boolean) {

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padingLayout_16"
     android:orientation="vertical"
-    tools:context=".SearchActivity">
+    tools:context=".presentation.searchPage.SearchActivity">
 
     <TextView
         android:id="@+id/searchBack"
@@ -86,6 +86,7 @@
             android:layout_marginTop="32dp">
             <TextView
                 style="@style/textSeatcherd"
+                android:id="@+id/searchedTv"
                 android:text="@string/you_searched" />
 
 
