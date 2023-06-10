@@ -1,16 +1,14 @@
 package com.example.playlistmaker
 
 import android.media.MediaPlayer
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
+import com.example.playlistmaker.search.data.models.Track
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,14 +23,15 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var songUrl: String
     private val duration = setTrackDuration()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         mainThreadHandler = Handler(Looper.getMainLooper())
 
         binding.backToTrackList.setOnClickListener {
-
             finish()
         }
 
@@ -62,6 +61,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             .into(binding.imageAlbum)
 
         preparePlayer()
+
         binding.playButton.setOnClickListener {
             playBackControl()
             setIcon()
@@ -81,7 +81,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             mainThreadHandler?.removeCallbacks(duration)
             playerState = STATE_PREPARED
             setIcon()
-            binding.trackTimeNow.text = "00:00"
+            binding.trackTimeNow.text = getString(R.string.track_time_placeholder)
 
 
         }
@@ -108,7 +108,6 @@ class AudioPlayerActivity : AppCompatActivity() {
                 pausePlayer()
             }
             STATE_PREPARED, STATE_PAUSED -> {
-                setIcon()
                 startPlayer()
             }
         }

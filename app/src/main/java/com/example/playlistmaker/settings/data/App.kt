@@ -1,8 +1,9 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.settings.data
 
 import android.app.Application
-import android.content.SharedPreferences
+
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.settings.ui.activity.THEM_SWITCHER
 
 class App : Application() {
     private var darkTheme = false

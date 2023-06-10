@@ -3,7 +3,6 @@ package com.example.playlistmaker
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -14,12 +13,13 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.playlistmaker.search.data.models.Track
+import com.example.playlistmaker.search.data.network.TrackApi
+import com.example.playlistmaker.search.data.network.TrackResponse
+import com.example.playlistmaker.search.ui.TrackAdapter
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -29,12 +29,9 @@ import kotlin.properties.Delegates.notNull
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
-
     private val searchRunnable = Runnable { getTrackList() }
-
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-
     enum class PlaceHolder {
         SUCCESS,
         ERROR,
@@ -94,6 +91,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
         binding.clearHistory.setOnClickListener {
             searchHistory.ClearSearchHistoryList()
+            putAwayPlaceHolderSearchHistory()
             historyAdapter.notifyDataSetChanged()
         }
 
@@ -104,8 +102,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             historyAdapter.tracksList = searchHistory.load()
             historyAdapter.notifyDataSetChanged()
         }
-
-
 
         binding.buttonUpdate.setOnClickListener {
             getTrackList()
@@ -123,12 +119,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             false
         }
 
-
         binding.searchBack.setOnClickListener {
             finish()
 
         }
-
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.setText("")
             adapter.removeTrackList()
@@ -258,7 +252,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             historyAdapter.notifyDataSetChanged()
         }
     }
-    private fun searchDebounce(){
+
+    private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
@@ -268,8 +263,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         historyAdapter.tracksList = searchHistory.load()
         if (historyAdapter.tracksList.isNotEmpty()) {
             binding.searchHistory.isVisible = true
+        } else {
+            putAwayPlaceHolderSearchHistory()
         }
         historyAdapter.notifyDataSetChanged()
+    }
+    private fun putAwayPlaceHolderSearchHistory(){
+        binding.searchedTv.isVisible = false
+        binding.clearHistory.isVisible = false
     }
 
     override fun onResume() {
