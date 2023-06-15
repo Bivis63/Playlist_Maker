@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padingLayout_16"
     android:orientation="vertical"
-    tools:context=".SearchActivity">
+    tools:context=".search.ui.activity.SearchActivity">
 
     <TextView
         android:id="@+id/searchBack"
