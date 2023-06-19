@@ -1,7 +1,6 @@
 package com.example.playlistmaker.search.ui.viewmodel
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -9,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.playlistmaker.search.data.impl.TrackHistoryImpl
 import com.example.playlistmaker.search.data.impl.TrackRepositoryImpl
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
@@ -68,32 +69,22 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
 
-
-    fun refreshSearch (newSearchText: String){
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-
-        val searchRunnable = Runnable { searchRequest(newSearchText) }
-
-        val postTime = SystemClock.uptimeMillis() + CLICK_DEBOUNCE_DELAY
-
-        handler.postAtTime(searchRunnable, SEARCH_REQUEST_TOKEN,postTime)
-    }
-
-    fun searchChangeFocus(hasFocus:Boolean,text:String){
+    fun searchChangeFocus(hasFocus: Boolean, text: String) {
         val historyTrack = searchInteractor.getHistory()
-        if (hasFocus && text.isEmpty() && historyTrack.isNotEmpty()){
+        if (hasFocus && text.isEmpty() && historyTrack.isNotEmpty()) {
             renderState(SearchState.History(track = historyTrack))
         }
     }
 
-    fun clearHistory(){
+    fun clearHistory() {
         searchInteractor.clearHistory()
         renderState(SearchState.Tracks(tracks = emptyList()))
     }
 
-    fun openTrack (track: Track){
+    fun openTrack(track: Track) {
         searchInteractor.addTrack(track)
     }
+
     @SuppressLint("SuspiciousIndentation")
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isEmpty()) return
@@ -124,16 +115,27 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
-        fun getViewModelFactory(context: Context): ViewModelProvider.Factory =
+        fun getViewModelFactory(): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
-                val gson = Gson()
-                val networkClient  = RetrofitNetworkClient(context)
-                val trackRepository = TrackRepositoryImpl(networkClient)
-                val trackHistory = TrackHistoryImpl(context, gson)
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
-                    return SearchViewModel(searchInteractor = SearchInteractorImpl(trackHistory, trackRepository)) as T
+
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(
+                    modelClass: Class<T>,
+                    extras: CreationExtras
+                ): T {
+                    val application = checkNotNull(extras[APPLICATION_KEY])
+                    val gson = Gson()
+                    val networkClient = RetrofitNetworkClient(application)
+                    val trackRepository = TrackRepositoryImpl(networkClient)
+                    val trackHistory = TrackHistoryImpl(application, gson)
+
+                    return SearchViewModel(
+                        searchInteractor = SearchInteractorImpl(
+                            trackHistory,
+                            trackRepository
+                        )
+                    ) as T
                 }
             }
     }

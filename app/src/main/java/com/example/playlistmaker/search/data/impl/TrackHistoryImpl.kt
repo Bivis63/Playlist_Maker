@@ -1,8 +1,8 @@
 package com.example.playlistmaker.search.data.impl
+
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-
 import com.example.playlistmaker.search.domain.TrackHistory
 import com.example.playlistmaker.search.domain.models.Track
 import com.google.gson.Gson
@@ -23,7 +23,7 @@ class TrackHistoryImpl(context: Context, private val gson: Gson) : TrackHistory 
             return
         }
         val trackList = trackListString.toTrackList()
-        if (trackList.contains(track)){
+        if (trackList.contains(track)) {
             trackList.remove(track)
         }
         if (trackList.size >= 10) {

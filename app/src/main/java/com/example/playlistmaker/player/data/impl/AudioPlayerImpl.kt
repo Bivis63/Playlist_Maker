@@ -5,7 +5,7 @@ import com.example.playlistmaker.player.domain.AudioPlayer
 
 class AudioPlayerImpl() : AudioPlayer {
 
-    private var mediaPlayer =  MediaPlayer()
+    private var mediaPlayer = MediaPlayer()
 
 
     override fun preparePlayer(url: String, onPrepared: () -> Unit, onCompletion: () -> Unit) {
@@ -38,7 +38,6 @@ class AudioPlayerImpl() : AudioPlayer {
     override fun getCurrentPosition(): Int {
         return mediaPlayer.currentPosition
     }
-
 
 
 }

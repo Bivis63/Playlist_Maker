@@ -71,8 +71,5 @@ class TrackAdapter(private val trackListener: OnTrackClickListener) :
         fun onClick(track: Track)
     }
 
-    fun removeTrackList() {
-        tracksList = ArrayList()
-    }
 
 }

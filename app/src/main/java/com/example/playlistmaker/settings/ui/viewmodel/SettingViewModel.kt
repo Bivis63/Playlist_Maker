@@ -1,18 +1,18 @@
 package com.example.playlistmaker.settings.ui.viewmodel
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.playlistmaker.settings.data.SharedPreferencesThemeRepository
-
 import com.example.playlistmaker.settings.domain.usecase.ThemeUseCase
-import com.example.playlistmaker.settings.ui.activity.THEM_SWITCHER
-import com.example.playlistmaker.sharing.data.ExternalNavigator
+import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.domain.impl.SharingInteractorImpl
 import com.example.playlistmaker.sharing.domain.model.EmailData
+import com.example.playlistmaker.util.THEM_SWITCHER
 
 class SettingViewModel(
     private val sharingInteractor: SharingInteractorImpl,
@@ -43,15 +43,22 @@ class SettingViewModel(
     }
 
     companion object {
-        fun getSettingViewModelFactory(context: Context,externalNavigator: ExternalNavigator): ViewModelProvider.Factory =
+        fun getSettingViewModelFactory(
+
+        ): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                override fun <T : ViewModel> create(
+                    modelClass: Class<T>,
+                    extras: CreationExtras
+                ): T {
+                    val application = checkNotNull(extras[APPLICATION_KEY])
+                    val externalNavigator = ExternalNavigatorImpl(application)
                     val sharingInteractor = SharingInteractorImpl(externalNavigator)
-                    val sharedPref = context.getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
+                    val sharedPref = application.getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
                     val themeRepository = SharedPreferencesThemeRepository(sharedPref)
                     val themeUseCase = ThemeUseCase(themeRepository)
-                    return SettingViewModel(sharingInteractor,themeUseCase) as T
+                    return SettingViewModel(sharingInteractor, themeUseCase) as T
                 }
             }
     }

@@ -4,33 +4,34 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.settings.data.App
+import com.example.playlistmaker.util.App
 import com.example.playlistmaker.R
-
 import com.example.playlistmaker.databinding.ActivitySettings2Binding
 import com.example.playlistmaker.settings.ui.viewmodel.SettingViewModel
-import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
 
-const val THEM_SWITCHER = "THEM_SWITCHER"
-
 class SettingsActivity : AppCompatActivity() {
 
-    val externalNavigator = ExternalNavigatorImpl(this)
+
     private lateinit var viewModel: SettingViewModel
 
 
     private val binding: ActivitySettings2Binding by lazy {
         ActivitySettings2Binding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel=ViewModelProvider(this,SettingViewModel.getSettingViewModelFactory(this,externalNavigator))[SettingViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            SettingViewModel.getSettingViewModelFactory()
+        )[SettingViewModel::class.java]
         viewModel.isDarkThemeEnable.observe(this, Observer { isDarkThemeEnable ->
-            binding.themeSwitcher.isChecked = isDarkThemeEnable })
+            binding.themeSwitcher.isChecked = isDarkThemeEnable
+        })
 
         binding.themeSwitcher.setOnCheckedChangeListener { switcher, cheked ->
             viewModel.setTheme(cheked)
@@ -42,11 +43,13 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
         binding.support.setOnClickListener {
-            viewModel.openSupport(EmailData(
-                email = resources.getString(R.string.Email),
-                message = resources.getString(R.string.messegeForDevelopers),
-                theme = resources.getString(R.string.thxForDevelopers)
-            ))
+            viewModel.openSupport(
+                EmailData(
+                    email = resources.getString(R.string.Email),
+                    message = resources.getString(R.string.messegeForDevelopers),
+                    theme = resources.getString(R.string.thxForDevelopers)
+                )
+            )
         }
         binding.termsOfUse.setOnClickListener {
             viewModel.openTerms(resources.getString(R.string.offer))

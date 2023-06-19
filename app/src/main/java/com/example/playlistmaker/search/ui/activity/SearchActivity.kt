@@ -1,4 +1,5 @@
 package com.example.playlistmaker.search.ui.activity
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -27,7 +28,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-
 class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
 
@@ -51,7 +51,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         setContentView(binding.root)
         viewModel = ViewModelProvider(
             this,
-            SearchViewModel.getViewModelFactory(this)
+            SearchViewModel.getViewModelFactory()
         )[SearchViewModel::class.java]
 
 
@@ -82,7 +82,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         }
         binding.inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.searchRequest( binding.inputEditText.text.toString())
+                viewModel.searchRequest(binding.inputEditText.text.toString())
                 true
             } else {
                 false
@@ -153,12 +153,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         }
     }
 
-    private fun hidePlaceHolder(){
+    private fun hidePlaceHolder() {
         binding.placeholderMessage.visibility = View.GONE
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.imageHolderNoInternet.visibility = View.GONE
         binding.imageHolder.visibility = View.GONE
-        binding.buttonUpdate.visibility= View.GONE
+        binding.buttonUpdate.visibility = View.GONE
 
     }
 
@@ -212,6 +212,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         binding.buttonUpdate.visibility = View.VISIBLE
         binding.placeholderMessage.visibility = View.VISIBLE
     }
+
     private fun showNotFound() {
         binding.progressBar.visibility = View.GONE
         binding.recyclerTrackHistory.visibility = View.GONE

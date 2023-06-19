@@ -30,14 +30,17 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
             return Response().apply { resultCode = 400 }
 
         }
-        val response = itunesService.search(dto.expression).execute()
-        val body = response.body()
-        return if (body != null) {
-            body.apply { resultCode = response.code() }
-        } else {
-            Response().apply { resultCode = response.code() }
+        try {
+            val response = itunesService.search(dto.expression).execute()
+            val body = response.body()
+            return if (body != null) {
+                body.apply { resultCode = response.code() }
+            } else {
+                Response().apply { resultCode = response.code() }
+            }
+        }catch (e:Exception){
+            return Response().apply { resultCode=500 }
         }
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
