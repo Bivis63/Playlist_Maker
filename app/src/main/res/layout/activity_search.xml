@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padingLayout_16"
     android:orientation="vertical"
-    tools:context=".presentation.searchPage.SearchActivity">
+    tools:context=".search.ui.activity.SearchActivity">
 
     <TextView
         android:id="@+id/searchBack"
@@ -58,10 +58,10 @@
             style="@style/ImageErrorNoInternet" />
 
         <ProgressBar android:id="@+id/progressBar"
-            android:layout_width="@dimen/width_44dp"
-            android:layout_height="@dimen/height_44dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_148dp"
-            android:layout_marginStart="@dimen/margin_start_158dp"
+            android:layout_gravity="center_horizontal"
             android:indeterminateTint="@color/purple_for_progress_bar"
             android:visibility="gone"/>
 
