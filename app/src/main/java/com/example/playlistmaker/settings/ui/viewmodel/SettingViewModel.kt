@@ -42,24 +42,4 @@ class SettingViewModel(
         sharingInteractor.openSupport(emailData)
     }
 
-    companion object {
-        fun getSettingViewModelFactory(
-
-        ): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(
-                    modelClass: Class<T>,
-                    extras: CreationExtras
-                ): T {
-                    val application = checkNotNull(extras[APPLICATION_KEY])
-                    val externalNavigator = ExternalNavigatorImpl(application)
-                    val sharingInteractor = SharingInteractorImpl(externalNavigator)
-                    val sharedPref = application.getSharedPreferences(THEM_SWITCHER, MODE_PRIVATE)
-                    val themeRepository = SharedPreferencesThemeRepository(sharedPref)
-                    val themeUseCase = ThemeUseCase(themeRepository)
-                    return SettingViewModel(sharingInteractor, themeUseCase) as T
-                }
-            }
-    }
 }
