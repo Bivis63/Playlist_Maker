@@ -38,7 +38,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private val adapter = TrackAdapter(this)
     private val historyAdapter = TrackAdapter(this)
     private var textWatcher: TextWatcher? = null
-
+    private var isSearchRequested = false
 
     private val binding: ActivitySearchBinding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
@@ -91,10 +91,24 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(
-                    changedText = s?.toString() ?: ""
-                )
+
+                binding.inputEditText.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        viewModel.searchRequest(binding.inputEditText.text.toString())
+                        isSearchRequested = true
+                        hideKeyboard()
+                        true
+                    } else {
+                        false
+                    }
+                }
+                if (!isSearchRequested) {
+                    viewModel.searchDebounce(
+                        changedText = s?.toString() ?: ""
+                    )
+                }
             }
+
 
             override fun afterTextChanged(s: Editable?) {
 
