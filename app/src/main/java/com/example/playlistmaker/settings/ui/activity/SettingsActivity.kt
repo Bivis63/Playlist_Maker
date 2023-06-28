@@ -3,18 +3,18 @@ package com.example.playlistmaker.settings.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.util.App
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettings2Binding
 import com.example.playlistmaker.settings.ui.viewmodel.SettingViewModel
 import com.example.playlistmaker.sharing.domain.model.EmailData
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SettingsActivity : AppCompatActivity() {
 
 
-    private lateinit var viewModel: SettingViewModel
+    private val viewModel by viewModel<SettingViewModel>()
 
 
     private val binding: ActivitySettings2Binding by lazy {
@@ -25,10 +25,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(
-            this,
-            SettingViewModel.getSettingViewModelFactory()
-        )[SettingViewModel::class.java]
         viewModel.isDarkThemeEnable.observe(this, Observer { isDarkThemeEnable ->
             binding.themeSwitcher.isChecked = isDarkThemeEnable
         })

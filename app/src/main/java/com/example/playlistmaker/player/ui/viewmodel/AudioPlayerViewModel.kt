@@ -5,8 +5,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.AudioPlayerIteractor
 import com.example.playlistmaker.player.ui.PlayerState
 import java.text.SimpleDateFormat
@@ -86,16 +84,6 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteract
 
     companion object {
         private const val DELAY = 300L
-
-        fun getAudioPlayerViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    val audioPlayerIteractor = Creator.providePlayerInteractor()
-                    return AudioPlayerViewModel(audioPlayerIteractor) as T
-                }
-            }
-
 
     }
 }

@@ -7,18 +7,10 @@ import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.playlistmaker.search.data.impl.TrackHistoryImpl
-import com.example.playlistmaker.search.data.impl.TrackRepositoryImpl
-import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.search.domain.SearchInteractor
-import com.example.playlistmaker.search.domain.impl.SearchInteractorImpl
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
-import com.google.gson.Gson
 
 
 class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
@@ -115,28 +107,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
 
-
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(
-                    modelClass: Class<T>,
-                    extras: CreationExtras
-                ): T {
-                    val application = checkNotNull(extras[APPLICATION_KEY])
-                    val gson = Gson()
-                    val networkClient = RetrofitNetworkClient(application)
-                    val trackRepository = TrackRepositoryImpl(networkClient)
-                    val trackHistory = TrackHistoryImpl(application, gson)
-
-                    return SearchViewModel(
-                        searchInteractor = SearchInteractorImpl(
-                            trackHistory,
-                            trackRepository
-                        )
-                    ) as T
-                }
-            }
     }
 }

@@ -3,8 +3,6 @@ package com.example.playlistmaker.player.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -12,6 +10,7 @@ import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import com.example.playlistmaker.search.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,7 +20,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityAudioPlayerBinding
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel by viewModel<AudioPlayerViewModel>()
 
     private lateinit var songUrl: String
 
@@ -32,10 +31,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         val item = intent.getSerializableExtra(ITEM) as Track
 
-        viewModel = ViewModelProvider(
-            this,
-            AudioPlayerViewModel.getAudioPlayerViewModelFactory()
-        )[AudioPlayerViewModel::class.java]
+
         viewModel.stateLiveData.observe(this) {
             render(it)
         }

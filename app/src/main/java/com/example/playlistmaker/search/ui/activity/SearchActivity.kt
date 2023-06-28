@@ -12,7 +12,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
@@ -23,6 +22,7 @@ import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,12 +33,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModel<SearchViewModel>()
     private val trackList = ArrayList<Track>()
     private val adapter = TrackAdapter(this)
     private val historyAdapter = TrackAdapter(this)
     private var textWatcher: TextWatcher? = null
-
+    private var isSearchRequested = false
 
     private val binding: ActivitySearchBinding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
@@ -49,11 +49,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
-
 
 
         adapter.tracksList = trackList
@@ -96,10 +91,24 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(
-                    changedText = s?.toString() ?: ""
-                )
+
+                binding.inputEditText.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        viewModel.searchRequest(binding.inputEditText.text.toString())
+                        isSearchRequested = true
+                        hideKeyboard()
+                        true
+                    } else {
+                        false
+                    }
+                }
+                if (!isSearchRequested) {
+                    viewModel.searchDebounce(
+                        changedText = s?.toString() ?: ""
+                    )
+                }
             }
+
 
             override fun afterTextChanged(s: Editable?) {
 
