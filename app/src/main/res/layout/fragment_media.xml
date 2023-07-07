@@ -9,12 +9,13 @@
     <ImageView
         android:id="@+id/imageHolder"
         style="@style/ImageError"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:layout_marginBottom="@dimen/margin_botton_115dp"/>
 
     <TextView
         android:id="@+id/placeholderMessage"
         style="@style/textError"
-        android:layout_marginBottom="@dimen/margin_bottom_80dp"
+        android:layout_marginBottom="@dimen/margin_bottom_60dp"
         android:text="@string/media_is_empty"/>
 
 </FrameLayout>
