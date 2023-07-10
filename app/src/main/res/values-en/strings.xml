@@ -53,5 +53,7 @@
     <string name="new_playlist">new play list</string>
     <string name="selected_traks">selected tracks</string>
     <string name="play_lists">playlists</string>
+    <string name="exeption_on_mail">An error occurred while opening the email.</string>
+    <string name="error_has_occurred">error_has_occurred</string>
 
 </resources>

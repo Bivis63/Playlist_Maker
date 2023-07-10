@@ -3,6 +3,8 @@ package com.example.playlistmaker.sharing.data.impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
+import com.example.playlistmaker.R
 import com.example.playlistmaker.sharing.data.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
@@ -20,6 +22,7 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
             )
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(context, context.resources.getString(R.string.error_has_occurred), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -30,6 +33,7 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
             context.startActivity(shareIntent)
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(context, context.resources.getString(R.string.error_has_occurred), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -47,6 +51,7 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(context, context.resources.getString(R.string.exeption_on_mail), Toast.LENGTH_SHORT).show()
         }
     }
 

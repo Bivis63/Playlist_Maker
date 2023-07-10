@@ -55,6 +55,7 @@
     <string name="new_playlist">Новый плейлист</string>
     <string name="selected_traks">Избранные треки</string>
     <string name="play_lists">Плейлисты</string>
-
+    <string name="exeption_on_mail">Произошла ошибка при открытии электронной почты.</string>
+    <string name="error_has_occurred">Произошла ошибка</string>
 
 </resources>
