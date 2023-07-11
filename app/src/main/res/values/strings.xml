@@ -47,6 +47,15 @@
     <string name="genre">Жанр</string>
     <string name="counry">Страна</string>
     <string name="_00_00">00:00</string>
-
+    <string name="media_library">Медиатека</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="media_is_empty">Ваша медиатека пуста</string>
+    <string name="play_list_is_empty">Вы не создали \nни одного плейлиста</string>
+    <string name="new_playlist">Новый плейлист</string>
+    <string name="selected_traks">Избранные треки</string>
+    <string name="play_lists">Плейлисты</string>
+    <string name="exeption_on_mail">Произошла ошибка при открытии электронной почты.</string>
+    <string name="error_has_occurred">Произошла ошибка</string>
 
 </resources>

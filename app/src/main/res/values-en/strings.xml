@@ -33,8 +33,27 @@
     <string name="imageUrlTrack3">https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg</string>
     <string name="imageUrlTrack4">https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg</string>
     <string name="imageUrlTrack5">https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg</string>
+    <string name="toast">toast</string>
     <string name="nothing_found">nothing found</string>
     <string name="Communication_problems">Communication problems</string>
     <string name="Download_failed">Download_failed</string>
+    <string name="refresh">refresh</string>
+    <string name="you_searched">you searched</string>
+    <string name="clear_history">clean history</string>
+    <string name="duration">duration</string>
+    <string name="album">alboum</string>
+    <string name="year">year</string>
+    <string name="genre">genre</string>
+    <string name="counry">country</string>
+    <string name="_00_00">00:00</string>
+    <string name="media_library">media library</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="media_is_empty">Your library is empty</string>
+    <string name="play_list_is_empty">you have not created any playlist</string>
+    <string name="new_playlist">new play list</string>
+    <string name="selected_traks">selected tracks</string>
+    <string name="play_lists">playlists</string>
+    <string name="exeption_on_mail">An error occurred while opening the email.</string>
+    <string name="error_has_occurred">error_has_occurred</string>
 
 </resources>

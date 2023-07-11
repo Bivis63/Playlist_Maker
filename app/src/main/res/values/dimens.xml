@@ -57,4 +57,6 @@
     <dimen name="height_44dp">44dp</dimen>
     <dimen name="margin_top_148dp">148dp</dimen>
     <dimen name="margin_start_158dp">158dp</dimen>
+    <dimen name="margin_botton_115dp">115dp</dimen>
+    <dimen name="margin_bottom_60dp">60dp</dimen>
 </resources>
