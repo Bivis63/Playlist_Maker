@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padingLayout_16"
     android:orientation="vertical"
-    tools:context=".search.ui.activity.SearchActivity">
+    tools:context=".search.ui.fragment.TrackSearchFragment">
 
     <TextView
         android:id="@+id/searchBack"
@@ -16,8 +16,7 @@
         android:drawablePadding="28dp"
         android:paddingLeft="@dimen/padingLeft_4dp"
         android:text="@string/Search"
-        android:textSize="@dimen/text_size"
-        app:drawableStartCompat="@drawable/arrow" />
+        android:textSize="@dimen/text_size" />
 
     <FrameLayout
         android:layout_width="match_parent"

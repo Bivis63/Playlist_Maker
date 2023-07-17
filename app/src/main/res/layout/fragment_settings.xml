@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padingLayout_16">
+    android:padding="@dimen/padingLayout_16"
+    tools:context=".settings.ui.fragment.SettingsFragment">
 
 
     <TextView
@@ -13,8 +14,7 @@
         style="@style/SettingTextStyle"
         android:drawablePadding="28sp"
         android:text="@string/settings"
-        android:textSize="@dimen/text_size"
-        app:drawableStartCompat="@drawable/arrow" />
+        android:textSize="@dimen/text_size" />
 
     <FrameLayout
         android:layout_width="match_parent"
