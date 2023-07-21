@@ -1,6 +1,6 @@
 package com.example.playlistmaker.search.ui.fragment
 
-import android.content.Context
+import  android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -26,14 +26,17 @@ import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class TrackSearchFragment : Fragment(), TrackAdapter.OnTrackClickListener {
+class TrackSearchFragment : Fragment() {
     private lateinit var binding: FragmentTrackSearchBinding
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val viewModel by viewModel<SearchViewModel>()
     private val trackList = ArrayList<Track>()
-    private val adapter = TrackAdapter(this)
-    private val historyAdapter = TrackAdapter(this)
+    private val adapter = TrackAdapter{ openTrack(it)}
+    private val historyAdapter = TrackAdapter{
+       openTrack(it)
+        viewModel.updateHistory()
+    }
     private var textWatcher: TextWatcher? = null
     private var isSearchRequested = false
 
@@ -48,6 +51,7 @@ class TrackSearchFragment : Fragment(), TrackAdapter.OnTrackClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         adapter.tracksList = trackList
         binding.recyclerView.adapter = adapter
@@ -112,10 +116,10 @@ class TrackSearchFragment : Fragment(), TrackAdapter.OnTrackClickListener {
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
-        viewModel.stateLiveData.observe(this) {
+        viewModel.stateLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
-        viewModel.stateSearchFieldLiveData.observe(this) {
+        viewModel.stateSearchFieldLiveData.observe(viewLifecycleOwner) {
             updateSearchTextField(it)
         }
         binding.buttonUpdate.setOnClickListener {
@@ -145,7 +149,7 @@ class TrackSearchFragment : Fragment(), TrackAdapter.OnTrackClickListener {
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Tracks -> showTrack(state.tracks)
-            is SearchState.History -> showHistory(state.track)
+            is SearchState.History ->showHistory(state.track)
             is SearchState.Loading -> showLoading()
             is SearchState.CommunicationProblems -> showNoInternet()
             is SearchState.NothingFound -> showNotFound()
@@ -238,13 +242,12 @@ class TrackSearchFragment : Fragment(), TrackAdapter.OnTrackClickListener {
         textWatcher?.let { binding.inputEditText.removeTextChangedListener(it) }
     }
 
-    override fun onClick(track: Track) {
+     fun openTrack(track: Track) {
         if (clickDebounce()) {
             startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
                 putExtra(ITEM, track)
             })
             viewModel.openTrack(track)
-
             historyAdapter.notifyDataSetChanged()
         }
     }

@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TrackAdapter(private val trackListener: OnTrackClickListener) :
+class TrackAdapter(private val onClick: (Track) -> Unit):
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     var tracksList = ArrayList<Track>()
@@ -25,17 +25,17 @@ class TrackAdapter(private val trackListener: OnTrackClickListener) :
             diffResult.dispatchUpdatesTo(this)
         }
 
-    class TrackViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    class TrackViewHolder(item: View, val onClick: (Track) -> Unit) : RecyclerView.ViewHolder(item) {
         val binding = SongListBinding.bind(item)
 
-        fun bind(track: Track, trackListener: OnTrackClickListener) = with(binding) {
+        fun bind(track: Track) = with(binding) {
             nameTrack.text = track.trackName
             nameArtist.text = track.artistName
             timeTrack.text = track.trackTimeMillis.toString()
             timeTrack.text =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
             itemView.setOnClickListener {
-                trackListener.onClick(track)
+                onClick(track)
             }
 
             Glide.with(itemView)
@@ -55,7 +55,7 @@ class TrackAdapter(private val trackListener: OnTrackClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.song_list, parent, false)
-        return TrackViewHolder(view)
+        return TrackViewHolder(view,onClick)
     }
 
     override fun getItemCount(): Int {
@@ -63,13 +63,8 @@ class TrackAdapter(private val trackListener: OnTrackClickListener) :
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracksList[position], trackListener)
+        holder.bind(tracksList[position])
 
     }
-
-    interface OnTrackClickListener {
-        fun onClick(track: Track)
-    }
-
 
 }

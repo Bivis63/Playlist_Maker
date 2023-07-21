@@ -30,7 +30,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.isDarkThemeEnable.observe(this, Observer { isDarkThemeEnable ->
+        viewModel.isDarkThemeEnable.observe(viewLifecycleOwner, Observer { isDarkThemeEnable ->
             binding.themeSwitcher.isChecked = isDarkThemeEnable
         })
 
@@ -57,6 +57,4 @@ class SettingsFragment : Fragment() {
         }
 
     }
-
-
 }

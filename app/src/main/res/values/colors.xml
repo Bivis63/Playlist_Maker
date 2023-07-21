@@ -16,5 +16,7 @@
     <color name="purple_for_progress_bar">#3772E7</color>
     <color name="selector_color">#3772E7</color>
     <color name="default_color">#FF000000</color>
+    <color name="backgroundNavigation">#FFFFFFFF</color>
+    <color name="space_gray">#E6E8EB</color>
 </resources>
 

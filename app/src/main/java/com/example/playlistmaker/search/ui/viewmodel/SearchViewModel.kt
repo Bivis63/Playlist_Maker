@@ -13,7 +13,7 @@ import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
 
 
-class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
+class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<SearchState>()
     val stateLiveData: LiveData<SearchState> = _stateLiveData
@@ -68,6 +68,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
         }
     }
 
+
     fun clearHistory() {
         searchInteractor.clearHistory()
         renderState(SearchState.Tracks(tracks = emptyList()))
@@ -75,6 +76,10 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
 
     fun openTrack(track: Track) {
         searchInteractor.addTrack(track)
+    }
+
+    fun updateHistory() {
+        renderState(SearchState.History(track = searchInteractor.getHistory()))
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -103,7 +108,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMode
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
