@@ -1,43 +1,45 @@
-package com.example.playlistmaker.settings.ui.activity
+package com.example.playlistmaker.settings.ui.fragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.example.playlistmaker.util.App
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySettings2Binding
+import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.settings.ui.viewmodel.SettingViewModel
 import com.example.playlistmaker.sharing.domain.model.EmailData
+import com.example.playlistmaker.util.App
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsFragment : Fragment() {
 
-
+    private lateinit var binding:FragmentSettingsBinding
     private val viewModel by viewModel<SettingViewModel>()
 
 
-    private val binding: ActivitySettings2Binding by lazy {
-        ActivitySettings2Binding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding= FragmentSettingsBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        viewModel.isDarkThemeEnable.observe(this, Observer { isDarkThemeEnable ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.isDarkThemeEnable.observe(viewLifecycleOwner, Observer { isDarkThemeEnable ->
             binding.themeSwitcher.isChecked = isDarkThemeEnable
         })
 
         binding.themeSwitcher.setOnCheckedChangeListener { switcher, cheked ->
             viewModel.setTheme(cheked)
-            (applicationContext as App).switchTheme(cheked)
+            (requireContext().applicationContext as App).switchTheme(cheked)
 
         }
 
-        binding.arrowBack.setOnClickListener {
-            finish()
-        }
         binding.support.setOnClickListener {
             viewModel.openSupport(
                 EmailData(

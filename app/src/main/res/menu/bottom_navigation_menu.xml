@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/trackSearchFragment2"
+        android:icon="@drawable/vector"
+        android:title="@string/Search"/>
+
+    <item
+        android:id="@+id/mediaFragment2"
+        android:icon="@drawable/vectormedia"
+        android:title="@string/media"/>
+
+    <item
+        android:id="@+id/settingsFragment2"
+        android:icon="@drawable/vectorsettings"
+        android:title="@string/settings"/>
+
+</menu>

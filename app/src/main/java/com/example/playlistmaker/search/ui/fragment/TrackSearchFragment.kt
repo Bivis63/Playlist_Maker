@@ -1,20 +1,21 @@
-package com.example.playlistmaker.search.ui.activity
+package com.example.playlistmaker.search.ui.fragment
 
-import android.annotation.SuppressLint
-import android.content.Context
+import  android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentTrackSearchBinding
 import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
 import com.example.playlistmaker.player.ui.activity.ITEM
 import com.example.playlistmaker.search.domain.models.Track
@@ -23,52 +24,44 @@ import com.example.playlistmaker.search.ui.SearchState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
-
-
+class TrackSearchFragment : Fragment() {
+    private lateinit var binding: FragmentTrackSearchBinding
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val viewModel by viewModel<SearchViewModel>()
     private val trackList = ArrayList<Track>()
-    private val adapter = TrackAdapter(this)
-    private val historyAdapter = TrackAdapter(this)
+    private val adapter = TrackAdapter{ openTrack(it)}
+    private val historyAdapter = TrackAdapter{
+       openTrack(it)
+        viewModel.updateHistory()
+    }
     private var textWatcher: TextWatcher? = null
     private var isSearchRequested = false
 
-    private val binding: ActivitySearchBinding by lazy {
-        ActivitySearchBinding.inflate(layoutInflater)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTrackSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-
-    @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
 
         adapter.tracksList = trackList
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
-
-
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         binding.recyclerTrackHistory.adapter = historyAdapter
         binding.recyclerTrackHistory.layoutManager =
-            LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-
-
-
-        binding.searchBack.setOnClickListener {
-            finish()
-
-        }
         binding.clearIcon.setOnClickListener {
             viewModel.clearSearchText()
             hidePlaceHolder()
@@ -117,15 +110,16 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         simpleTextWatcher?.let { binding.inputEditText.addTextChangedListener(it) }
 
         binding.inputEditText.setOnFocusChangeListener { _, hasFocus ->
+
             viewModel.searchChangeFocus(hasFocus, binding.inputEditText.text.toString())
         }
         binding.clearHistory.setOnClickListener {
             viewModel.clearHistory()
         }
-        viewModel.stateLiveData.observe(this) {
+        viewModel.stateLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
-        viewModel.stateSearchFieldLiveData.observe(this) {
+        viewModel.stateSearchFieldLiveData.observe(viewLifecycleOwner) {
             updateSearchTextField(it)
         }
         binding.buttonUpdate.setOnClickListener {
@@ -155,7 +149,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Tracks -> showTrack(state.tracks)
-            is SearchState.History -> showHistory(state.track)
+            is SearchState.History ->showHistory(state.track)
             is SearchState.Loading -> showLoading()
             is SearchState.CommunicationProblems -> showNoInternet()
             is SearchState.NothingFound -> showNotFound()
@@ -243,28 +237,31 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.OnTrackClickListener {
         return current
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         textWatcher?.let { binding.inputEditText.removeTextChangedListener(it) }
     }
 
-    override fun onClick(track: Track) {
+     fun openTrack(track: Track) {
         if (clickDebounce()) {
-            startActivity(Intent(this, AudioPlayerActivity::class.java).apply {
+            startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
                 putExtra(ITEM, track)
             })
             viewModel.openTrack(track)
-
             historyAdapter.notifyDataSetChanged()
         }
     }
 
     private fun hideKeyboard() {
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(binding.inputEditText.windowToken, 0)
     }
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
+
 }
+
+
