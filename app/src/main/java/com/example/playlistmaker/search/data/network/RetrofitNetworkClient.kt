@@ -8,6 +8,8 @@ import androidx.annotation.RequiresApi
 import com.example.playlistmaker.search.data.NetworkClient
 import com.example.playlistmaker.search.data.dto.Response
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,7 +24,7 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
     private val itunesService = retrofit.create(TrackApi::class.java)
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1 }
         }
@@ -30,18 +32,26 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
             return Response().apply { resultCode = 400 }
 
         }
-        try {
-            val response = itunesService.search(dto.expression).execute()
-            val body = response.body()
-            return if (body != null) {
-                body.apply { resultCode = response.code() }
-            } else {
-                Response().apply { resultCode = response.code() }
+        return withContext(Dispatchers.IO){
+            try {
+                val response = itunesService.search(dto.expression)
+                response.apply { resultCode = 200 }
+            }catch (e:Throwable){
+                Response().apply { resultCode = 500 }
             }
-        }catch (e:Exception){
-            return Response().apply { resultCode=500 }
         }
-    }
+//        try {
+//            val response = itunesService.search(dto.expression).execute()
+//            val body = response.body()
+//            return if (body != null) {
+//                body.apply { resultCode = response.code() }
+//            } else {
+//                Response().apply { resultCode = response.code() }
+//            }
+//        }catch (e:Exception){
+//            return Response().apply { resultCode=500 }
+//        }
+ }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isConnected(): Boolean {

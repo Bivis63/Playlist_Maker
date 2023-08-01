@@ -3,6 +3,7 @@ package com.example.playlistmaker.player.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -86,9 +87,11 @@ class AudioPlayerActivity : AppCompatActivity() {
                 binding.trackTimeNow.setText(R.string._00_00)
             }
             is PlayerState.Playing -> {
+                Log.i("COROUTINE", "play")
                 binding.playButton.setImageResource(R.drawable.baseline_pause_24)
             }
             is PlayerState.Paused -> {
+                Log.i("COROUTINE", "pause")
                 binding.playButton.setImageResource(R.drawable.baseline_play_arrow_24)
             }
             is PlayerState.Preparing -> {
@@ -104,6 +107,4 @@ class AudioPlayerActivity : AppCompatActivity() {
         super.onPause()
         viewModel.pause()
     }
-
-
 }

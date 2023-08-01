@@ -1,25 +1,23 @@
 package com.example.playlistmaker.player.ui.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.AudioPlayerIteractor
 import com.example.playlistmaker.player.ui.PlayerState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteractor) : ViewModel() {
 
 
-    private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
-    private val duration = setTrackDuration()
-
-
     private val _stateLiveData = MutableLiveData<PlayerState>()
     val stateLiveData: LiveData<PlayerState> = _stateLiveData
-
+    private var timeJob: Job? = null
 
     fun preparePlayer(songUrl: String) {
         renderState(PlayerState.Preparing)
@@ -28,7 +26,7 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteract
             onPrepared = { renderState(PlayerState.Stoped) },
             onCompletion = {
                 renderState(PlayerState.Stoped)
-                mainThreadHandler?.removeCallbacks(duration)
+                timeJob?.cancel()
             })
     }
 
@@ -46,21 +44,20 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteract
 
     private fun startPlayer() {
         audioPlayerInteractor.startPlayer()
+        setTrackDuration()
         renderState(PlayerState.Playing)
-        mainThreadHandler?.post(duration)
 
     }
 
     private fun pausePlayer() {
         audioPlayerInteractor.pausePlayer()
         renderState(PlayerState.Paused)
-        mainThreadHandler?.removeCallbacks(duration)
+        timeJob?.cancel()
     }
 
-
-    private fun setTrackDuration(): Runnable {
-        return object : Runnable {
-            override fun run() {
+    private fun setTrackDuration() {
+        timeJob = viewModelScope.launch {
+            while (true) {
                 renderState(
                     PlayerState.PlayingTimeNow(
                         SimpleDateFormat(
@@ -72,8 +69,7 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteract
                             )
                     )
                 )
-                mainThreadHandler?.postDelayed(this, DELAY)
-
+                delay(DELAY)
             }
         }
     }
