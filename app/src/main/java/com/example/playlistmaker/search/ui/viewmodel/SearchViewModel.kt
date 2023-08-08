@@ -3,17 +3,20 @@ package com.example.playlistmaker.search.ui.viewmodel
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
-class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
+class SearchViewModel(private val searchInteractor: SearchInteractor) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<SearchState>()
     val stateLiveData: LiveData<SearchState> = _stateLiveData
@@ -23,6 +26,7 @@ class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMod
 
     private val handler = Handler(Looper.getMainLooper())
     private var lastSearchText: String? = null
+    private var searchJob: Job? = null
 
     init {
         renderState(SearchState.Tracks(tracks = emptyList()))
@@ -48,16 +52,12 @@ class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMod
         }
 
         this.lastSearchText = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
 
-        val searchRunnable = Runnable { searchRequest(changedText) }
-
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
-        handler.postAtTime(
-            searchRunnable,
-            SEARCH_REQUEST_TOKEN,
-            postTime,
-        )
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            searchRequest(changedText)
+        }
     }
 
 
@@ -86,21 +86,26 @@ class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMod
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isEmpty()) return
         renderState(SearchState.Loading)
-        searchInteractor.searchTracks(newSearchText, object : SearchInteractor.TracksConsumer {
-            override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                val tracks = mutableListOf<Track>()
-                if (foundTracks != null) {
-                    tracks.addAll(foundTracks)
-                }
-                when {
-                    errorMessage != null -> renderState(SearchState.CommunicationProblems)
-                    tracks.isEmpty() -> renderState(SearchState.NothingFound)
-                    else -> renderState(SearchState.Tracks(tracks))
 
+        viewModelScope.launch {
+            searchInteractor
+                .searchTracks(newSearchText)
+                .collect {pair->
+                    processResult(pair.first,pair.second)
                 }
+        }
+    }
 
-            }
-        })
+    private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
+        val tracks = mutableListOf<Track>()
+        if (foundTracks != null) {
+            tracks.addAll(foundTracks)
+        }
+        when {
+            errorMessage != null -> renderState(SearchState.CommunicationProblems)
+            tracks.isEmpty() -> renderState(SearchState.NothingFound)
+            else -> renderState(SearchState.Tracks(tracks))
+        }
     }
 
     private fun renderState(state: SearchState) {
@@ -110,7 +115,5 @@ class  SearchViewModel(private val searchInteractor: SearchInteractor) : ViewMod
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-
-
     }
 }

@@ -3,8 +3,6 @@ package com.example.playlistmaker.search.ui.fragment
 import  android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -13,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentTrackSearchBinding
@@ -23,18 +22,19 @@ import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class TrackSearchFragment : Fragment() {
     private lateinit var binding: FragmentTrackSearchBinding
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     private val viewModel by viewModel<SearchViewModel>()
     private val trackList = ArrayList<Track>()
-    private val adapter = TrackAdapter{ openTrack(it)}
-    private val historyAdapter = TrackAdapter{
-       openTrack(it)
+    private val adapter = TrackAdapter { openTrack(it) }
+    private val historyAdapter = TrackAdapter {
+        openTrack(it)
         viewModel.updateHistory()
     }
     private var textWatcher: TextWatcher? = null
@@ -149,7 +149,7 @@ class TrackSearchFragment : Fragment() {
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Tracks -> showTrack(state.tracks)
-            is SearchState.History ->showHistory(state.track)
+            is SearchState.History -> showHistory(state.track)
             is SearchState.Loading -> showLoading()
             is SearchState.CommunicationProblems -> showNoInternet()
             is SearchState.NothingFound -> showNotFound()
@@ -232,7 +232,10 @@ class TrackSearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }
@@ -242,7 +245,7 @@ class TrackSearchFragment : Fragment() {
         textWatcher?.let { binding.inputEditText.removeTextChangedListener(it) }
     }
 
-     fun openTrack(track: Track) {
+    fun openTrack(track: Track) {
         if (clickDebounce()) {
             startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
                 putExtra(ITEM, track)
@@ -261,7 +264,6 @@ class TrackSearchFragment : Fragment() {
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
-
 }
 
 
