@@ -7,7 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -18,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)

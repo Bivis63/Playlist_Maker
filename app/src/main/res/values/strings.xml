@@ -57,6 +57,7 @@
     <string name="play_lists">Плейлисты</string>
     <string name="exeption_on_mail">Произошла ошибка при открытии электронной почты.</string>
     <string name="error_has_occurred">Произошла ошибка</string>
+    <string name="nothing_searched_yet">ничего еще не искал</string>
 
 
 </resources>

@@ -1,9 +1,12 @@
 package com.example.playlistmaker.player.ui.activity
 
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -11,11 +14,11 @@ import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.util.ITEM
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val ITEM = "item"
 
 class AudioPlayerActivity : AppCompatActivity() {
 
@@ -24,6 +27,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val viewModel by viewModel<AudioPlayerViewModel>()
 
     private lateinit var songUrl: String
+//    private lateinit var colorStateList: ColorStateList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
@@ -36,12 +40,21 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.stateLiveData.observe(this) {
             render(it)
         }
+        viewModel.favoriteLifeData.observe(this) {
+            render(it)
+        }
 
         binding.backToTrackList.setOnClickListener {
             finish()
         }
 
         showTrack(item)
+
+        viewModel.isFavorite(item.trackId)
+
+        binding.likeButton.setOnClickListener {
+            viewModel.onFavoriteClicked(item)
+        }
 
     }
 
@@ -78,8 +91,9 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     }
 
-
+    @SuppressLint("ResourceAsColor")
     private fun render(state: PlayerState) {
+        val colorStateList: ColorStateList
         when (state) {
             is PlayerState.Stoped -> {
                 binding.playButton.isEnabled = true
@@ -99,6 +113,20 @@ class AudioPlayerActivity : AppCompatActivity() {
             }
             is PlayerState.PlayingTimeNow -> {
                 binding.trackTimeNow.text = state.playingTime
+            }
+            is PlayerState.StateFavorite -> {
+                if (state.isFavorite) {
+                    colorStateList =
+                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.red))
+                    binding.likeButton.setImageTintList(colorStateList)
+                    binding.likeButton.setImageResource(R.drawable.like)
+
+                } else {
+                    colorStateList =
+                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                    binding.likeButton.setImageTintList(colorStateList)
+                    binding.likeButton.setImageResource(R.drawable.heart)
+                }
             }
         }
     }

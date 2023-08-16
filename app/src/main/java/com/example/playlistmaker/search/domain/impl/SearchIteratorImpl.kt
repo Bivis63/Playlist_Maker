@@ -22,14 +22,10 @@ class SearchInteractorImpl(
     }
 
     override fun searchTracks(expression: String): Flow<Pair<List<Track>?, String?>> {
-        return repository.searchTracks(expression).map { result->
-            when(result){
-                is Resource.Success ->{
-                    Pair(result.data,null)
-                }
-                is Resource.Error -> {
-                    Pair(null,result.message)
-                }
+        return repository.searchTracks(expression).map { result ->
+            when (result) {
+                is Resource.Success -> result.data to null
+                is Resource.Error -> null to result.message
             }
         }
     }

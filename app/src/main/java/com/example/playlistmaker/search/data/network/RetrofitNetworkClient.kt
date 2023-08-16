@@ -32,33 +32,23 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
             return Response().apply { resultCode = 400 }
 
         }
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             try {
                 val response = itunesService.search(dto.expression)
                 response.apply { resultCode = 200 }
-            }catch (e:Throwable){
+            } catch (e: Throwable) {
                 Response().apply { resultCode = 500 }
             }
         }
-//        try {
-//            val response = itunesService.search(dto.expression).execute()
-//            val body = response.body()
-//            return if (body != null) {
-//                body.apply { resultCode = response.code() }
-//            } else {
-//                Response().apply { resultCode = response.code() }
-//            }
-//        }catch (e:Exception){
-//            return Response().apply { resultCode=500 }
-//        }
- }
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {
             when {
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true

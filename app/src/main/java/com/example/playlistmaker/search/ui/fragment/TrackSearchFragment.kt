@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentTrackSearchBinding
 import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
-import com.example.playlistmaker.player.ui.activity.ITEM
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
+import com.example.playlistmaker.util.ITEM
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

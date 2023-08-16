@@ -3,6 +3,7 @@ package com.example.playlistmaker.media.ui
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.playlistmaker.media.ui.History.SelectedTracksFragment
 
 
 class MediaAdapter(
