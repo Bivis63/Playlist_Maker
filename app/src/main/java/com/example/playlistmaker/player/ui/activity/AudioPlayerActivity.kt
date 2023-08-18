@@ -27,7 +27,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val viewModel by viewModel<AudioPlayerViewModel>()
 
     private lateinit var songUrl: String
-//    private lateinit var colorStateList: ColorStateList
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)

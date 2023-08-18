@@ -19,7 +19,7 @@ class TrackRepositoryImpl(
         val response = networkClient.doRequest(TracksSearchRequest(expression))
         when (response.resultCode) {
             -1 -> {
-                emit(Resource.Error("Проверьте подключение к интернету"))
+                emit(Resource.Error(response.resultCode.toString()))
             }
             200 -> {
                 with(response as TracksSearchResponse) {
@@ -34,7 +34,7 @@ class TrackRepositoryImpl(
                             it.releaseDate,
                             it.primaryGenreName,
                             it.country,
-                            it.previewUrl
+                            it.previewUrl ?: ""
                         )
                     }
 
@@ -42,7 +42,7 @@ class TrackRepositoryImpl(
                 }
             }
             else -> {
-                emit(Resource.Error("Ошибка сервера"))
+                emit(Resource.Error(response.resultCode.toString()))
             }
         }
     }

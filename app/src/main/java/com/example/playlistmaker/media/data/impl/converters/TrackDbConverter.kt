@@ -32,7 +32,6 @@ class TrackDbConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-
             )
     }
 }
