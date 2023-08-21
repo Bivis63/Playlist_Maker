@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.data.impl.converters
 
+import java.util.Date
 import com.example.playlistmaker.media.data.db.TrackEntity
 import com.example.playlistmaker.search.domain.models.Track
 
@@ -17,6 +18,7 @@ class TrackDbConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
+            Date().time
         )
     }
 
@@ -32,6 +34,7 @@ class TrackDbConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
+            Date().time
             )
     }
 }

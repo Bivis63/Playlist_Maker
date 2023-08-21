@@ -24,7 +24,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        SelectedTracksViewModel(androidContext(), get())
+        SelectedTracksViewModel(get())
     }
 
     viewModel {

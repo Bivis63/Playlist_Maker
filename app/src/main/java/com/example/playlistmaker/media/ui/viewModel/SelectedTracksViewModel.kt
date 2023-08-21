@@ -11,7 +11,6 @@ import com.example.playlistmaker.media.ui.History.HistoryState
 import kotlinx.coroutines.launch
 
 class SelectedTracksViewModel(
-    private val context: Context,
     private val historyInteractor: HistoryInteractor
 ) : ViewModel() {
 
