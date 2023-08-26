@@ -9,7 +9,7 @@
         android:id="@+id/mediaFragment2"
         android:name="com.example.playlistmaker.media.ui.MediaFragment"
         android:label="fragment_media2"
-        tools:layout="@layout/fragment_media2" />
+        tools:layout="@layout/fragment_media" />
     <fragment
         android:id="@+id/settingsFragment2"
         android:name="com.example.playlistmaker.settings.ui.fragment.SettingsFragment"

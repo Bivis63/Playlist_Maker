@@ -2,6 +2,8 @@ package com.example.playlistmaker.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
+import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.player.data.impl.AudioPlayerImpl
 import com.example.playlistmaker.player.domain.AudioPlayer
 import com.example.playlistmaker.search.data.NetworkClient
@@ -16,28 +18,33 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val dataModule = module {
-    single<ExternalNavigator>{
+    single<ExternalNavigator> {
         ExternalNavigatorImpl(get())
     }
 
-    single{
+    single {
         Gson()
     }
 
-    single<TrackHistory>{
-        TrackHistoryImpl(get(),get())
+    single<TrackHistory> {
+        TrackHistoryImpl(get(), get())
     }
 
-    single<NetworkClient>{
+    single<NetworkClient> {
         RetrofitNetworkClient(get())
     }
 
-    factory<AudioPlayer>{
+    factory<AudioPlayer> {
         AudioPlayerImpl()
     }
 
-    single <SharedPreferences>{
+    single<SharedPreferences> {
         androidContext().getSharedPreferences(THEM_SWITCHER, Context.MODE_PRIVATE)
+    }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
     }
 
 }

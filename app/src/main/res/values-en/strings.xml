@@ -55,5 +55,6 @@
     <string name="play_lists">playlists</string>
     <string name="exeption_on_mail">An error occurred while opening the email.</string>
     <string name="error_has_occurred">error_has_occurred</string>
+    <string name="nothing_searched_yet">nothing searched yet</string>
 
 </resources>

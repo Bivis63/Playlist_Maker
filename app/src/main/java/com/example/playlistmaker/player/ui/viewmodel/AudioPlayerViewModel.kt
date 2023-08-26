@@ -4,20 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.media.domain.db.HistoryInteractor
 import com.example.playlistmaker.player.domain.AudioPlayerIteractor
 import com.example.playlistmaker.player.ui.PlayerState
+import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteractor) : ViewModel() {
+class AudioPlayerViewModel(
+    private val audioPlayerInteractor: AudioPlayerIteractor,
+    private val historyInteractor: HistoryInteractor
+) : ViewModel() {
 
 
     private val _stateLiveData = MutableLiveData<PlayerState>()
     val stateLiveData: LiveData<PlayerState> = _stateLiveData
+
+    private val _favoriteLifeData = MutableLiveData<PlayerState.StateFavorite>()
+    val favoriteLifeData: LiveData<PlayerState.StateFavorite> = _favoriteLifeData
+
     private var timeJob: Job? = null
+    var isFavoriteTrack: Boolean = false
 
     fun preparePlayer(songUrl: String) {
         renderState(PlayerState.Preparing)
@@ -70,6 +80,31 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerIteract
                     )
                 )
                 delay(DELAY)
+            }
+        }
+    }
+
+    fun isFavorite(trackId: Int) {
+        viewModelScope.launch {
+            historyInteractor
+                .isFavoriteTrack(trackId)
+                .collect { isFavorite ->
+                    isFavoriteTrack = isFavorite
+                    _favoriteLifeData.postValue(PlayerState.StateFavorite(isFavorite))
+                }
+        }
+    }
+
+    fun onFavoriteClicked(track: Track) {
+        viewModelScope.launch {
+            if (isFavoriteTrack) {
+                historyInteractor.deleteTrack(track.trackId)
+                _favoriteLifeData.postValue(PlayerState.StateFavorite(false))
+                isFavoriteTrack = false
+            } else {
+                historyInteractor.insertTrack(track)
+                _favoriteLifeData.postValue(PlayerState.StateFavorite(true))
+                isFavoriteTrack = true
             }
         }
     }

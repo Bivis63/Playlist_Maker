@@ -6,20 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.FragmentMedia2Binding
+import com.example.playlistmaker.databinding.FragmentMediaBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 
 class MediaFragment : Fragment() {
 
-    private lateinit var binding: FragmentMedia2Binding
+    private lateinit var binding: FragmentMediaBinding
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMedia2Binding.inflate(inflater, container, false)
+        binding = FragmentMediaBinding.inflate(inflater, container, false)
         return binding.root
     }
 
