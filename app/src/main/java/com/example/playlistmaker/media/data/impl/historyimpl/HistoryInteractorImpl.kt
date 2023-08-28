@@ -1,7 +1,7 @@
-package com.example.playlistmaker.media.data.impl
+package com.example.playlistmaker.media.data.impl.historyimpl
 
-import com.example.playlistmaker.media.domain.db.HistoryInteractor
-import com.example.playlistmaker.media.domain.db.HistoryRepository
+import com.example.playlistmaker.media.domain.db.history.HistoryInteractor
+import com.example.playlistmaker.media.domain.db.history.HistoryRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 

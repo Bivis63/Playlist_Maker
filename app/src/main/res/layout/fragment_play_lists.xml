@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/containerPlayList"
     tools:context=".media.ui.PlayListsFragment">
 
     <Button
-        android:id="@+id/buttonUpdate"
+        android:id="@+id/buttonAddNewOlayList"
         style="@style/buttorRefresh"
         android:layout_gravity="top|center"
         android:text="@string/new_playlist"
@@ -24,7 +25,7 @@
         android:layout_marginTop="@dimen/margin_top_39dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonUpdate" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddNewOlayList" />
 
     <TextView
         android:id="@+id/placeholderMessage"

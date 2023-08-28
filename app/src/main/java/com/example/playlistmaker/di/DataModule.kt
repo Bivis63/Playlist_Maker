@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.playlistmaker.media.data.db.AppDatabase
+import com.example.playlistmaker.media.data.db_for_playlists.AppDatabasePlayLists
 import com.example.playlistmaker.player.data.impl.AudioPlayerImpl
 import com.example.playlistmaker.player.domain.AudioPlayer
 import com.example.playlistmaker.search.data.NetworkClient
@@ -44,6 +45,11 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
+    }
+
+    single {
+        Room.databaseBuilder(androidContext(),AppDatabasePlayLists::class.java,"databasePlayLists")
             .build()
     }
 

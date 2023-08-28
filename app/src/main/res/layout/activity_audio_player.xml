@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
-        app:layout_constraintTop_toBottomOf="@id/backToTrackList" />
+        app:layout_constraintTop_toBottomOf="@id/backToMedia" />
 
     <TextView
         style="@style/playerTextView"

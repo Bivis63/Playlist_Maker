@@ -122,7 +122,7 @@ class TrackSearchFragment : Fragment() {
         viewModel.stateSearchFieldLiveData.observe(viewLifecycleOwner) {
             updateSearchTextField(it)
         }
-        binding.buttonUpdate.setOnClickListener {
+        binding.buttonAddNewOlayList.setOnClickListener {
             viewModel.searchRequest(binding.inputEditText.text.toString())
             hidePlaceHolder()
         }
@@ -161,7 +161,7 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.imageHolderNoInternet.visibility = View.GONE
         binding.imageHolder.visibility = View.GONE
-        binding.buttonUpdate.visibility = View.GONE
+        binding.buttonAddNewOlayList.visibility = View.GONE
 
     }
 
@@ -212,7 +212,7 @@ class TrackSearchFragment : Fragment() {
         binding.imageHolderNoInternet.visibility = View.VISIBLE
         binding.placeholderMessage.text = getString(R.string.Communication_problems)
         binding.placeholderMessageNoInternet.text = getString(R.string.Download_failed)
-        binding.buttonUpdate.visibility = View.VISIBLE
+        binding.buttonAddNewOlayList.visibility = View.VISIBLE
         binding.placeholderMessage.visibility = View.VISIBLE
     }
 

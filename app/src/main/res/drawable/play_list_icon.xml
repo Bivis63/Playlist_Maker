@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:width="340dp"
+        android:height="340dp"
+        android:gravity="center">
+        <shape  >
+    <stroke
+        android:width="2dp"
+        android:color="#AEAFB4"
+        android:dashWidth="50dp"
+        android:dashGap="25dp" />
+
+    <corners android:radius="10dp" />
+        </shape>
+
+    </item>
+
+    <item
+        android:drawable="@drawable/playlist"
+        android:height="79dp"
+        android:width="79dp"
+        android:gravity="center"/>
+</layer-list>

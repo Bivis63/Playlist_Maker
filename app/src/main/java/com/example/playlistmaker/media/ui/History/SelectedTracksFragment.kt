@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.databinding.FragmentMediaBinding
 import com.example.playlistmaker.databinding.FragmentSelectedTracksBinding
 import com.example.playlistmaker.media.ui.viewModel.SelectedTracksViewModel
 import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity

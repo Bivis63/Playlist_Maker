@@ -29,4 +29,18 @@
             android:id="@+id/action_trackSearchFragment2_to_audioPlayerActivity2"
             app:destination="@id/audioPlayerActivity2" />
     </fragment>
+    <fragment
+        android:id="@+id/newPlayListFragment"
+        android:name="com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment"
+        android:label="fragment_new_play_list"
+        tools:layout="@layout/fragment_new_play_list" />
+    <fragment
+        android:id="@+id/playListsFragment"
+        android:name="com.example.playlistmaker.media.ui.PlayListsFragment"
+        android:label="fragment_play_lists"
+        tools:layout="@layout/fragment_play_lists" >
+        <action
+            android:id="@+id/action_playListsFragment_to_newPlayListFragment2"
+            app:destination="@id/newPlayListFragment" />
+    </fragment>
 </navigation>
