@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/padingLayout_16"
-    tools:context=".media.ui.MediaFragment">
+    tools:context=".media.ui.mediaui.MediaFragment">
 
     <TextView
         android:id="@+id/arrowBack"

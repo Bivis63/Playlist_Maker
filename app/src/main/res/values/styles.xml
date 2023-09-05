@@ -216,7 +216,7 @@
     </style>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-        <!-- Переопределите цвет рамки -->
         <item name="colorControlNormal">#3772E7</item>
     </style>
+
 </resources>

@@ -59,4 +59,5 @@
     <dimen name="margin_start_158dp">158dp</dimen>
     <dimen name="margin_botton_115dp">115dp</dimen>
     <dimen name="margin_bottom_60dp">60dp</dimen>
+    <dimen name="radius_playlist_icon">8dp</dimen>
 </resources>

@@ -5,18 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.history.HistoryInteractor
+import com.example.playlistmaker.media.domain.db.playlists.PlayListsInteractor
+import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.player.domain.AudioPlayerIteractor
 import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AudioPlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerIteractor,
-    private val historyInteractor: HistoryInteractor
+    private val historyInteractor: HistoryInteractor,
+    private val playListsInteractor: PlayListsInteractor
 ) : ViewModel() {
 
 
@@ -25,6 +31,9 @@ class AudioPlayerViewModel(
 
     private val _favoriteLifeData = MutableLiveData<PlayerState.StateFavorite>()
     val favoriteLifeData: LiveData<PlayerState.StateFavorite> = _favoriteLifeData
+
+    private val _statePlayListsLiveData = MutableStateFlow<NewPlayListsState>(NewPlayListsState.Empty)
+    val statePlayListsLiveData: StateFlow<NewPlayListsState> = _statePlayListsLiveData
 
     private var timeJob: Job? = null
     var isFavoriteTrack: Boolean = false
@@ -38,6 +47,18 @@ class AudioPlayerViewModel(
                 renderState(PlayerState.Stoped)
                 timeJob?.cancel()
             })
+    }
+
+    fun getAllPlayLists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            playListsInteractor.getAllPlayLists().collect() { playLists ->
+                if (playLists.isNotEmpty()) {
+                    _statePlayListsLiveData.value = NewPlayListsState.NewPlayListsLoaded(playLists)
+                } else {
+                    _statePlayListsLiveData.value = NewPlayListsState.Empty
+                }
+            }
+        }
     }
 
     fun playbackControl() {

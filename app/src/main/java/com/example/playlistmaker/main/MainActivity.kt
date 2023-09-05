@@ -31,4 +31,8 @@ class MainActivity : AppCompatActivity() {
         val navView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         navView.visibility = View.GONE
     }
+    fun openBottomNavigation() {
+        val navView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        navView.visibility = View.VISIBLE
+    }
 }

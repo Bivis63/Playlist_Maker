@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.data.db_for_playlists
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,5 +12,6 @@ data class PlaylistEntity(
     val description: String,
     val imagePath: String,
     val trackIds: String,
-    val trackCount: Int
+    val trackCount: Int,
+    val imageUri: String?
 )

@@ -19,7 +19,11 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import com.example.playlistmaker.R
+import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
+import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.FileOutputStream
 
 
@@ -27,7 +31,8 @@ class NewPlayListFragment : Fragment() {
 
     private lateinit var binding: FragmentNewPlayListBinding
     private var showDialog: Boolean = false
-
+    private val viewModel by viewModel<NewPlayListViewModel>()
+    var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +51,7 @@ class NewPlayListFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     binding.imageView.setImageURI(uri)
+                    selectedImageUri=uri
                     saveImageToPrivateStorage(uri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")
@@ -82,7 +88,7 @@ class NewPlayListFragment : Fragment() {
             override fun handleOnBackPressed() {
                 if (showDialog) {
                     openDialog()
-                }else{
+                } else {
                     fragmentManager?.popBackStack()
                 }
             }
@@ -90,7 +96,12 @@ class NewPlayListFragment : Fragment() {
         onBackPressedDispatcher.addCallback(callback)
 
         binding.createButton.setOnClickListener {
-            Toast.makeText(requireContext(),"Плейлист ${binding.textInputEditText.text} создан",Toast.LENGTH_SHORT).show()
+            addToDB(selectedImageUri)
+            Toast.makeText(
+                requireContext(),
+                "Плейлист ${binding.textInputEditText.text} создан",
+                Toast.LENGTH_SHORT
+            ).show()
             fragmentManager?.popBackStack()
         }
 
@@ -103,6 +114,24 @@ class NewPlayListFragment : Fragment() {
         }
     }
 
+    private fun addToDB(imageUri: Uri?) {
+        val name = binding.textInputEditText.text.toString()
+        val description = binding.textInputEditTextDescription.text.toString()
+        val imagePath = viewModel.generateImageTitle()
+
+        viewModel.insertPlayList(
+            PlayListsModels(
+                id = 0,
+                name = name,
+                description = description,
+                imagePath = imagePath,
+                trackIds = "",
+                trackCount = 0,
+                imageUri = imageUri?.toString()
+            )
+        )
+    }
+
     private fun saveImageToPrivateStorage(uri: Uri) {
         val filePath =
             File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
@@ -112,7 +141,7 @@ class NewPlayListFragment : Fragment() {
         val file = File(filePath, "first_cover.jpg")
         val inputStream = requireActivity().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
-        showDialog=true
+        showDialog = true
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)

@@ -3,18 +3,29 @@ package com.example.playlistmaker.player.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
+import com.example.playlistmaker.main.MainActivity
+import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
+import com.example.playlistmaker.player.ui.AudioPlayerAdapter
 import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.util.ITEM
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +36,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAudioPlayerBinding
     private val viewModel by viewModel<AudioPlayerViewModel>()
+    private lateinit var adapter: AudioPlayerAdapter
 
     private lateinit var songUrl: String
 
@@ -34,7 +46,33 @@ class AudioPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+//        val shapeDrawable = GradientDrawable()
+//        shapeDrawable.cornerRadius = 20f
+
         val item = intent.getSerializableExtra(ITEM) as Track
+
+        adapter = AudioPlayerAdapter()
+
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = adapter
+
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        binding.addButton.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//            binding.buttonAddNewOlayList.background=shapeDrawable
+
+        }
+        viewModel.statePlayListsLiveData
+            .onEach { state -> handleState(state) }
+            .launchIn(lifecycleScope)
+
+        viewModel.getAllPlayLists()
+
 
 
         viewModel.stateLiveData.observe(this) {
@@ -56,6 +94,20 @@ class AudioPlayerActivity : AppCompatActivity() {
             viewModel.onFavoriteClicked(item)
         }
 
+    }
+
+    private fun handleState(state: NewPlayListsState) {
+        when (state) {
+            is NewPlayListsState.Empty -> {
+                binding.recyclerView.visibility = View.GONE
+            }
+            is NewPlayListsState.NewPlayListsLoaded -> {
+                val playLists = state.tracks
+                binding.recyclerView.visibility = View.VISIBLE
+                adapter.playLists = playLists as ArrayList<PlayListsModels>
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun showTrack(item: Track) {
