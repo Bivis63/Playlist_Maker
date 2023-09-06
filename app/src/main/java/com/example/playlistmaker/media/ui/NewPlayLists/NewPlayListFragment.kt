@@ -18,9 +18,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import com.example.playlistmaker.media.ui.PlayListsFragment
 import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -89,7 +91,7 @@ class NewPlayListFragment : Fragment() {
                 if (showDialog) {
                     openDialog()
                 } else {
-                    fragmentManager?.popBackStack()
+                   findNavController().navigateUp()
                 }
             }
         }
@@ -102,14 +104,14 @@ class NewPlayListFragment : Fragment() {
                 "Плейлист ${binding.textInputEditText.text} создан",
                 Toast.LENGTH_SHORT
             ).show()
-            fragmentManager?.popBackStack()
+            findNavController().navigateUp()
         }
 
         binding.backToMedia.setOnClickListener {
             if (showDialog) {
                 openDialog()
             } else {
-                fragmentManager?.popBackStack()
+                findNavController().navigateUp()
             }
         }
     }
@@ -154,8 +156,9 @@ class NewPlayListFragment : Fragment() {
             .setNegativeButton("Отмена") { dialog, which ->
             }
             .setPositiveButton("Завершить") { dialog, which ->
-                fragmentManager?.popBackStack()
+                findNavController().navigateUp()
             }
             .show()
     }
+
 }

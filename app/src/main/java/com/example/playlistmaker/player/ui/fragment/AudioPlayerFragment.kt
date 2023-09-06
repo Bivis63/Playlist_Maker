@@ -1,22 +1,26 @@
-package com.example.playlistmaker.player.ui.activity
-
+package com.example.playlistmaker.player.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.graphics.drawable.GradientDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
+import com.example.playlistmaker.databinding.FragmentAudioPlayerBinding
 import com.example.playlistmaker.main.MainActivity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.player.ui.AudioPlayerAdapter
 import com.example.playlistmaker.player.ui.PlayerState
@@ -29,62 +33,94 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
+class AudioPlayerFragment : Fragment() {
 
-class AudioPlayerActivity : AppCompatActivity() {
+    private var _binding: FragmentAudioPlayerBinding? = null
+    private val binding get() = _binding!!
 
-
-    private lateinit var binding: ActivityAudioPlayerBinding
     private val viewModel by viewModel<AudioPlayerViewModel>()
     private lateinit var adapter: AudioPlayerAdapter
 
     private lateinit var songUrl: String
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAudioPlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-//        val shapeDrawable = GradientDrawable()
-//        shapeDrawable.cornerRadius = 20f
+        (activity as MainActivity).hideBottomNavigation()
 
-        val item = intent.getSerializableExtra(ITEM) as Track
+
+        val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
+        val item = arguments?.getSerializable(ITEM) as Track
 
         adapter = AudioPlayerAdapter()
 
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
-
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.overlay.visibility = View.GONE
+                    }
+                    else -> {
+                        binding.overlay.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+
         binding.addButton.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//            binding.buttonAddNewOlayList.background=shapeDrawable
-
         }
+
         viewModel.statePlayListsLiveData
             .onEach { state -> handleState(state) }
-            .launchIn(lifecycleScope)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.getAllPlayLists()
 
-
-
-        viewModel.stateLiveData.observe(this) {
+        viewModel.stateLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
-        viewModel.favoriteLifeData.observe(this) {
+
+        viewModel.favoriteLifeData.observe(viewLifecycleOwner) {
             render(it)
         }
 
         binding.backToTrackList.setOnClickListener {
-            finish()
+            (activity as MainActivity).openBottomNavigation()
+            fragmentManager?.popBackStack()
+
         }
+
+
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                (activity as MainActivity).openBottomNavigation()
+                fragmentManager?.popBackStack()
+            }
+        }
+        onBackPressedDispatcher.addCallback(callback)
 
         showTrack(item)
 
@@ -94,7 +130,19 @@ class AudioPlayerActivity : AppCompatActivity() {
             viewModel.onFavoriteClicked(item)
         }
 
+        binding.buttonAddNewOlayList.setOnClickListener {
+//            val fragment = NewPlayListFragment()
+//            val fragmentManager = requireActivity().supportFragmentManager
+//            val fragmentTransaction = fragmentManager.beginTransaction()
+//            fragmentTransaction.replace(R.id.container_view, fragment)
+//            fragmentTransaction.addToBackStack(null)
+//            fragmentTransaction.commit()
+//            fragmentManager.executePendingTransactions()
+            findNavController().navigate(R.id.action_audioPlayerFragment_to_newPlayListFragment)
+        }
     }
+
+
 
     private fun handleState(state: NewPlayListsState) {
         when (state) {
@@ -140,7 +188,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.playButton.setOnClickListener {
             viewModel.playbackControl()
         }
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -169,13 +216,12 @@ class AudioPlayerActivity : AppCompatActivity() {
             is PlayerState.StateFavorite -> {
                 if (state.isFavorite) {
                     colorStateList =
-                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.red))
+                        ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.red))
                     binding.likeButton.setImageTintList(colorStateList)
                     binding.likeButton.setImageResource(R.drawable.like)
-
                 } else {
                     colorStateList =
-                        ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+                        ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
                     binding.likeButton.setImageTintList(colorStateList)
                     binding.likeButton.setImageResource(R.drawable.heart)
                 }
@@ -186,5 +232,10 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         viewModel.pause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

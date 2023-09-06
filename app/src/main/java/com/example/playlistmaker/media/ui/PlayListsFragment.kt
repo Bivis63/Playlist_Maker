@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment
 import com.example.playlistmaker.R
@@ -24,6 +26,7 @@ class PlayListsFragment : Fragment() {
     private lateinit var binding: FragmentPlayListsBinding
     private val viewModel by viewModel<PlayListsViewModel>()
     private lateinit var adapter: PlayListsAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,15 +52,11 @@ class PlayListsFragment : Fragment() {
         viewModel.getAllPlayLists()
 
 
+
         binding.buttonAddNewOlayList.setOnClickListener {
-            val newPlayList = NewPlayListFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            (activity as MainActivity).hideBottomNavigation()
-            fragmentTransaction.replace(R.id.container_view, newPlayList)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-            fragmentManager.executePendingTransactions()
+
+            findNavController().navigate(R.id.action_mediaFragment_to_newPlayListFragment)
+
         }
     }
 

@@ -1,15 +1,16 @@
 package com.example.playlistmaker.media.ui.History
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSelectedTracksBinding
 import com.example.playlistmaker.media.ui.viewModel.SelectedTracksViewModel
-import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
+import com.example.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.TrackAdapter
 
@@ -49,9 +50,15 @@ class SelectedTracksFragment : Fragment() {
     }
 
     fun onClick(track: Track) {
-        startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
-            putExtra(ITEM, track)
-        })
+        val bundle = bundleOf(ITEM to track)
+        val fragment = AudioPlayerFragment()
+        val fragmentManager = requireActivity().supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragment.arguments = bundle
+        fragmentTransaction.replace(R.id.container_view, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+        fragmentManager.executePendingTransactions()
     }
 
     private fun render(state: HistoryState) {
