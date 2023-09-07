@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSelectedTracksBinding
@@ -51,14 +52,7 @@ class SelectedTracksFragment : Fragment() {
 
     fun onClick(track: Track) {
         val bundle = bundleOf(ITEM to track)
-        val fragment = AudioPlayerFragment()
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragment.arguments = bundle
-        fragmentTransaction.replace(R.id.container_view, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-        fragmentManager.executePendingTransactions()
+        findNavController().navigate(R.id.action_mediaFragment_to_audioPlayerFragment, bundle)
     }
 
     private fun render(state: HistoryState) {

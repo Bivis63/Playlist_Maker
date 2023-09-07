@@ -108,7 +108,7 @@ class AudioPlayerFragment : Fragment() {
 
         binding.backToTrackList.setOnClickListener {
             (activity as MainActivity).openBottomNavigation()
-            fragmentManager?.popBackStack()
+           findNavController().navigateUp()
 
         }
 
@@ -117,7 +117,7 @@ class AudioPlayerFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 (activity as MainActivity).openBottomNavigation()
-                fragmentManager?.popBackStack()
+                findNavController().navigateUp()
             }
         }
         onBackPressedDispatcher.addCallback(callback)

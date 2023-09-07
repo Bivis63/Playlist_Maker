@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentTrackSearchBinding
@@ -256,14 +257,7 @@ class TrackSearchFragment : Fragment() {
     fun openTrack(track: Track) {
         if (clickDebounce()) {
             val bundle = bundleOf(ITEM to track)
-            val fragment = AudioPlayerFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragment.arguments = bundle
-            fragmentTransaction.replace(R.id.container_view, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-            fragmentManager.executePendingTransactions()
+            findNavController().navigate(R.id.action_trackSearchFragment_to_audioPlayerFragment, bundle)
 
             viewModel.openTrack(track)
             historyAdapter.notifyDataSetChanged()
