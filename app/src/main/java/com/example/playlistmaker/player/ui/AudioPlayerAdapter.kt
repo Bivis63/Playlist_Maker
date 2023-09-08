@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 
-class AudioPlayerAdapter():RecyclerView.Adapter<AudioPlayerViewHolder>() {
+class AudioPlayerAdapter(private val clickListener: AudioPlayerViewHolder.ClickListener):RecyclerView.Adapter<AudioPlayerViewHolder>() {
 
     var playLists = ArrayList<PlayListsModels>()
 
@@ -20,6 +20,6 @@ class AudioPlayerAdapter():RecyclerView.Adapter<AudioPlayerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: AudioPlayerViewHolder, position: Int) {
-        holder.bind(playLists[position])
+        holder.bind(playLists[position],clickListener)
     }
 }

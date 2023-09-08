@@ -12,7 +12,7 @@ class AudioPlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     val binding = ItemBottomSheetPlaylistsBinding.bind(view)
 
-    fun bind(entity: PlayListsModels) {
+    fun bind(entity: PlayListsModels,clickListener: ClickListener) {
 
         binding.titlePlayList.text = entity.name
         binding.trackCount.text = entity.description
@@ -22,5 +22,11 @@ class AudioPlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .load(imageUri)
             .placeholder(R.drawable.newplaceholder)
             .into(binding.playlistCover)
+        itemView.setOnClickListener {
+            clickListener.onClick(entity)
+        }
+    }
+    fun interface ClickListener {
+        fun onClick(playlistModel: PlayListsModels)
     }
 }

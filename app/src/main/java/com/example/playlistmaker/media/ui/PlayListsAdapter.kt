@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+
 
 class PlayListsAdapter():RecyclerView.Adapter<PlayListsViewHolder>() {
     var playLists = ArrayList<PlayListsModels>()
@@ -21,4 +21,6 @@ class PlayListsAdapter():RecyclerView.Adapter<PlayListsViewHolder>() {
     override fun onBindViewHolder(holder: PlayListsViewHolder, position: Int) {
        holder.bind(playLists[position])
     }
+
+
 }

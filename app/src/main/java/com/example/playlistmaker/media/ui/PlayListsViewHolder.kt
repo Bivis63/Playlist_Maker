@@ -11,6 +11,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ItemPlaylistBinding
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import com.example.playlistmaker.search.domain.models.Track
 import java.io.File
 
 

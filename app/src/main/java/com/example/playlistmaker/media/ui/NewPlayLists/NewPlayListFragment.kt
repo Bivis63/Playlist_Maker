@@ -20,9 +20,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
-import com.example.playlistmaker.media.ui.PlayListsFragment
 import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,7 +51,7 @@ class NewPlayListFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     binding.imageView.setImageURI(uri)
-                    selectedImageUri=uri
+                    selectedImageUri = uri
                     saveImageToPrivateStorage(uri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")
@@ -91,7 +89,7 @@ class NewPlayListFragment : Fragment() {
                 if (showDialog) {
                     openDialog()
                 } else {
-                   findNavController().navigateUp()
+                    findNavController().navigateUp()
                 }
             }
         }

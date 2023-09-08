@@ -23,6 +23,7 @@ import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.player.ui.AudioPlayerAdapter
+import com.example.playlistmaker.player.ui.AudioPlayerViewHolder
 import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import com.example.playlistmaker.search.domain.models.Track
@@ -35,7 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AudioPlayerFragment : Fragment() {
+class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
     private var _binding: FragmentAudioPlayerBinding? = null
     private val binding get() = _binding!!
@@ -63,7 +64,7 @@ class AudioPlayerFragment : Fragment() {
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
         val item = arguments?.getSerializable(ITEM) as Track
 
-        adapter = AudioPlayerAdapter()
+        adapter = AudioPlayerAdapter(this)
 
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -112,8 +113,6 @@ class AudioPlayerFragment : Fragment() {
 
         }
 
-
-
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 (activity as MainActivity).openBottomNavigation()
@@ -131,18 +130,9 @@ class AudioPlayerFragment : Fragment() {
         }
 
         binding.buttonAddNewOlayList.setOnClickListener {
-//            val fragment = NewPlayListFragment()
-//            val fragmentManager = requireActivity().supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.container_view, fragment)
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
-//            fragmentManager.executePendingTransactions()
             findNavController().navigate(R.id.action_audioPlayerFragment_to_newPlayListFragment)
         }
     }
-
-
 
     private fun handleState(state: NewPlayListsState) {
         when (state) {
@@ -237,5 +227,9 @@ class AudioPlayerFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClick(playlistModel: PlayListsModels) {
+        Toast.makeText(requireContext().applicationContext,"Нажал",Toast.LENGTH_SHORT).show()
     }
 }
