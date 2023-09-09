@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.history.HistoryInteractor
+import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.domain.db.playlists.PlayListsInteractor
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.player.domain.AudioPlayerIteractor
@@ -37,6 +38,8 @@ class AudioPlayerViewModel(
 
     private var timeJob: Job? = null
     var isFavoriteTrack: Boolean = false
+    private var isClickAllowed = true
+
 
     fun preparePlayer(songUrl: String) {
         renderState(PlayerState.Preparing)
@@ -47,6 +50,33 @@ class AudioPlayerViewModel(
                 renderState(PlayerState.Stoped)
                 timeJob?.cancel()
             })
+    }
+
+    fun isInPlaylist(playlist: PlayListsModels, trackId: Long): Boolean{
+        var result = false
+        for(track in playlist.tracks) {
+            if(track == trackId) result = true
+        }
+        return result
+    }
+
+    fun addToPlaylist(playlist: PlayListsModels, track: Track) {
+
+        viewModelScope.launch {
+            playListsInteractor.insertPlaylistTrack(playlist, track)
+        }
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewModelScope.launch {
+                delay(SEARCH_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+        }
+        return current
     }
 
     fun getAllPlayLists() {
@@ -136,6 +166,7 @@ class AudioPlayerViewModel(
 
     companion object {
         private const val DELAY = 300L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
 
     }
 }

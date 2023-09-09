@@ -2,17 +2,18 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <shape>
-            <size
-                android:width="312dp"
-                android:height="312dp"
-                android:gravity="center"/>
-            <solid android:color="#FFFFFF" />
+    <shape>
+        <size
+        android:width="312dp"
+        android:height="312dp"
+        android:gravity="center"/>
+
+            <solid android:color="#1A1B22" />
             <stroke
                 android:width="1dp"
                 android:color="#AEAFB4"
                 android:dashWidth="35dp"
-                android:dashGap="30dp" />
+                android:dashGap="35dp" />
 
             <corners android:radius="8dp" />
         </shape>
@@ -20,8 +21,8 @@
     </item>
 
     <item
-        android:width="79dp"
-        android:height="79dp"
         android:drawable="@drawable/playlist"
+        android:height="79dp"
+        android:width="79dp"
         android:gravity="center" />
 </layer-list>

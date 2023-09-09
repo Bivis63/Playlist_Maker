@@ -233,52 +233,40 @@
 
     <LinearLayout
         android:id="@+id/standard_bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_bottom_sheet"
-        android:orientation="vertical"
-        app:behavior_hideable="true"
+        style="@style/bottomSheetStyle"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <View
-            android:layout_width="50dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_1457" />
+            style="@style/rectanglView"
+            android:layout_gravity="center" />
 
 
         <TextView
+            style="@style/playerTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="Добавить в плейлист"
-            android:textColor="@color/black"
-            android:textSize="19dp"
+            android:text="@string/add_to_playlist"
+            android:textSize="@dimen/text_size_19sp"
             android:textStyle="bold" />
 
         <Button
+            style="@style/buttorRefresh"
             android:id="@+id/buttonAddNewOlayList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="top|center"
             android:layout_marginTop="@dimen/margin_top_20dp"
-            android:backgroundTint="@color/black"
             android:fontFamily="@font/ys_display_medium"
-            android:padding="10dp"
+            android:padding="@dimen/pading_10dp"
             android:text="@string/new_playlist"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:visibility="visible"
-            app:cornerRadius="20dp" />
+            android:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="@dimen/margin_top_24dp" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

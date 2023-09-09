@@ -13,6 +13,7 @@ class PlayListsConverter {
             playListsModels.imagePath,
             playListsModels.trackIds,
             playListsModels.trackCount,
+            playListsModels.tracks,
             playListsModels.imageUri
         )
     }
@@ -25,6 +26,7 @@ class PlayListsConverter {
             playLists.imagePath,
             playLists.trackIds,
             playLists.trackCount,
+            playLists.tracks,
             playLists.imageUri
         )
     }

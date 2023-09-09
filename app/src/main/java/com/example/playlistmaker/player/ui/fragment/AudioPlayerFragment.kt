@@ -20,7 +20,6 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentAudioPlayerBinding
 import com.example.playlistmaker.main.MainActivity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
-import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.player.ui.AudioPlayerAdapter
 import com.example.playlistmaker.player.ui.AudioPlayerViewHolder
@@ -43,7 +42,7 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
     private val viewModel by viewModel<AudioPlayerViewModel>()
     private lateinit var adapter: AudioPlayerAdapter
-
+    lateinit var track: Track
     private lateinit var songUrl: String
 
     override fun onCreateView(
@@ -63,6 +62,8 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
         val item = arguments?.getSerializable(ITEM) as Track
+
+        track =item
 
         adapter = AudioPlayerAdapter(this)
 
@@ -230,6 +231,16 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
     }
 
     override fun onClick(playlistModel: PlayListsModels) {
-        Toast.makeText(requireContext().applicationContext,"Нажал",Toast.LENGTH_SHORT).show()
+        if (viewModel.clickDebounce()) {
+            if (!viewModel.isInPlaylist(playlist = playlistModel, trackId = track.trackId.toLong())) {
+                viewModel.addToPlaylist(playlist = playlistModel, track = track)
+                Toast.makeText(requireContext().applicationContext, "Трек добавлен в ${playlistModel.name}", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext().applicationContext, "Трек уже есть в ${playlistModel.name}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        adapter.notifyDataSetChanged()
     }
 }

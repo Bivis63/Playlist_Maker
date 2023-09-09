@@ -9,48 +9,46 @@
 
 
     <com.google.android.material.appbar.MaterialToolbar
+        style="@style/toolbarStyle"
         android:id="@+id/backToMedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/arrow"
-        app:navigationIconTint="@color/black"
         app:title="@string/new_playlist" />
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="26dp"
-        app:cardCornerRadius="8dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="@dimen/margin_top_26dp"
+        app:cardCornerRadius="@dimen/radius_8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backToMedia">
 
         <ImageView
+            style="@style/playListIconStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/imageView"
-            android:layout_width="312dp"
-            android:layout_height="312dp"
-            android:background="@drawable/play_list_icon"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newPlayList" />
+            android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/InputName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Название*"
-        app:boxStrokeColor="#3772E7"
-        app:hintTextColor="#3772E7"
+        android:layout_marginStart="@dimen/margin_start_16dp"
+        android:layout_marginTop="@dimen/margin_top_32dp"
+        android:layout_marginEnd="@dimen/margin_end_16dp"
+        android:hint="@string/hint_name"
+        app:hintTextColor="@color/textfield_board"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardImageView">
@@ -58,20 +56,19 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="56dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/InputDescription"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/margin_end_16dp"
+        android:layout_marginStart="@dimen/margin_start_16dp"
         android:layout_marginTop="@dimen/marginTop_16dp"
-        android:hint="Описание"
-        app:boxStrokeColor="#3772E7"
-        app:hintTextColor="#3772E7"
+        android:hint="@string/hint_discription"
+        app:hintTextColor="@color/textfield_board"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +77,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/height_56dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,17 +85,20 @@
         android:id="@+id/createButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="17dp"
+        android:layout_marginBottom="@dimen/margin_bottom_32dp"
+        android:layout_marginStart="@dimen/margin_start_17dp"
+        android:layout_marginEnd="@dimen/margin_end_17dp"
         android:backgroundTint="@color/grey"
         android:enabled="false"
-        android:padding="10dp"
-        android:text="Cоздать"
+        android:padding="@dimen/padding_10dp"
+        android:text="@string/create"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
+        android:textSize="@dimen/text_size_16sp"
+        app:cornerRadius="@dimen/radius_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

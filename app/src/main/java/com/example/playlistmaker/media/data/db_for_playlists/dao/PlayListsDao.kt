@@ -2,6 +2,7 @@ package com.example.playlistmaker.media.data.db_for_playlists.dao
 
 import androidx.room.*
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
+import com.example.playlistmaker.media.data.db_for_playlists.PlaylistTrackEntity
 import kotlinx.coroutines.flow.Flow
 
 
@@ -16,4 +17,8 @@ interface PlayListsDao {
 
     @Update
     suspend fun  updatePlayList(playList: PlaylistEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPlaylistTrack(track: PlaylistTrackEntity)
+
 }

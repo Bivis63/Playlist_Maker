@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="myStyleButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_button</item>
@@ -15,6 +16,7 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
 
     </style>
+
     <style name="myTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
@@ -24,12 +26,14 @@
         <item name="android:textSize">@dimen/textSize</item>
         <item name="android:drawableTint">@color/white</item>
     </style>
+
     <style name="myImageStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end</item>
         <item name="android:layout_marginTop">@dimen/Top</item>
     </style>
+
     <style name="SettingTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -39,6 +43,7 @@
         <item name="android:textSize">@dimen/text_size</item>
 
     </style>
+
     <style name="EditTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -53,6 +58,7 @@
         <item name="android:paddingLeft">@dimen/paddingLeft_13dp</item>
 
     </style>
+
     <style name="ImageClear">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -61,6 +67,7 @@
         <item name="android:visibility">gone</item>
         <item name="android:src">@drawable/vectorx</item>
     </style>
+
     <style name="mySettingTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layoy_height_61</item>
@@ -70,6 +77,7 @@
         <item name="android:textSize">@dimen/textSize</item>
         <item name="drawableTint">@color/grey</item>
     </style>
+
     <style name="trackNameStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">0dp</item>
@@ -80,6 +88,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
+
     <style name="artistTrackStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -90,6 +99,7 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
+
     <style name="timeTrackStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -98,12 +108,14 @@
         <item name="android:paddingLeft">@dimen/pading_left_5dp</item>
         <item name="android:paddingRight">@dimen/text_size_11sp</item>
     </style>
+
     <style name="imageFrontArrowStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="tint">@color/grey</item>
     </style>
+
     <style name="ImageError">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -112,6 +124,7 @@
         <item name="android:src">@drawable/light_mode</item>
         <item name="android:visibility">invisible</item>
     </style>
+
     <style name="ImageErrorNoInternet">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -120,6 +133,7 @@
         <item name="android:src">@drawable/light_mode_no_internet</item>
         <item name="android:visibility">invisible</item>
     </style>
+
     <style name="textError">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -130,6 +144,7 @@
         <item name="android:textAlignment">center</item>
         <item name="android:layout_marginTop">@dimen/margin_top_40dp</item>
     </style>
+
     <style name="buttorRefresh">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -144,6 +159,7 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="cornerRadius">@dimen/radius_20</item>
     </style>
+
     <style name="textSeatcherd">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -152,6 +168,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
+
     <style name="buttonClearHistory">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -164,6 +181,7 @@
         <item name="android:textStyle">bold</item>
 
     </style>
+
     <style name="titlesTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -172,6 +190,7 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:layout_marginTop">@dimen/margin_top_17dp</item>
     </style>
+
     <style name="titlesAttributeTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -180,6 +199,7 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:layout_marginTop">@dimen/margin_top_17dp</item>
     </style>
+
     <style name="floatingButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -189,6 +209,7 @@
         <item name="tint">@color/white</item>
         <item name="android:foregroundGravity">center</item>
     </style>
+
     <style name="play_button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -198,18 +219,22 @@
         <item name="android:layout_marginTop">@dimen/margin_top_38dp</item>
         <item name="maxImageSize">@dimen/max_image_size_60dp</item>
     </style>
+
     <style name="playerTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="arrowBackStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/arrow</item>
         <item name="android:layout_marginTop">@dimen/margin_top_20dp</item>
     </style>
+
     <style name="TabLayout">
+
         <item name="tabTextColor">@color/black</item>
         <item name="tabIndicatorColor">@color/black</item>
         <item name="textAllCaps">false</item>
@@ -219,4 +244,49 @@
         <item name="colorControlNormal">#3772E7</item>
     </style>
 
+    <style name="bottomSheetStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+        <item name="android:orientation">vertical</item>
+        <item name="behavior_hideable">true</item>
+    </style>
+
+    <style name="rectanglView">
+        <item name="android:layout_width">@dimen/layout_width_50dp</item>
+        <item name="android:layout_height">@dimen/layout_height</item>
+        <item name="android:background">@drawable/rectangle_1457</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_12dp</item>
+    </style>
+
+    <style name="countTrackTextView">
+        <item name="android:layout_width">@dimen/layout_width160dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#AEAFB4</item>
+    </style>
+
+    <style name="toolbarStyle">
+        <item name="navigationIcon">@drawable/arrow</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+    <style name="playListIconStyle">
+        <item name="android:background">@drawable/play_list_icon</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="fragmentConteiner">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="iconPlayListStyle">
+        <item name="android:layout_width">@dimen/width_160dp</item>
+        <item name="android:layout_height">@dimen/height_160dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

@@ -9,5 +9,6 @@ data class PlayListsModels(
     val imagePath: String,
     val trackIds: String,
     val trackCount: Int,
+    var tracks: ArrayList<Long>,
     val imageUri: String?
 )

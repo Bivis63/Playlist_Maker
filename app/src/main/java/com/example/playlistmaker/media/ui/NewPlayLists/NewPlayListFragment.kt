@@ -20,6 +20,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
+import com.example.playlistmaker.main.MainActivity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -44,6 +45,8 @@ class NewPlayListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as MainActivity).hideBottomNavigation()
 
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
 
@@ -81,7 +84,6 @@ class NewPlayListFragment : Fragment() {
 
         binding.imageView.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            Toast.makeText(context!!.applicationContext, "yes", Toast.LENGTH_SHORT).show()
         }
 
         val callback = object : OnBackPressedCallback(true) {
@@ -127,6 +129,7 @@ class NewPlayListFragment : Fragment() {
                 imagePath = imagePath,
                 trackIds = "",
                 trackCount = 0,
+                tracks= arrayListOf(),
                 imageUri = imageUri?.toString()
             )
         )
@@ -157,6 +160,11 @@ class NewPlayListFragment : Fragment() {
                 findNavController().navigateUp()
             }
             .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).openBottomNavigation()
     }
 
 }
