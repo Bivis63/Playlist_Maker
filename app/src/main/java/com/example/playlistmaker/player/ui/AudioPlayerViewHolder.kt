@@ -1,18 +1,19 @@
 package com.example.playlistmaker.player.ui
 
 import android.net.Uri
+import android.os.Environment
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ItemBottomSheetPlaylistsBinding
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
+import java.io.File
 
 class AudioPlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     val binding = ItemBottomSheetPlaylistsBinding.bind(view)
-
-    fun bind(entity: PlayListsModels,clickListener: ClickListener) {
+    fun bind(entity: PlayListsModels, clickListener: ClickListener) {
 
         binding.titlePlayList.text = entity.name
         binding.trackCount.text = setTracksCount(entity.trackCount)
@@ -26,6 +27,7 @@ class AudioPlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             clickListener.onClick(entity)
         }
     }
+
     private fun setTracksCount(count: Int): String {
         val tracksWord: String = when {
             count % 100 in 11..19 -> "треков"
@@ -35,6 +37,7 @@ class AudioPlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
         return "$count $tracksWord"
     }
+
     fun interface ClickListener {
         fun onClick(playlistModel: PlayListsModels)
     }

@@ -56,7 +56,6 @@
                 app:layout_constraintGuide_begin="@dimen/constraintGuide_begin_16dp"
                 app:layout_constraintTop_toTopOf="@id/durationName" />
 
-
             <ImageView
                 android:id="@+id/backToTrackList"
                 style="@style/arrowBackStyle"
@@ -218,8 +217,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/rightBorderForText"
                 app:layout_constraintTop_toBottomOf="@id/genreName" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -240,7 +237,6 @@
             style="@style/rectanglView"
             android:layout_gravity="center" />
 
-
         <TextView
             style="@style/playerTextView"
             android:layout_width="match_parent"
@@ -251,8 +247,8 @@
             android:textStyle="bold" />
 
         <Button
-            style="@style/buttorRefresh"
             android:id="@+id/buttonAddNewOlayList"
+            style="@style/buttorRefresh"
             android:layout_gravity="top|center"
             android:layout_marginTop="@dimen/margin_top_20dp"
             android:fontFamily="@font/ys_display_medium"

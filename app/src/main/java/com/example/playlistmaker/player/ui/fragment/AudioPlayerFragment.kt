@@ -35,14 +35,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
+class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
 
     private var _binding: FragmentAudioPlayerBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel by viewModel<AudioPlayerViewModel>()
     private lateinit var adapter: AudioPlayerAdapter
-    lateinit var track: Track
+    private lateinit var track: Track
     private lateinit var songUrl: String
 
     override fun onCreateView(
@@ -59,11 +58,10 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
         (activity as MainActivity).hideBottomNavigation()
 
-
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
         val item = arguments?.getSerializable(ITEM) as Track
 
-        track =item
+        track = item
 
         adapter = AudioPlayerAdapter(this)
 
@@ -75,13 +73,15 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.overlay.visibility = View.GONE
                     }
                     else -> {
+                        adapter.notifyDataSetChanged()
                         binding.overlay.visibility = View.VISIBLE
                     }
                 }
@@ -92,6 +92,7 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
         binding.addButton.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            adapter.notifyDataSetChanged()
         }
 
         viewModel.statePlayListsLiveData
@@ -110,7 +111,7 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
         binding.backToTrackList.setOnClickListener {
             (activity as MainActivity).openBottomNavigation()
-           findNavController().navigateUp()
+            findNavController().navigateUp()
 
         }
 
@@ -207,12 +208,22 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
             is PlayerState.StateFavorite -> {
                 if (state.isFavorite) {
                     colorStateList =
-                        ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.red))
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
                     binding.likeButton.setImageTintList(colorStateList)
                     binding.likeButton.setImageResource(R.drawable.like)
                 } else {
                     colorStateList =
-                        ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     binding.likeButton.setImageTintList(colorStateList)
                     binding.likeButton.setImageResource(R.drawable.heart)
                 }
@@ -232,14 +243,30 @@ class AudioPlayerFragment : Fragment(),AudioPlayerViewHolder.ClickListener {
 
     override fun onClick(playlistModel: PlayListsModels) {
         if (viewModel.clickDebounce()) {
-            if (!viewModel.isInPlaylist(playlist = playlistModel, trackId = track.trackId.toLong())) {
+            if (!viewModel.isInPlaylist(
+                    playlist = playlistModel,
+                    trackId = track.trackId.toLong()
+                )
+            ) {
                 viewModel.addToPlaylist(playlist = playlistModel, track = track)
-                Toast.makeText(requireContext().applicationContext, "Трек добавлен в ${playlistModel.name}", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext().applicationContext,
+                    "${getString(R.string.track_added_to)} ${playlistModel.name}",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
+                playlistModel.trackCount = playlistModel.tracks.size
             } else {
-                Toast.makeText(requireContext().applicationContext, "Трек уже есть в ${playlistModel.name}", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext().applicationContext,
+                    "${getString(R.string.the_track_is_already_in)} ${playlistModel.name}",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
+        }
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
         }
         adapter.notifyDataSetChanged()
     }

@@ -63,6 +63,7 @@ class AudioPlayerViewModel(
     fun addToPlaylist(playlist: PlayListsModels, track: Track) {
 
         viewModelScope.launch {
+            playlist.trackCount = playlist.tracks.size+1
             playListsInteractor.insertPlaylistTrack(playlist, track)
         }
     }

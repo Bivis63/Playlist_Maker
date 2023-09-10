@@ -1,5 +1,10 @@
 package com.example.playlistmaker.media.data.impl.playlistsimpl
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
 import com.example.playlistmaker.media.data.db_for_playlists.AppDatabasePlayLists
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistTrackEntity
@@ -10,6 +15,8 @@ import com.example.playlistmaker.media.domain.db.playlists.PlayListsRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.File
+import java.io.FileOutputStream
 
 class PlayListsRepositoryImpl(
     private val appDatabasePlayLists: AppDatabasePlayLists,
@@ -33,6 +40,20 @@ class PlayListsRepositoryImpl(
         playList.tracks.add(track.trackId.toLong())
         insertPlayList(playList)
         appDatabasePlayLists.getPlayListsDao().insertPlaylistTrack(playlistTrackConverter.map(track))
+    }
+
+    override fun saveImageToPrivateStorage(uri: Uri,context:Context) {
+            val filePath =
+                File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
+            if (!filePath.exists()) {
+                filePath.mkdirs()
+            }
+            val file = File(filePath, "first_cover.jpg")
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            BitmapFactory
+                .decodeStream(inputStream)
+                .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
     }
 
     private fun converterFromPlayListEntity(playList: List<PlaylistEntity>): List<PlayListsModels> {

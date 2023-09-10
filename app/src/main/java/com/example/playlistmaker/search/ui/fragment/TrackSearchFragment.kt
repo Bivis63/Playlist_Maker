@@ -175,7 +175,6 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.recyclerTrackHistory.visibility = View.VISIBLE
         binding.searchHistory.visibility = View.GONE
-
         historyAdapter.tracksList.clear()
         historyAdapter.notifyDataSetChanged()
         adapter.tracksList.clear()
@@ -189,7 +188,6 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.recyclerTrackHistory.visibility = View.VISIBLE
         binding.searchHistory.visibility = View.VISIBLE
-
         adapter.tracksList.clear()
         adapter.notifyDataSetChanged()
         historyAdapter.tracksList.clear()
@@ -204,6 +202,7 @@ class TrackSearchFragment : Fragment() {
         binding.recyclerTrackHistory.visibility = View.GONE
         binding.searchHistory.visibility = View.GONE
         binding.placeholderMessage.visibility = View.GONE
+        binding.imageHolder.visibility = View.GONE
         binding.placeholderMessageNoInternet.visibility = View.GONE
 
     }
@@ -257,7 +256,10 @@ class TrackSearchFragment : Fragment() {
     fun openTrack(track: Track) {
         if (clickDebounce()) {
             val bundle = bundleOf(ITEM to track)
-            findNavController().navigate(R.id.action_trackSearchFragment_to_audioPlayerFragment, bundle)
+            findNavController().navigate(
+                R.id.action_trackSearchFragment_to_audioPlayerFragment,
+                bundle
+            )
 
             viewModel.openTrack(track)
             historyAdapter.notifyDataSetChanged()

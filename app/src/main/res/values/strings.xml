@@ -43,6 +43,15 @@
     <string name="hint_discription">Описание</string>
     <string name="create">Cоздать</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="finish_creating_a_playlist">Завершить создание плейлиста?</string>
+    <string name="all_unsaved_data_will_be_lost">Все несохраненные данные будут потеряны</string>
+    <string name="cancel">Отмена</string>
+    <string name="finish">Завершить</string>
+    <string name="playlist">Плейлист</string>
+    <string name="created">Создан</string>
+    <string name="track_added_to">Трек добавлен в</string>
+    <string name="the_track_is_already_in">Трек уже есть в</string>
+
 
 
 </resources>

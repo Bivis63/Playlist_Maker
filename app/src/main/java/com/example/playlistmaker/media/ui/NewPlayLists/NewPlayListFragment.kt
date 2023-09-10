@@ -1,7 +1,6 @@
 package com.example.playlistmaker.media.ui.NewPlayLists
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,8 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.example.playlistmaker.databinding.FragmentNewPlayListBinding
-import java.io.File
-import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -25,7 +22,6 @@ import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.FileOutputStream
 
 
 class NewPlayListFragment : Fragment() {
@@ -33,7 +29,7 @@ class NewPlayListFragment : Fragment() {
     private lateinit var binding: FragmentNewPlayListBinding
     private var showDialog: Boolean = false
     private val viewModel by viewModel<NewPlayListViewModel>()
-    var selectedImageUri: Uri? = null
+    private var selectedImageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,13 +51,12 @@ class NewPlayListFragment : Fragment() {
                 if (uri != null) {
                     binding.imageView.setImageURI(uri)
                     selectedImageUri = uri
-                    saveImageToPrivateStorage(uri)
+                    viewModel.saveImageToPrivateStorage(uri, requireContext().applicationContext)
+                    showDialog = true
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
             }
-
-
 
         binding.textInputEditText.doOnTextChanged { text, start, before, count ->
             if (text!!.isNotEmpty()) {
@@ -98,10 +93,10 @@ class NewPlayListFragment : Fragment() {
         onBackPressedDispatcher.addCallback(callback)
 
         binding.createButton.setOnClickListener {
-            addToDB(selectedImageUri)
+            addPlaylist(selectedImageUri)
             Toast.makeText(
                 requireContext(),
-                "Плейлист ${binding.textInputEditText.text} создан",
+                "${getString(R.string.playlist)} ${binding.textInputEditText.text} ${getString(R.string.created)}",
                 Toast.LENGTH_SHORT
             ).show()
             findNavController().navigateUp()
@@ -116,7 +111,7 @@ class NewPlayListFragment : Fragment() {
         }
     }
 
-    private fun addToDB(imageUri: Uri?) {
+    private fun addPlaylist(imageUri: Uri?) {
         val name = binding.textInputEditText.text.toString()
         val description = binding.textInputEditTextDescription.text.toString()
         val imagePath = viewModel.generateImageTitle()
@@ -129,34 +124,19 @@ class NewPlayListFragment : Fragment() {
                 imagePath = imagePath,
                 trackIds = "",
                 trackCount = 0,
-                tracks= arrayListOf(),
+                tracks = arrayListOf(),
                 imageUri = imageUri?.toString()
             )
         )
     }
 
-    private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath =
-            File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-        if (!filePath.exists()) {
-            filePath.mkdirs()
-        }
-        val file = File(filePath, "first_cover.jpg")
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        showDialog = true
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-    }
-
     private fun openDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Завершить создание плейлиста?")
-            .setMessage("Все несохраненные данные будут потеряны")
-            .setNegativeButton("Отмена") { dialog, which ->
+            .setTitle(getString(R.string.finish_creating_a_playlist))
+            .setMessage(getString(R.string.all_unsaved_data_will_be_lost))
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
             }
-            .setPositiveButton("Завершить") { dialog, which ->
+            .setPositiveButton(getString(R.string.finish)) { dialog, which ->
                 findNavController().navigateUp()
             }
             .show()
@@ -166,5 +146,4 @@ class NewPlayListFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).openBottomNavigation()
     }
-
 }
