@@ -3,6 +3,7 @@ package com.example.playlistmaker.media.ui.NewPlayLists
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.main.MainActivity
@@ -22,6 +24,7 @@ import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.ui.viewModel.NewPlayListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 
 class NewPlayListFragment : Fragment() {
@@ -46,12 +49,12 @@ class NewPlayListFragment : Fragment() {
 
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
 
+
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
+                    selectedImageUri= viewModel.saveImageToPrivateStorage(uri, requireContext().applicationContext)
                     binding.imageView.setImageURI(uri)
-                    selectedImageUri = uri
-                    viewModel.saveImageToPrivateStorage(uri, requireContext().applicationContext)
                     showDialog = true
                 } else {
                     Log.d("PhotoPicker", "No media selected")

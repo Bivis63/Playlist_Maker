@@ -21,14 +21,14 @@ import java.io.FileOutputStream
 class PlayListsRepositoryImpl(
     private val appDatabasePlayLists: AppDatabasePlayLists,
     private val playListsConverter: PlayListsConverter,
-    private val playlistTrackConverter:PlaylistTrackConverter
+    private val playlistTrackConverter: PlaylistTrackConverter
 ) : PlayListsRepository {
     override suspend fun insertPlayList(playList: PlayListsModels) {
         appDatabasePlayLists.getPlayListsDao().insertPlayList(playListsConverter.map(playList))
     }
 
-    override suspend fun getAllPlayLists(): Flow<List<PlayListsModels>> = flow{
-       val playLists= appDatabasePlayLists.getPlayListsDao().getAllPlayLists()
+    override suspend fun getAllPlayLists(): Flow<List<PlayListsModels>> = flow {
+        val playLists = appDatabasePlayLists.getPlayListsDao().getAllPlayLists()
         emit(converterFromPlayListEntity(playLists))
     }
 
@@ -36,31 +36,34 @@ class PlayListsRepositoryImpl(
         appDatabasePlayLists.getPlayListsDao().updatePlayList(playListsConverter.map(playList))
     }
 
-    override suspend fun insertPlaylistTrack(playList: PlayListsModels,track: Track) {
+    override suspend fun insertPlaylistTrack(playList: PlayListsModels, track: Track) {
         playList.tracks.add(track.trackId.toLong())
         insertPlayList(playList)
-        appDatabasePlayLists.getPlayListsDao().insertPlaylistTrack(playlistTrackConverter.map(track))
+        appDatabasePlayLists.getPlayListsDao()
+            .insertPlaylistTrack(playlistTrackConverter.map(track))
     }
 
-    override fun saveImageToPrivateStorage(uri: Uri,context:Context) {
-            val filePath =
-                File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-            if (!filePath.exists()) {
-                filePath.mkdirs()
-            }
-            val file = File(filePath, "first_cover.jpg")
-            val inputStream = context.contentResolver.openInputStream(uri)
-            val outputStream = FileOutputStream(file)
-            BitmapFactory
-                .decodeStream(inputStream)
-                .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+    override fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri? {
+        val filePath =
+            File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+        val file = File(filePath, "cover_${System.currentTimeMillis()}.jpg")
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+        val uri = Uri.fromFile(file)
+        return uri
     }
 
     private fun converterFromPlayListEntity(playList: List<PlaylistEntity>): List<PlayListsModels> {
         return playList.map { playLists -> playListsConverter.map(playLists) }
     }
 
-    private fun converterFromPlaylistsTrackEntity(track: List<PlaylistTrackEntity>):List<Track>{
-        return track.map { track ->playlistTrackConverter.map(track) }
+    private fun converterFromPlaylistsTrackEntity(track: List<PlaylistTrackEntity>): List<Track> {
+        return track.map { track -> playlistTrackConverter.map(track) }
     }
 }

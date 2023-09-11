@@ -31,8 +31,8 @@ class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor)
         }
     }
 
-    fun saveImageToPrivateStorage(uri: Uri, context: Context) {
-        playListsInteractor.saveImageToPrivateStorage(uri, context)
+    fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri? {
+       return playListsInteractor.saveImageToPrivateStorage(uri, context)
     }
 
     fun generateImageTitle(): String {

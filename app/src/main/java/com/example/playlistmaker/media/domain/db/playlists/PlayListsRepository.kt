@@ -17,7 +17,7 @@ interface PlayListsRepository {
 
     suspend fun insertPlaylistTrack(playList: PlayListsModels, track: Track)
 
-    fun saveImageToPrivateStorage(uri: Uri, context: Context)
+    fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri?
 
 
 }
