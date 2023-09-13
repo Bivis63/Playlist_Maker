@@ -133,6 +133,10 @@ class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
 
         binding.buttonAddNewOlayList.setOnClickListener {
             findNavController().navigate(R.id.action_audioPlayerFragment_to_newPlayListFragment)
+            val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+
+            }
         }
     }
 
@@ -256,6 +260,9 @@ class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
                 )
                     .show()
                 playlistModel.trackCount = playlistModel.tracks.size
+                val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
+                    state = BottomSheetBehavior.STATE_HIDDEN
+                }
             } else {
                 Toast.makeText(
                     requireContext().applicationContext,
@@ -265,9 +272,14 @@ class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
                     .show()
             }
         }
+
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
-        adapter.notifyDataSetChanged()
     }
 }
