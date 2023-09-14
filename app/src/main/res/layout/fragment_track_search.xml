@@ -74,7 +74,7 @@
             style="@style/textError" />
 
         <Button
-            android:id="@+id/buttonUpdate"
+            android:id="@+id/buttonAddNewOlayList"
             style="@style/buttorRefresh" />
         <LinearLayout
             android:id="@+id/searchHistory"

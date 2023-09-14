@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/trackSearchFragment2"
+        android:id="@+id/trackSearchFragment"
         android:icon="@drawable/vector"
         android:title="@string/Search"/>
 
     <item
-        android:id="@+id/mediaFragment2"
+        android:id="@+id/mediaFragment"
         android:icon="@drawable/vectormedia"
         android:title="@string/media"/>
 
     <item
-        android:id="@+id/settingsFragment2"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/vectorsettings"
         android:title="@string/settings"/>
 

@@ -6,13 +6,16 @@ import com.example.playlistmaker.player.domain.AudioPlayer
 class AudioPlayerImpl() : AudioPlayer {
 
     private var mediaPlayer = MediaPlayer()
+    private var isPrepared = false
 
 
     override fun preparePlayer(url: String, onPrepared: () -> Unit, onCompletion: () -> Unit) {
+        if (isPrepared) return
         mediaPlayer.apply {
             setDataSource(url)
             prepareAsync()
             setOnPreparedListener {
+                isPrepared = true
                 onPrepared.invoke()
             }
             setOnCompletionListener {

@@ -59,4 +59,25 @@
     <dimen name="margin_start_158dp">158dp</dimen>
     <dimen name="margin_botton_115dp">115dp</dimen>
     <dimen name="margin_bottom_60dp">60dp</dimen>
+    <dimen name="radius_playlist_icon">8dp</dimen>
+    <dimen name="layout_width_50dp">50dp</dimen>
+    <dimen name="layout_height">4dp</dimen>
+    <dimen name="layout_width160dp">160dp</dimen>
+    <dimen name="width_160dp">160dp</dimen>
+    <dimen name="height_160dp">160dp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="margin_start_8dp">8dp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="margin_top_6dp">6dp</dimen>
+    <dimen name="radius_2dp">2dp</dimen>
+    <dimen name="margin_start_16dp">16dp</dimen>
+    <dimen name="margin_top_32dp">32dp</dimen>
+    <dimen name="margin_end_16dp">16dp</dimen>
+    <dimen name="height_56dp">56dp</dimen>
+    <dimen name="margin_top_26dp">26dp</dimen>
+    <dimen name="margin_bottom_32dp">32dp</dimen>
+    <dimen name="margin_start_17dp">17dp</dimen>
+    <dimen name="margin_end_17dp">17dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="radius_8dp">8dp</dimen>
 </resources>

@@ -1,9 +1,10 @@
-package com.example.playlistmaker.media.ui
+package com.example.playlistmaker.media.ui.mediaui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.playlistmaker.media.ui.History.SelectedTracksFragment
+import com.example.playlistmaker.media.ui.PlayListsFragment
 
 
 class MediaAdapter(

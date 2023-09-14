@@ -1,9 +1,9 @@
-package com.example.playlistmaker.media.data.impl
+package com.example.playlistmaker.media.data.impl.historyimpl
 
 import com.example.playlistmaker.media.data.impl.converters.TrackDbConverter
 import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.media.data.db.TrackEntity
-import com.example.playlistmaker.media.domain.db.HistoryRepository
+import com.example.playlistmaker.media.domain.db.history.HistoryRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

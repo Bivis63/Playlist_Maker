@@ -13,6 +13,11 @@
     <string name="offer">https://yandex.ru/legal/practicum_offer/</string>
     <string name="Email">lumenfan63@mail.ru</string>
     <string name="androidCourse">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_discription">Description</string>
+    <string name="create">create</string>
+    <string name="add_to_playlist">add to play list</string>
+    <string name="finish_creating_a_playlist">Finish creating a playlist?</string>
     <string name="nameTrack1">Smells Like Teen Spirit</string>
     <string name="nameTrack2">Billie Jean</string>
     <string name="nameTrack3">Stayin\' Alive</string>
@@ -56,5 +61,12 @@
     <string name="exeption_on_mail">An error occurred while opening the email.</string>
     <string name="error_has_occurred">error_has_occurred</string>
     <string name="nothing_searched_yet">nothing searched yet</string>
+    <string name="all_unsaved_data_will_be_lost">All unsaved data will be lost</string>
+    <string name="cancel">Cansel</string>
+    <string name="finish">Finish</string>
+    <string name="playlist">Playlist</string>
+    <string name="created">Created</string>
+    <string name="the_track_is_already_in">The  track is already in</string>
+    <string name="track_added_to">Track added to</string>
 
 </resources>

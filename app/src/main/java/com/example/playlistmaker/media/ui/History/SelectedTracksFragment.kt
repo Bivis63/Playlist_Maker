@@ -1,16 +1,17 @@
 package com.example.playlistmaker.media.ui.History
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.databinding.FragmentMediaBinding
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSelectedTracksBinding
 import com.example.playlistmaker.media.ui.viewModel.SelectedTracksViewModel
-import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
+import com.example.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.TrackAdapter
 
@@ -36,6 +37,8 @@ class SelectedTracksFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         binding.historyList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.historyList.adapter = adapter
@@ -48,9 +51,8 @@ class SelectedTracksFragment : Fragment() {
     }
 
     fun onClick(track: Track) {
-        startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
-            putExtra(ITEM, track)
-        })
+        val bundle = bundleOf(ITEM to track)
+        findNavController().navigate(R.id.action_mediaFragment_to_audioPlayerFragment, bundle)
     }
 
     private fun render(state: HistoryState) {

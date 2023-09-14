@@ -206,8 +206,52 @@
         <item name="android:layout_marginTop">@dimen/margin_top_20dp</item>
     </style>
     <style name="TabLayout">
+        <item name="android:background">#1A1B22</item>
         <item name="tabTextColor">@color/white</item>
         <item name="tabIndicatorColor">@color/white</item>
         <item name="textAllCaps">false</item>
     </style>
+    <style name="bottomSheetStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_bottom_sheet_night</item>
+        <item name="android:orientation">vertical</item>
+        <item name="behavior_hideable">true</item>
+    </style>
+    <style name="rectanglView">
+        <item name="android:layout_width">@dimen/layout_width_50dp</item>
+        <item name="android:layout_height">@dimen/layout_height</item>
+        <item name="android:background">@drawable/rectangle_for_dark</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_12dp</item>
+    </style>
+    <style name="countTrackTextView">
+        <item name="android:layout_width">@dimen/layout_width160dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="toolbarStyle">
+        <item name="navigationIcon">@drawable/arrowfordark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+    <style name="playListIconStyle">
+        <item name="android:background">@drawable/play_list_icon_dark</item>
+        <item name="android:layout_width">312dp</item>
+        <item name="android:layout_height">312dp</item>
+    </style>
+    <style name="fragmentConteiner">
+        <item name="android:background">#1A1B22</item>
+    </style>
+    <style name="iconPlayListStyle">
+        <item name="android:layout_width">@dimen/width_160dp</item>
+        <item name="android:layout_height">@dimen/height_160dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">#1A1B22</item>
+    </style>
+
 </resources>

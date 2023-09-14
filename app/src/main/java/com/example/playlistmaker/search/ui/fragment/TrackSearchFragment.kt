@@ -1,7 +1,6 @@
 package com.example.playlistmaker.search.ui.fragment
 
 import  android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,11 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentTrackSearchBinding
-import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
+import com.example.playlistmaker.main.MainActivity
+import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListFragment
+import com.example.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.SearchFieldState
 import com.example.playlistmaker.search.ui.SearchState
@@ -122,12 +125,13 @@ class TrackSearchFragment : Fragment() {
         viewModel.stateSearchFieldLiveData.observe(viewLifecycleOwner) {
             updateSearchTextField(it)
         }
-        binding.buttonUpdate.setOnClickListener {
+        binding.buttonAddNewOlayList.setOnClickListener {
             viewModel.searchRequest(binding.inputEditText.text.toString())
             hidePlaceHolder()
         }
 
     }
+
 
     private fun updateSearchTextField(state: SearchFieldState) {
         when (state) {
@@ -161,7 +165,7 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.imageHolderNoInternet.visibility = View.GONE
         binding.imageHolder.visibility = View.GONE
-        binding.buttonUpdate.visibility = View.GONE
+        binding.buttonAddNewOlayList.visibility = View.GONE
 
     }
 
@@ -171,7 +175,6 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.recyclerTrackHistory.visibility = View.VISIBLE
         binding.searchHistory.visibility = View.GONE
-
         historyAdapter.tracksList.clear()
         historyAdapter.notifyDataSetChanged()
         adapter.tracksList.clear()
@@ -185,7 +188,6 @@ class TrackSearchFragment : Fragment() {
         binding.placeholderMessageNoInternet.visibility = View.GONE
         binding.recyclerTrackHistory.visibility = View.VISIBLE
         binding.searchHistory.visibility = View.VISIBLE
-
         adapter.tracksList.clear()
         adapter.notifyDataSetChanged()
         historyAdapter.tracksList.clear()
@@ -200,6 +202,7 @@ class TrackSearchFragment : Fragment() {
         binding.recyclerTrackHistory.visibility = View.GONE
         binding.searchHistory.visibility = View.GONE
         binding.placeholderMessage.visibility = View.GONE
+        binding.imageHolder.visibility = View.GONE
         binding.placeholderMessageNoInternet.visibility = View.GONE
 
     }
@@ -212,7 +215,7 @@ class TrackSearchFragment : Fragment() {
         binding.imageHolderNoInternet.visibility = View.VISIBLE
         binding.placeholderMessage.text = getString(R.string.Communication_problems)
         binding.placeholderMessageNoInternet.text = getString(R.string.Download_failed)
-        binding.buttonUpdate.visibility = View.VISIBLE
+        binding.buttonAddNewOlayList.visibility = View.VISIBLE
         binding.placeholderMessage.visibility = View.VISIBLE
     }
 
@@ -240,6 +243,11 @@ class TrackSearchFragment : Fragment() {
         return current
     }
 
+    override fun onResume() {
+        super.onResume()
+        isClickAllowed = true
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         textWatcher?.let { binding.inputEditText.removeTextChangedListener(it) }
@@ -247,13 +255,17 @@ class TrackSearchFragment : Fragment() {
 
     fun openTrack(track: Track) {
         if (clickDebounce()) {
-            startActivity(Intent(requireContext(), AudioPlayerActivity::class.java).apply {
-                putExtra(ITEM, track)
-            })
+            val bundle = bundleOf(ITEM to track)
+            findNavController().navigate(
+                R.id.action_trackSearchFragment_to_audioPlayerFragment,
+                bundle
+            )
+
             viewModel.openTrack(track)
             historyAdapter.notifyDataSetChanged()
         }
     }
+
 
     private fun hideKeyboard() {
         val inputManager =
