@@ -56,6 +56,7 @@ class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         (activity as MainActivity).hideBottomNavigation()
 
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
@@ -117,7 +118,7 @@ class AudioPlayerFragment : Fragment(), AudioPlayerViewHolder.ClickListener {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                (activity as MainActivity).openBottomNavigation()
+                (activity as? MainActivity)?.openBottomNavigation()
                 findNavController().navigateUp()
             }
         }

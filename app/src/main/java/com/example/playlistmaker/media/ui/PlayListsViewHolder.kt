@@ -19,7 +19,7 @@ class PlayListsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     val binding = ItemPlaylistBinding.bind(view)
 
-    fun bind(entity: PlayListsModels) {
+    fun bind(entity: PlayListsModels,clickListener:ClickListener) {
         binding.NamePlayList.text = entity.name
         binding.descriptionPlayList.text = setTracksCount(entity.trackCount)
         val imageUri = entity.imageUri?.let { Uri.parse(it) }
@@ -28,6 +28,9 @@ class PlayListsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .load(imageUri)
             .placeholder(R.drawable.newplaceholder)
             .into(binding.IconPlayList)
+        itemView.setOnClickListener {
+            clickListener.onClick(entity)
+        }
     }
     private fun setTracksCount(count: Int): String {
         val tracksWord: String = when {
@@ -37,5 +40,9 @@ class PlayListsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             else -> "треков"
         }
         return "$count $tracksWord"
+    }
+
+    fun interface ClickListener {
+        fun onClick(playlistModel: PlayListsModels)
     }
 }

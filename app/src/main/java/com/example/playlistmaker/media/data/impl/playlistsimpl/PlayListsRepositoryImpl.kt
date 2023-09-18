@@ -13,8 +13,7 @@ import com.example.playlistmaker.media.data.impl.converters.PlaylistTrackConvert
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.domain.db.playlists.PlayListsRepository
 import com.example.playlistmaker.search.domain.models.Track
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import java.io.File
 import java.io.FileOutputStream
 
@@ -43,7 +42,7 @@ class PlayListsRepositoryImpl(
             .insertPlaylistTrack(playlistTrackConverter.map(track))
     }
 
-    override fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri? {
+    override fun saveImageToPrivateStorage(uri: Uri, context: Context): Uri? {
         val filePath =
             File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
         if (!filePath.exists()) {
@@ -59,6 +58,37 @@ class PlayListsRepositoryImpl(
         return uri
     }
 
+    override suspend fun getPlaylistById(playlistId: Int): PlayListsModels {
+        return convertFromPlaylistEntity(
+            appDatabasePlayLists.getPlayListsDao().getPlaylistById(playlistId)
+        )
+    }
+
+    override suspend fun getAllPlaylistTracks(playlistId: List<Long>): List<Track> {
+        val playlist = appDatabasePlayLists.getPlayListsDao().getAllPlaylistTracks()
+        val trackList = arrayListOf<Track>()
+        for (playlistTrackEntity in playlist) {
+            if (playlistTrackEntity.trackId.toLong() in playlistId) {
+                trackList.add(convertFromTrackEntity(playlistTrackEntity))
+            }
+        }
+        return trackList
+    }
+
+    override suspend fun deleteTrackFromPlaylist(playListId: Int, trackId: Long) {
+        val playlist = getPlaylistById(playListId)
+        playlist.tracks.remove(trackId)
+        updatePlayList(playlist)
+
+        if (!isTrackInAnyPlaylist(trackId)) {
+            deleteTrackIfNotInAnyPlaylist(trackId)
+        }
+    }
+
+    override suspend fun decrementPlaylistTrackCount(playlistId: Int) {
+        appDatabasePlayLists.getPlayListsDao().decrementPlaylistTrackCount(playlistId)
+    }
+
     private fun converterFromPlayListEntity(playList: List<PlaylistEntity>): List<PlayListsModels> {
         return playList.map { playLists -> playListsConverter.map(playLists) }
     }
@@ -66,4 +96,28 @@ class PlayListsRepositoryImpl(
     private fun converterFromPlaylistsTrackEntity(track: List<PlaylistTrackEntity>): List<Track> {
         return track.map { track -> playlistTrackConverter.map(track) }
     }
+
+    private fun convertFromPlaylistEntity(playList: PlaylistEntity): PlayListsModels {
+        return playListsConverter.map(playList)
+    }
+
+    private fun convertFromTrackEntity(trackEntity: PlaylistTrackEntity): Track {
+        return playlistTrackConverter.map(trackEntity)
+    }
+
+    private fun isTrackInAnyPlaylist(trackId: Long): Boolean {
+        val allPlaylists = appDatabasePlayLists.getPlayListsDao().getAllPlayLists()
+
+        for (playlist in allPlaylists) {
+            if (trackId in playlist.tracks) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private suspend fun deleteTrackIfNotInAnyPlaylist(trackId: Long) {
+        appDatabasePlayLists.getPlayListsDao().deleteTrackById(trackId)
+    }
+
 }

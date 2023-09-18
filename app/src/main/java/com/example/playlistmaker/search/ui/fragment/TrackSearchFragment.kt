@@ -35,11 +35,11 @@ class TrackSearchFragment : Fragment() {
     private var isClickAllowed = true
     private val viewModel by viewModel<SearchViewModel>()
     private val trackList = ArrayList<Track>()
-    private val adapter = TrackAdapter { openTrack(it) }
-    private val historyAdapter = TrackAdapter {
+    private val adapter = TrackAdapter ({ openTrack(it) })
+    private val historyAdapter = TrackAdapter ({
         openTrack(it)
         viewModel.updateHistory()
-    }
+    })
     private var textWatcher: TextWatcher? = null
     private var isSearchRequested = false
 

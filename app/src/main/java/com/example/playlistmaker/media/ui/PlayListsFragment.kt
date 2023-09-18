@@ -16,12 +16,13 @@ import com.example.playlistmaker.main.MainActivity
 import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.ui.NewPlayLists.NewPlayListsState
 import com.example.playlistmaker.media.ui.viewModel.PlayListsViewModel
+import com.example.playlistmaker.util.PUT_EXTRA_PLAYLIST
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PlayListsFragment : Fragment() {
+class PlayListsFragment : Fragment(),PlayListsViewHolder.ClickListener {
 
     private lateinit var binding: FragmentPlayListsBinding
     private val viewModel by viewModel<PlayListsViewModel>()
@@ -39,7 +40,7 @@ class PlayListsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PlayListsAdapter()
+        adapter = PlayListsAdapter(this)
         binding.placeholderMessage.text = requireArguments().getString(MESSAGE_HOLDER)
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -50,8 +51,6 @@ class PlayListsFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.getAllPlayLists()
-
-
 
         binding.buttonAddNewOlayList.setOnClickListener {
 
@@ -79,6 +78,10 @@ class PlayListsFragment : Fragment() {
             }
         }
     }
+    fun refreshData() {
+        viewModel.getAllPlayLists()
+        adapter.notifyDataSetChanged()
+    }
 
     companion object {
 
@@ -90,6 +93,13 @@ class PlayListsFragment : Fragment() {
             }
 
         }
+    }
+
+    override fun onClick(playlistModel: PlayListsModels) {
+        val bundle = Bundle().apply {
+            putSerializable(PUT_EXTRA_PLAYLIST, playlistModel)
+        }
+       findNavController().navigate(R.id.action_mediaFragment_to_playlistScreenFragment,bundle)
     }
 }
 

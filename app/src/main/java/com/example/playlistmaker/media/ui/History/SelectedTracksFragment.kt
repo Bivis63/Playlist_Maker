@@ -23,7 +23,7 @@ class SelectedTracksFragment : Fragment() {
 
     private lateinit var binding: FragmentSelectedTracksBinding
     private val viewModel by viewModel<SelectedTracksViewModel>()
-    private var adapter = TrackAdapter { (onClick(it)) }
+    private var adapter = TrackAdapter ({ (onClick(it)) })
 
 
     override fun onCreateView(
