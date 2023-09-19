@@ -27,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
-class NewPlayListFragment : Fragment() {
+open class NewPlayListFragment : Fragment() {
 
     private lateinit var binding: FragmentNewPlayListBinding
     private var showDialog: Boolean = false

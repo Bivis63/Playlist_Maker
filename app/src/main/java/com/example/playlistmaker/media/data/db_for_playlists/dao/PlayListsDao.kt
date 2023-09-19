@@ -32,4 +32,7 @@ interface PlayListsDao {
 
     @Query("UPDATE playlists SET trackCount = trackCount - 1 WHERE id = :playlistId")
     suspend fun decrementPlaylistTrackCount(playlistId: Int)
+
+    @Delete
+    suspend fun deletePlaylist(playlist: PlaylistEntity)
 }

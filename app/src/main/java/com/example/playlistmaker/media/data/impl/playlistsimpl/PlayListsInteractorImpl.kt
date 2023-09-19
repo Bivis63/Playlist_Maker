@@ -47,4 +47,8 @@ class PlayListsInteractorImpl(private val playListsRepository: PlayListsReposito
         return playListsRepository.decrementPlaylistTrackCount(playlistId)
     }
 
+    override suspend fun deletePlaylist(playlistId: Int) {
+        return playListsRepository.deletePlaylist(playlistId)
+    }
+
 }

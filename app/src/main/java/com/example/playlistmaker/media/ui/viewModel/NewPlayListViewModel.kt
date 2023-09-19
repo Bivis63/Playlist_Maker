@@ -19,7 +19,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor) : ViewModel() {
+open class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor) : ViewModel() {
 
     private val _stateLiveData = MutableStateFlow<NewPlayListsState>(NewPlayListsState.Empty)
     val stateLiveData: StateFlow<NewPlayListsState> = _stateLiveData

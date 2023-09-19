@@ -28,4 +28,6 @@ interface PlayListsRepository {
 
     suspend fun decrementPlaylistTrackCount(playlistId: Int)
 
+    suspend fun deletePlaylist(playlistId: Int)
+
 }

@@ -27,4 +27,6 @@ interface PlayListsInteractor {
 
     suspend fun decrementPlaylistTrackCount(playlistId: Int)
 
+    suspend fun deletePlaylist(playlistId: Int)
+
 }

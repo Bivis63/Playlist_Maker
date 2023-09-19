@@ -9,6 +9,7 @@ import com.example.playlistmaker.media.domain.db.models.PlayListsModels
 import com.example.playlistmaker.media.domain.db.playlists.PlayListsInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -28,6 +29,9 @@ class PlayListScreenViewModel(private val playListsInteractor: PlayListsInteract
 
     private val _playlistTrackCount = MutableLiveData<Int>()
     fun observePlaylistTrackCount(): LiveData<Int> = _playlistTrackCount
+
+    val _deletePlaylistCompleted = MutableLiveData<Boolean>()
+    fun observeDeletePlaylistState() :LiveData<Boolean> = _deletePlaylistCompleted
 
     fun getDurationAllTracks() {
         if (_playlistTracks.value != null) {
@@ -65,6 +69,17 @@ class PlayListScreenViewModel(private val playListsInteractor: PlayListsInteract
         }
     }
 
+    fun deletePlaylist(playlistId: Int) {
+        viewModelScope.launch {
+            try {
+                playListsInteractor.deletePlaylist(playlistId)
+                _deletePlaylistCompleted.postValue(true)
+            } catch (e: Exception) {
+                _deletePlaylistCompleted.postValue(false)
+            }
+        }
+    }
+
     private fun getPlaylistTracksAfterDeletingTrack(playlistId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val updatedPlaylist = playListsInteractor.getPlaylistById(playlistId)
@@ -82,6 +97,4 @@ class PlayListScreenViewModel(private val playListsInteractor: PlayListsInteract
 
         }
     }
-
-
 }
