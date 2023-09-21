@@ -26,15 +26,17 @@ class TrackRepositoryImpl(
                     val data = results.map {
                         Track(
                             it.trackId,
-                            it.trackName?: "",
-                            it.artistName?: "",
-                            it.trackTimeMillis ,
-                            it.artworkUrl100?: "",
-                            it.collectionName?: "",
-                            it.releaseDate?: "",
-                            it.primaryGenreName?: "",
-                            it.country?: "",
-                            it.previewUrl ?: ""
+                            it.trackName ?: "",
+                            it.artistName ?: "",
+                            it.trackTimeMillis,
+                            it.artworkUrl100 ?: "",
+                            it.collectionName ?: "",
+                            it.releaseDate ?: "",
+                            it.primaryGenreName ?: "",
+                            it.country ?: "",
+                            it.previewUrl ?: "",
+                            it.addingTime,
+                            it.artworkUrl60 ?:""
                         )
                     }
 

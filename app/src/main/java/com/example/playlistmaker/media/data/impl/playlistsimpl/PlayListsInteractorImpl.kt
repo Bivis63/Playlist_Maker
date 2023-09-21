@@ -10,13 +10,14 @@ import com.example.playlistmaker.media.domain.db.playlists.PlayListsRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
-class PlayListsInteractorImpl(private val playListsRepository: PlayListsRepository):PlayListsInteractor {
+class PlayListsInteractorImpl(private val playListsRepository: PlayListsRepository) :
+    PlayListsInteractor {
     override suspend fun insertPlayList(playList: PlayListsModels) {
         playListsRepository.insertPlayList(playList)
     }
 
     override suspend fun getAllPlayLists(): Flow<List<PlayListsModels>> {
-      return  playListsRepository.getAllPlayLists()
+        return playListsRepository.getAllPlayLists()
     }
 
     override suspend fun updatePlayList(playList: PlayListsModels) {
@@ -24,23 +25,23 @@ class PlayListsInteractorImpl(private val playListsRepository: PlayListsReposito
     }
 
     override suspend fun insertPlaylistTrack(playList: PlayListsModels, track: Track) {
-        playListsRepository.insertPlaylistTrack(playList,track)
+        playListsRepository.insertPlaylistTrack(playList, track)
     }
 
-    override  fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri? {
-       return playListsRepository.saveImageToPrivateStorage(uri, context)
+    override suspend fun saveImageToPrivateStorage(uri: Uri, context: Context): Uri? {
+        return playListsRepository.saveImageToPrivateStorage(uri, context)
     }
 
     override suspend fun getPlaylistById(playlistId: Int): PlayListsModels {
         return playListsRepository.getPlaylistById(playlistId)
     }
 
-   override suspend fun getAllPlaylistTracks(playlistId: List<Long>): List<Track> {
+    override suspend fun getAllPlaylistTracks(playlistId: List<Long>): List<Track> {
         return playListsRepository.getAllPlaylistTracks(playlistId)
     }
 
     override suspend fun deleteTrackFromPlaylist(playListId: Int, trackId: Long) {
-        return playListsRepository.deleteTrackFromPlaylist(playListId,trackId)
+        return playListsRepository.deleteTrackFromPlaylist(playListId, trackId)
     }
 
     override suspend fun decrementPlaylistTrackCount(playlistId: Int) {

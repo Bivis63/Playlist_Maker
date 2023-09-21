@@ -11,6 +11,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentEditPlaylistBinding
@@ -58,15 +59,17 @@ class EditPlaylistFragment : NewPlayListFragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    selectedImageUri = viewModel.saveImageToPrivateStorage(
-                        uri,
-                        requireContext().applicationContext
-                    )
-                    binding?.imageView?.setImageURI(uri)
+                    viewModel.saveImageToPrivateStorage(uri, requireContext())
+                    binding!!.imageView.setImageURI(uri)
+
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
             }
+
+        viewModel.savedImageUri.observe(viewLifecycleOwner, Observer { savedUri ->
+            selectedImageUri = savedUri
+        })
         binding?.imageView?.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }

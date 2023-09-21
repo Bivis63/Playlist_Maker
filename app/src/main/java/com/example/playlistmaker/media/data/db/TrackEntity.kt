@@ -18,4 +18,5 @@ data class TrackEntity(
     val country: String,
     val previewUrl: String,
     val addingTime:Long,
+    val artworkUrl60: String
 )

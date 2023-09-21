@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <size
+                android:width="360dp"
+                android:height="360dp"
+                android:gravity="center"/>
+            <solid  />
+
+        </shape>
+
+    </item>
+
+    <item
+        android:width="236dp"
+        android:height="233dp"
+        android:drawable="@drawable/newplaceholder"
+        android:gravity="center" />
+</layer-list>

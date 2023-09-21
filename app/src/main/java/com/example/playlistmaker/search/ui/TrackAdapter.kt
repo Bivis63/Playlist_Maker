@@ -51,7 +51,7 @@ class TrackAdapter(
 
 
             Glide.with(itemView)
-                .load(track.artworkUrl100)
+                .load(track.artworkUrl60)
                 .transform(
                     RoundedCorners(
                         itemView.resources.getDimensionPixelSize(

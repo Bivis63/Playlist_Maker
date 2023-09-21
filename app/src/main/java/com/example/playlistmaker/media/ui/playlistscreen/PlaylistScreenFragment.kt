@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.ui.playlistscreen
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,8 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.util.TimeUtils.formatDuration
 import androidx.navigation.fragment.findNavController
@@ -54,18 +58,18 @@ class PlaylistScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         playlistModel = (arguments?.getSerializable(PUT_EXTRA_PLAYLIST) as? PlayListsModels)!!
 
-
+        val screenHeight = resources.displayMetrics.heightPixels
+        val allowableHeight = (screenHeight * 0.25).toInt()
         val playlistModelId = playlistModel.id
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.menuBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
-        val bottomSheetBehaviorPlaylist =
-            BottomSheetBehavior.from(binding.standardBottomSheet).apply {
-                state = BottomSheetBehavior.STATE_COLLAPSED
-            }
+        val bottomSheetBehaviorPlaylist = BottomSheetBehavior.from(binding.standardBottomSheet).apply {
+            state = BottomSheetBehavior.STATE_COLLAPSED
+        }
 
-
+        bottomSheetBehaviorPlaylist.peekHeight = allowableHeight
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -187,14 +191,11 @@ class PlaylistScreenFragment : Fragment() {
     }
 
     private fun openDialog(trackId: Long) {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogStyle)
             .setTitle(resources.getString(R.string.delete_track))
             .setMessage(resources.getString(R.string.want_to_delete_a_track_on_playlist))
             .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
-                val bottomSheetBehavior = BottomSheetBehavior.from(binding.menuBottomSheet).apply {
-                    state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-                bottomSheetBehavior.isHideable = false
+
             }
             .setPositiveButton(resources.getString(R.string.delete)) { dialog, which ->
                 viewModel.deleteTrackFromPlaylist(trackId)
@@ -215,7 +216,7 @@ class PlaylistScreenFragment : Fragment() {
 
         Glide.with(requireContext())
             .load(imageUri)
-            .placeholder(R.drawable.newplaceholder)
+            .placeholder(R.drawable.playce_holder)
             .centerCrop()
             .into(binding.imageNewPlaylistImage)
 
@@ -227,7 +228,7 @@ class PlaylistScreenFragment : Fragment() {
     }
 
     private fun openDialogDeletePlaylist() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogStyle)
             .setTitle(resources.getString(R.string.delete_playlist))
             .setMessage(resources.getString(R.string.want_to_delete_a_playlist))
             .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
@@ -236,7 +237,7 @@ class PlaylistScreenFragment : Fragment() {
             .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
                 viewModel.deletePlaylist(playlistModel.id)
             }
-            .show()
+           .show()
     }
 
     override fun onDestroy() {

@@ -42,7 +42,7 @@ class PlayListsRepositoryImpl(
             .insertPlaylistTrack(playlistTrackConverter.map(track))
     }
 
-    override fun saveImageToPrivateStorage(uri: Uri, context: Context): Uri? {
+    override suspend fun saveImageToPrivateStorage(uri: Uri, context: Context): Uri? {
         val filePath =
             File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
         if (!filePath.exists()) {
@@ -64,15 +64,11 @@ class PlayListsRepositoryImpl(
         )
     }
 
-    override suspend fun getAllPlaylistTracks(playlistId: List<Long>): List<Track> {
+    override suspend fun getAllPlaylistTracks(playlistIds: List<Long>): List<Track> {
         val playlist = appDatabasePlayLists.getPlayListsDao().getAllPlaylistTracks()
-        val trackList = arrayListOf<Track>()
-        for (playlistTrackEntity in playlist) {
-            if (playlistTrackEntity.trackId.toLong() in playlistId) {
-                trackList.add(convertFromTrackEntity(playlistTrackEntity))
-            }
-        }
-        return trackList
+        return playlist
+            .filter { it.trackId.toLong() in playlistIds }
+            .map { convertFromTrackEntity(it) }
     }
 
     override suspend fun deleteTrackFromPlaylist(playListId: Int, trackId: Long) {

@@ -1,5 +1,7 @@
 package com.example.playlistmaker.search.data.dto
 
+import java.util.*
+
 data class TrackDto(
     val trackId: Int,
     val trackName: String,
@@ -11,4 +13,6 @@ data class TrackDto(
     val primaryGenreName:String,
     val country :String,
     val previewUrl:String,
+    val addingTime: Long = Date().time,
+    val artworkUrl60: String
 )
