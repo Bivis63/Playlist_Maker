@@ -19,7 +19,8 @@ class PlaylistTrackConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-            Date().time
+            Date().time,
+            track.artworkUrl60
         )
     }
 
@@ -35,7 +36,8 @@ class PlaylistTrackConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-            Date().time
+            Date().time,
+            track.artworkUrl60
         )
     }
 }

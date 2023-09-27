@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.domain.db.models
 
+import java.io.Serializable
 
 
 data class PlayListsModels(
@@ -11,4 +12,4 @@ data class PlayListsModels(
     var trackCount: Int,
     var tracks: ArrayList<Long>,
     val imageUri: String?
-)
+): Serializable

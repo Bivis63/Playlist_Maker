@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.core.net.toUri
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.main.MainActivity
@@ -27,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
-class NewPlayListFragment : Fragment() {
+open class NewPlayListFragment : Fragment() {
 
     private lateinit var binding: FragmentNewPlayListBinding
     private var showDialog: Boolean = false
@@ -53,13 +54,17 @@ class NewPlayListFragment : Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    selectedImageUri= viewModel.saveImageToPrivateStorage(uri, requireContext().applicationContext)
+                    viewModel.saveImageToPrivateStorage(uri, requireContext())
                     binding.imageView.setImageURI(uri)
                     showDialog = true
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
             }
+
+        viewModel.savedImageUri.observe(viewLifecycleOwner, Observer { savedUri ->
+            selectedImageUri = savedUri
+        })
 
         binding.textInputEditText.doOnTextChanged { text, start, before, count ->
             if (text!!.isNotEmpty()) {

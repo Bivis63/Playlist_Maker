@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.data.db_for_playlists.PlaylistEntity
@@ -19,10 +21,13 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor) : ViewModel() {
+open class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor) : ViewModel() {
 
     private val _stateLiveData = MutableStateFlow<NewPlayListsState>(NewPlayListsState.Empty)
     val stateLiveData: StateFlow<NewPlayListsState> = _stateLiveData
+
+    private val _savedImageUri = MutableLiveData<Uri?>()
+    val savedImageUri: LiveData<Uri?> = _savedImageUri
 
 
     fun insertPlayList(playLists: PlayListsModels) {
@@ -31,8 +36,11 @@ class NewPlayListViewModel(private val playListsInteractor: PlayListsInteractor)
         }
     }
 
-    fun saveImageToPrivateStorage(uri: Uri, context: Context):Uri? {
-       return playListsInteractor.saveImageToPrivateStorage(uri, context)
+    fun saveImageToPrivateStorage(uri: Uri, context: Context) {
+        viewModelScope.launch {
+            val savedUri = playListsInteractor.saveImageToPrivateStorage(uri, context)
+            _savedImageUri.postValue(savedUri)
+        }
     }
 
     fun generateImageTitle(): String {

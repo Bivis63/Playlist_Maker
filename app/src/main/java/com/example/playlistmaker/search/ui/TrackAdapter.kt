@@ -14,7 +14,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TrackAdapter(private val onClick: (Track) -> Unit):
+class TrackAdapter(
+    private val onClick: (Track) -> Unit,
+    private val onLongClick: ((Track) -> Unit)? = null
+) :
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     var tracksList = ArrayList<Track>()
@@ -25,7 +28,11 @@ class TrackAdapter(private val onClick: (Track) -> Unit):
             diffResult.dispatchUpdatesTo(this)
         }
 
-    class TrackViewHolder(item: View, val onClick: (Track) -> Unit) : RecyclerView.ViewHolder(item) {
+    class TrackViewHolder(
+        item: View,
+        val onClick: (Track) -> Unit,
+        val onLongClick: ((Track) -> Unit)? = null
+    ) : RecyclerView.ViewHolder(item) {
         val binding = SongListBinding.bind(item)
 
         fun bind(track: Track) = with(binding) {
@@ -37,9 +44,14 @@ class TrackAdapter(private val onClick: (Track) -> Unit):
             itemView.setOnClickListener {
                 onClick(track)
             }
+            itemView.setOnLongClickListener {
+                onLongClick?.invoke(track)
+                true
+            }
+
 
             Glide.with(itemView)
-                .load(track.artworkUrl100)
+                .load(track.artworkUrl60)
                 .transform(
                     RoundedCorners(
                         itemView.resources.getDimensionPixelSize(
@@ -53,9 +65,15 @@ class TrackAdapter(private val onClick: (Track) -> Unit):
         }
     }
 
+    fun setTracks(tracks: List<Track>) {
+        tracksList.clear()
+        tracksList.addAll(tracks)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.song_list, parent, false)
-        return TrackViewHolder(view,onClick)
+        return TrackViewHolder(view, onClick, onLongClick)
     }
 
     override fun getItemCount(): Int {

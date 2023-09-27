@@ -18,7 +18,8 @@ class TrackDbConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-            Date().time
+            Date().time,
+            track.artworkUrl60
         )
     }
 
@@ -34,7 +35,8 @@ class TrackDbConverter {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-            Date().time
+            Date().time,
+            track.artworkUrl60
             )
     }
 }
