@@ -55,6 +55,8 @@
 
 ## Экран Медиатека
 ![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/favorite.png)
+![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/playlists.jpg)
+
 
 На этом экране можем перемещаться между фрагментами "Избранные треки" и "Плейлисты"
 
