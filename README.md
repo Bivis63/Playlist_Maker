@@ -34,7 +34,7 @@
 - При вводе нового текста в поле ввода мы осуществляем новый поиск с debounce в 2000 миллисекунд.
 
 ## Экран плеера
-
+![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/player.jpg)
 На этом экране пользователь может прослушать трек, добить в избранное или в плейлист и вернуться назад к списку треков.
 
 ### Особенности экрана
@@ -54,7 +54,7 @@
   красного цвета, если трека нету списке избранного, то он будет серого цвета. 
 
 ## Экран Медиатека
-![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/favorite.png)
+![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/favorite.jpg)
 ![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/playlists.jpg)
 
 
