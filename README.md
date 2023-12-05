@@ -80,7 +80,7 @@
   
 
 ## Экран Настройки
-
+![Image alt](https://github.com/Bivis63/Playlist_Maker/blob/master/settings.jpg)
 На этом экране можно выбрать темную и светрую темы для приложения.
 
 ### Особенности экрана
